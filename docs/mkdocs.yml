@@ -1,0 +1,44 @@
+site_name: metaflow-blueprints
+site_url: https://bcgalvin.github.io/metaflow-blueprints/
+repo_url: https://github.com/bcgalvin/metaflow-blueprints/
+docs_dir: source
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Concepts:
+      - Overview: concepts/overview.md
+  - API Reference: metaflow-blueprints-api.md
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: blue-grey
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue-grey
+      toggle:
+        icon: material/brightness-7
+        name: Switch to system preference
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue-grey
+      toggle:
+        icon: material/brightness-1
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true

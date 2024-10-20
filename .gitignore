@@ -44,5 +44,5 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
-!/API.md
+!//Users/bryangalvin/Desktop/metaflow-blueprints/docs/source/metaflow-blueprints-api.md
 !/.projenrc.ts

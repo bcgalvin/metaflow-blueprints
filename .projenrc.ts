@@ -1,4 +1,6 @@
+import * as path from 'path';
 import { cdk8s, javascript } from 'projen';
+import { PythonProject } from 'projen/lib/python';
 
 const commonIgnore = ['.vscode/', '.idea/'];
 const devDeps = [
@@ -23,6 +25,13 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   projenrcTs: true,
   peerDeps: peerDeps,
   devDeps: devDeps,
+  docgen: true,
+  docgenFilePath: path.join(
+    __dirname,
+    'docs',
+    'source',
+    'metaflow-blueprints-api.md',
+  ),
   prettier: true,
   eslint: true,
   prettierOptions: {
@@ -42,4 +51,40 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   release: false,
   github: false,
 });
+
+const ghpages = new PythonProject({
+  parent: project,
+  moduleName: 'nil',
+  name: 'metaflow-blueprints-docs',
+  authorName: 'Bryan Galvin',
+  authorEmail: 'bcgalvin@gmail.com',
+  version: '0.0.1',
+  outdir: 'docs',
+  deps: ['mkdocs', 'mkdocs-material', 'mkdocs-redirects'],
+});
+ghpages.gitignore.addPatterns(
+  'tests',
+  'nil',
+  'site',
+  '.projen',
+  'project.json',
+  '.gitignore',
+  '.gitattributes',
+  'requirements.txt',
+  'requirements-dev.txt',
+);
+ghpages.removeTask('build');
+ghpages.addTask('docs:build', {
+  description: 'build the docs',
+  exec: 'mkdocs build',
+});
+ghpages.addTask('docs:serve', {
+  description: 'serve the docs',
+  exec: 'mkdocs serve',
+});
+ghpages.addTask('docs:deploy', {
+  description: 'deploy the docs',
+  exec: 'mkdocs gh-deploy',
+});
+
 project.synth();

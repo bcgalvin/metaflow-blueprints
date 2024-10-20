@@ -39,5 +39,7 @@ const project = new cdk8s.ConstructLibraryCdk8s({
     devdirs: ['test'],
   },
   gitignore: commonIgnore,
+  release: false,
+  github: false,
 });
 project.synth();

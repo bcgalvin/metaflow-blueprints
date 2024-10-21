@@ -114,6 +114,15 @@
         }
       ]
     },
+    "import-argo-events-crds": {
+      "name": "import-argo-events-crds",
+      "description": "import argo events crds",
+      "steps": [
+        {
+          "exec": "bash scripts/update-argo-events-crds"
+        }
+      ]
+    },
     "install": {
       "name": "install",
       "description": "Install project dependencies and update lockfile (non-frozen)",

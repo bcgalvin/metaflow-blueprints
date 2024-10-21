@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+url="https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml"
+temp_file="temp.yaml"
+
+mkdir -p src/imports
+
+wget -q $url -O $temp_file
+
+cdk8s import $temp_file -o src/imports -l typescript
+
+rm $temp_file

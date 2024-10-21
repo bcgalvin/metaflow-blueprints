@@ -13,6 +13,7 @@
     "docgen": "npx projen docgen",
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
+    "import-argo-events-crds": "npx projen import-argo-events-crds",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",

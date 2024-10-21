@@ -44,12 +44,21 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   },
   eslintOptions: {
     dirs: ['src'],
-    ignorePatterns: ['examples/**/*', 'test/*.snapshot/**/*', '*.d.ts'],
+    ignorePatterns: [
+      'src/imports/**/*',
+      'examples/**/*',
+      'test/*.snapshot/**/*',
+      '*.d.ts',
+    ],
     devdirs: ['test'],
   },
   gitignore: commonIgnore,
   release: false,
   github: false,
+});
+project.addTask('import-argo-events-crds', {
+  description: 'import argo events crds',
+  exec: 'bash scripts/update-argo-events-crds',
 });
 
 const ghpages = new PythonProject({

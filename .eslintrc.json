@@ -35,6 +35,7 @@
     }
   },
   "ignorePatterns": [
+    "src/imports/**/*",
     "examples/**/*",
     "test/*.snapshot/**/*",
     "*.d.ts",

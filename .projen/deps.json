@@ -1,11 +1,19 @@
 {
   "dependencies": [
     {
+      "name": "@jest/globals",
+      "type": "build"
+    },
+    {
       "name": "@types/fs-extra",
       "type": "build"
     },
     {
       "name": "@types/jest",
+      "type": "build"
+    },
+    {
+      "name": "@types/js-yaml",
       "type": "build"
     },
     {
@@ -75,6 +83,10 @@
       "type": "build"
     },
     {
+      "name": "js-yaml",
+      "type": "build"
+    },
+    {
       "name": "jsii-diff",
       "type": "build"
     },
@@ -117,6 +129,10 @@
       "name": "typescript",
       "version": "~5.5.0",
       "type": "build"
+    },
+    {
+      "name": "zod",
+      "type": "bundled"
     },
     {
       "name": "aws-cdk-lib",

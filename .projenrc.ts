@@ -10,10 +10,14 @@ const devDeps = [
   'aws-cdk-lib',
   'cdk8s-cli',
   'fs-extra',
+  'js-yaml',
+  '@jest/globals',
+  '@types/js-yaml',
+  '@types/jest',
   '@types/fs-extra',
 ];
 const peerDeps = ['aws-cdk-lib', 'cdk8s', 'constructs'];
-
+const bundledDeps = ['zod'];
 const project = new cdk8s.ConstructLibraryCdk8s({
   author: 'Bryan Galvin',
   authorAddress: 'bcgalvin@gmail.com',
@@ -25,6 +29,7 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   jsiiVersion: '~5.5.0',
   projenrcTs: true,
   peerDeps: peerDeps,
+  bundledDeps: bundledDeps,
   deps: deps,
   devDeps: devDeps,
   docgen: true,

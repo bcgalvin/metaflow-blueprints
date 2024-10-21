@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sqs-event-source 1`] = `
+[
+  {
+    "apiVersion": "argoproj.io/v1alpha1",
+    "kind": "EventSource",
+    "metadata": {
+      "name": "my-sqs-source",
+    },
+    "spec": {
+      "sqs": {
+        "MySqsSource": {
+          "accessKey": {
+            "key": "accessKey",
+            "name": "aws-secret",
+          },
+          "jsonBody": true,
+          "queue": "my-queue",
+          "region": "us-west-2",
+          "secretKey": {
+            "key": "secretKey",
+            "name": "aws-secret",
+          },
+          "waitTimeSeconds": 20,
+        },
+      },
+    },
+  },
+]
+`;

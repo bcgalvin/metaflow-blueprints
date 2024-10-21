@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: aws-sqs
+spec:
+  sqs:
+    example:
+      accessKey:
+        key: accesskey
+        name: aws-secret
+      jsonBody: true
+      queue: test
+      region: us-east-1
+      secretKey:
+        key: secretkey
+        name: aws-secret
+      waitTimeSeconds: 20

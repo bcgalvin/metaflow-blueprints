@@ -3,6 +3,7 @@ import { cdk8s, javascript } from 'projen';
 import { PythonProject } from 'projen/lib/python';
 
 const commonIgnore = ['.vscode/', '.idea/'];
+const deps = ['zod'];
 const devDeps = [
   'aws-cdk',
   'constructs',
@@ -24,6 +25,7 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   jsiiVersion: '~5.5.0',
   projenrcTs: true,
   peerDeps: peerDeps,
+  deps: deps,
   devDeps: devDeps,
   docgen: true,
   docgenFilePath: path.join(

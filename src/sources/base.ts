@@ -51,19 +51,4 @@ export abstract class BaseEventSource extends EventSource {
   protected abstract generateSpec(spec: EventSourceSpec): {
     [key: string]: any;
   };
-
-  /**
-   * Adds a dependency to the event source.
-   * @param dependency The construct to depend on
-   */
-  public addDependency(dependency: Construct): void {
-    this.eventSource.addDependency(dependency);
-  }
-
-  /**
-   * Returns the underlying EventSource object for advanced customization.
-   */
-  public get apiObject(): EventSource {
-    return this.eventSource;
-  }
 }

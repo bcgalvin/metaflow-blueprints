@@ -10,7 +10,7 @@ exports[`sqs-event-source 1`] = `
     },
     "spec": {
       "sqs": {
-        "MySqsSource": {
+        "default-event": {
           "accessKey": {
             "key": "accessKey",
             "name": "aws-secret",
@@ -23,6 +23,34 @@ exports[`sqs-event-source 1`] = `
             "name": "aws-secret",
           },
           "waitTimeSeconds": 20,
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`supports multiple named events 1`] = `
+[
+  {
+    "apiVersion": "argoproj.io/v1alpha1",
+    "kind": "EventSource",
+    "metadata": {
+      "name": "multi-sqs-source",
+    },
+    "spec": {
+      "sqs": {
+        "high-priority": {
+          "jsonBody": true,
+          "queue": "high-priority-queue",
+          "region": "us-west-2",
+          "waitTimeSeconds": 20,
+        },
+        "low-priority": {
+          "dlq": true,
+          "queue": "low-priority-queue",
+          "region": "us-west-2",
+          "waitTimeSeconds": 30,
         },
       },
     },

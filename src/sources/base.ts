@@ -4,7 +4,7 @@ import { EventSource } from '../imports/argoproj.io';
 import { EventSourceSpec } from '../schemas';
 import { validateEventName, validateEventNameUniqueness } from '../validators';
 
-export interface BaseEventSourceProps {
+export interface BaseEventSourceProperties {
   readonly metadata: ApiObjectMetadata;
   readonly spec: unknown;
 }
@@ -12,19 +12,23 @@ export interface BaseEventSourceProps {
 export abstract class BaseEventSource extends Construct {
   protected readonly eventSourceResource: EventSource;
 
-  constructor(scope: Construct, id: string, props: BaseEventSourceProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    properties: BaseEventSourceProperties,
+  ) {
     super(scope, id);
 
-    if (!props?.metadata || !props?.spec) {
+    if (!properties?.metadata || !properties?.spec) {
       throw new Error('Both metadata and spec must be provided');
     }
 
-    this.validateMetadata(props.metadata);
-    this.validateSpec(props.spec);
+    this.validateMetadata(properties.metadata);
+    this.validateSpec(properties.spec);
 
     this.eventSourceResource = new EventSource(this, 'EventSource', {
-      metadata: props.metadata,
-      spec: this.generateSpec(props.spec),
+      metadata: properties.metadata,
+      spec: this.generateSpec(properties.spec),
     });
   }
 
@@ -32,9 +36,9 @@ export abstract class BaseEventSource extends Construct {
 
   protected validateSpec(spec: unknown): void {
     if (typeof spec === 'object' && spec !== null) {
-      Object.keys(spec).forEach((eventName) => {
+      for (const eventName of Object.keys(spec)) {
         validateEventName(eventName);
-      });
+      }
     }
 
     validateEventNameUniqueness(spec as EventSourceSpec);

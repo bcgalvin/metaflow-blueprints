@@ -3,15 +3,19 @@ import { Construct } from 'constructs';
 import { EventSourceSpec, SqsEventSourceConfig } from '../schemas';
 import { BaseEventSource } from './base';
 
-export interface SqsEventSourceProps {
+export interface SqsEventSourceProperties {
   readonly metadata: ApiObjectMetadata;
 
   readonly spec: { [eventName: string]: SqsEventSourceConfig };
 }
 
 export class SqsEventSource extends BaseEventSource {
-  constructor(scope: Construct, id: string, props: SqsEventSourceProps) {
-    super(scope, id, props);
+  constructor(
+    scope: Construct,
+    id: string,
+    properties: SqsEventSourceProperties,
+  ) {
+    super(scope, id, properties);
   }
 
   private isSqsConfig(config: unknown): config is SqsEventSourceConfig {
@@ -39,9 +43,9 @@ export class SqsEventSource extends BaseEventSource {
       throw new Error('Invalid SQS configuration map');
     }
 
-    Object.values(spec).forEach((config) => {
+    for (const config of Object.values(spec)) {
       validateSqsConfig(config);
-    });
+    }
   }
 
   protected generateSpec(spec: unknown): EventSourceSpec {
@@ -53,8 +57,8 @@ export class SqsEventSource extends BaseEventSource {
 
     const eventSourceSpec: EventSourceSpec = {
       sqs: Object.entries(sqsSpecMap).reduce(
-        (acc, [eventName, config]) => {
-          acc[eventName] = {
+        (accumulator, [eventName, config]) => {
+          accumulator[eventName] = {
             queue: config.queue,
             region: config.region,
             waitTimeSeconds: config.waitTimeSeconds,
@@ -69,7 +73,7 @@ export class SqsEventSource extends BaseEventSource {
             ...(config.filter !== undefined && { filter: config.filter }),
             ...(config.metadata !== undefined && { metadata: config.metadata }),
           };
-          return acc;
+          return accumulator;
         },
         {} as { [key: string]: SqsEventSourceConfig },
       ),
@@ -80,10 +84,10 @@ export class SqsEventSource extends BaseEventSource {
 }
 
 function validateSqsConfig(config: SqsEventSourceConfig): void {
-  if (!config.region || config.region.length < 1) {
+  if (!config.region || config.region.length === 0) {
     throw new Error('Region is required and must not be empty');
   }
-  if (!config.queue || config.queue.length < 1) {
+  if (!config.queue || config.queue.length === 0) {
     throw new Error('Queue name is required and must not be empty');
   }
   if (!Number.isInteger(config.waitTimeSeconds) || config.waitTimeSeconds < 0) {

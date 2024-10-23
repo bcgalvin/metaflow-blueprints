@@ -9,26 +9,26 @@ export function validateEventName(eventName: string): true {
     throw new Error('Event name cannot be longer than 253 characters');
   }
 
-  const invalidChars = eventName.match(/[^a-z0-9\.-]/g);
+  const invalidChars = eventName.match(/[^\d.a-z-]/g);
   if (invalidChars) {
     throw new Error(
-      `Event name contains invalid characters: ${Array.from(new Set(invalidChars)).join(', ')}`,
+      `Event name contains invalid characters: ${[...new Set(invalidChars)].join(', ')}`,
     );
   }
 
-  if (!eventName.match(/^[a-z0-9]/)) {
+  if (!/^[\da-z]/.test(eventName)) {
     throw new Error(
       'Event name must start with a lowercase alphanumeric character',
     );
   }
 
-  if (!eventName.match(/[a-z0-9]$/)) {
+  if (!/[\da-z]$/.test(eventName)) {
     throw new Error(
       'Event name must end with a lowercase alphanumeric character',
     );
   }
 
-  if (eventName.match(/[.-]{2,}/)) {
+  if (/[.-]{2,}/.test(eventName)) {
     throw new Error('Event name cannot contain consecutive dots or dashes');
   }
 
@@ -46,16 +46,16 @@ export function validateEventNameUniqueness(spec: EventSourceSpec): void {
       return;
     }
 
-    Object.keys(events).forEach((eventName) => {
+    for (const eventName of Object.keys(events)) {
       const sources = eventNameMap.get(eventName) || [];
       sources.push(sourceType);
       eventNameMap.set(eventName, sources);
-    });
+    }
   };
 
   processEventType('sqs', spec.sqs);
 
-  const duplicates = Array.from(eventNameMap.entries())
+  const duplicates = [...eventNameMap.entries()]
     .filter(([, sources]) => sources.length > 1)
     .map(([name, sources]) => `'${name}' in ${sources.join(',')}`);
 

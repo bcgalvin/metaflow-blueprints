@@ -6,14 +6,14 @@
 /.gitattributes linguist-generated
 /.gitignore linguist-generated
 /.npmignore linguist-generated
-/.prettierignore linguist-generated
+/.npmrc linguist-generated
 /.prettierrc.json linguist-generated
 /.projen/** linguist-generated
 /.projen/deps.json linguist-generated
 /.projen/files.json linguist-generated
 /.projen/tasks.json linguist-generated
-//Users/bryangalvin/Desktop/metaflow-blueprints/docs/source/metaflow-blueprints-api.md linguist-generated
+/docs/source/metaflow-blueprints-api.md linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
+/pnpm-lock.yaml linguist-generated
 /tsconfig.dev.json linguist-generated
-/yarn.lock linguist-generated

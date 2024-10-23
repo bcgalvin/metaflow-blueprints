@@ -3,14 +3,15 @@
   "compilerOptions": {
     "alwaysStrict": true,
     "declaration": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "experimentalDecorators": true,
-    "inlineSourceMap": true,
+    "inlineSourceMap": false,
     "inlineSources": true,
     "lib": [
-      "es2019"
+      "es2020",
+      "es2021.WeakRef"
     ],
-    "module": "CommonJS",
+    "module": "nodenext",
     "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -23,12 +24,15 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "ES2019",
-    "allowImportingTsExtensions": true
+    "target": "es2020",
+    "moduleResolution": "nodenext",
+    "skipLibCheck": true,
+    "sourceMap": true
   },
   "include": [
     "src/**/*.ts",
     "test/**/*.ts",
+    "build-tools/**/*.ts",
     ".projenrc.ts",
     "projenrc/**/*.ts"
   ],

@@ -1,12 +1,9 @@
-import path from 'node:path';
-
 import { cdk8s, javascript } from 'projen';
 
 const commonIgnore = ['.vscode/', '.idea/'];
 const developmentDeps = [
   'aws-cdk',
   'constructs',
-  'aws-cdk-lib',
   'cdk8s-cli',
   'fs-extra',
   'js-yaml',
@@ -16,31 +13,34 @@ const developmentDeps = [
   '@types/jest',
   '@types/fs-extra',
 ];
-const peerDeps = ['aws-cdk-lib', 'cdk8s', 'constructs'];
+const peerDeps = ['cdk8s', 'constructs'];
+
 const project = new cdk8s.ConstructLibraryCdk8s({
   author: 'Bryan Galvin',
   authorAddress: 'bcgalvin@gmail.com',
   name: 'metaflow-blueprints',
   repositoryUrl: 'https://github.com/bcgalvin/metaflow-blueprints.git',
   defaultReleaseBranch: 'main',
+  packageManager: javascript.NodePackageManager.PNPM,
   cdk8sVersion: '2.69.9',
   typescriptVersion: '~5.5.0',
   jsiiVersion: '~5.5.0',
+  minNodeVersion: '18.18.0',
+  maxNodeVersion: '20.x',
   projenrcTs: true,
   peerDeps: peerDeps,
   devDeps: developmentDeps,
   docgen: true,
-  docgenFilePath: path.join(
-    __dirname,
-    'docs',
-    'source',
-    'metaflow-blueprints-api.md',
-  ),
+  docgenFilePath: 'docs/source/metaflow-blueprints-api.md',
   prettier: true,
   eslint: true,
   prettierOptions: {
+    ignoreFile: false,
     settings: {
-      endOfLine: javascript.EndOfLine.AUTO,
+      bracketSpacing: true,
+      printWidth: 120,
+      quoteProps: javascript.QuoteProps.CONSISTENT,
+      semi: true,
       singleQuote: true,
       tabWidth: 2,
       trailingComma: javascript.TrailingComma.ALL,
@@ -53,9 +53,16 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   },
   tsconfig: {
     compilerOptions: {
-      strict: true,
-      allowImportingTsExtensions: true,
-      resolveJsonModule: true,
+      lib: ['es2020', 'es2021.WeakRef'],
+      target: 'es2020',
+      moduleResolution: javascript.TypeScriptModuleResolution.NODE_NEXT,
+      module: 'nodenext',
+      esModuleInterop: false,
+      skipLibCheck: true,
+
+      sourceMap: true,
+      inlineSourceMap: false,
+      inlineSources: true,
     },
   },
   jestOptions: {
@@ -70,22 +77,22 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   github: false,
 });
 
+// Customize ESLint rules
+project.tsconfigDev.addInclude('build-tools/**/*.ts');
+project.eslint!.rules!['no-bitwise'] = ['off'];
+// eslint-disable-next-line prettier/prettier
+project.eslint!.rules!.quotes = [
+  'error',
+  'single',
+  { avoidEscape: true, allowTemplateLiterals: true },
+];
+project.addDevDeps('eslint-plugin-unicorn');
+// Add Unicorn rules (https://github.com/sindresorhus/eslint-plugin-unicorn#rules)
 project.eslint?.addPlugins('unicorn');
-project.eslint?.addExtends('plugin:unicorn/recommended');
-
 project.eslint?.addRules({
-  'unicorn/prefer-module': 'off',
-  'unicorn/better-regex': 'error',
-  'unicorn/consistent-empty-array-spread': 'error',
-  'unicorn/catch-error-name': 'error',
-  'unicorn/error-message': 'error',
-  'unicorn/no-lonely-if': 'error',
-  'unicorn/no-negation-in-equality-check': 'error',
-  'unicorn/no-unnecessary-await': 'error',
-  'unicorn/no-useless-undefined': 'error',
-  'unicorn/prefer-array-flat-map': 'error',
-  'unicorn/prefer-json-parse-buffer': 'error',
-  'unicorn/prefer-object-from-entries': 'error',
+  'unicorn/prefer-node-protocol': ['error'],
+  'unicorn/no-array-for-each': ['error'],
+  'unicorn/no-unnecessary-await': ['error'],
 });
 
 project.addTask('import-argo-events-crds', {

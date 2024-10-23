@@ -18,7 +18,7 @@
     },
     {
       "name": "@types/node",
-      "version": "ts5.5",
+      "version": "^18",
       "type": "build"
     },
     {
@@ -33,10 +33,6 @@
     },
     {
       "name": "aws-cdk",
-      "type": "build"
-    },
-    {
-      "name": "aws-cdk-lib",
       "type": "build"
     },
     {
@@ -133,10 +129,6 @@
       "name": "typescript",
       "version": "~5.5.0",
       "type": "build"
-    },
-    {
-      "name": "aws-cdk-lib",
-      "type": "peer"
     },
     {
       "name": "cdk8s",

@@ -34,8 +34,8 @@ jspm_packages/
 /test-reports/
 junit.xml
 /coverage/
-!/.prettierignore
 !/.prettierrc.json
+!/.npmrc
 !/test/
 !/tsconfig.dev.json
 !/src/
@@ -44,5 +44,5 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
-!//Users/bryangalvin/Desktop/metaflow-blueprints/docs/source/metaflow-blueprints-api.md
+!/docs/source/metaflow-blueprints-api.md
 !/.projenrc.ts

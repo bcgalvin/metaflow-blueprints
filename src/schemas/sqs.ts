@@ -1,78 +1,83 @@
-import { z } from 'zod';
-import { SecretKeySelectorSchema, EventSourceFilterSchema } from './common';
-import type { MetadataSchema } from './metadata';
+import { EventSourceFilter, SecretKeySelector } from './common';
 
 /**
- * SqsEventSourceSpec defines the specification for an SQS Event Source.
+ * Configuration for an SQS Event Source.
  */
-export const SqsEventSourceSchema = z.object({
+export interface SqsEventSourceConfig {
   /**
    * The AWS region where the SQS queue resides.
    */
-  region: z.string().min(1, 'Region is required'),
+  readonly region: string;
 
   /**
    * The name of the SQS queue.
    */
-  queue: z.string().min(1, 'Queue name is required'),
+  readonly queue: string;
 
   /**
-   * The duration (in seconds) for which the call waits for a message to arrive in the queue before returning.
+   * The duration (in seconds) for which the call waits for a message.
    */
-  waitTimeSeconds: z
-    .number()
-    .int()
-    .min(0, 'WaitTimeSeconds must be a non-negative integer'),
+  readonly waitTimeSeconds: number;
 
   /**
    * Access key for authenticating with AWS.
+   * @default - none
    */
-  accessKey: SecretKeySelectorSchema.optional(),
+  readonly accessKey?: SecretKeySelector;
 
   /**
    * Secret key for authenticating with AWS.
+   * @default - none
    */
-  secretKey: SecretKeySelectorSchema.optional(),
+  readonly secretKey?: SecretKeySelector;
 
   /**
    * Whether to parse the message as JSON.
+   * @default - false
    */
-  jsonBody: z.boolean().optional(),
+  readonly jsonBody?: boolean;
 
   /**
    * Whether to enable Dead Letter Queue (DLQ).
+   * @default - false
    */
-  dlq: z.boolean().optional(),
+  readonly dlq?: boolean;
 
   /**
    * Optional event filter.
+   * @default - none
    */
-  filter: EventSourceFilterSchema.optional(),
+  readonly filter?: EventSourceFilter;
 
   /**
    * Additional metadata.
+   * @default - none
    */
-  metadata: z.record(z.string()).optional(),
+  readonly metadata?: SqsEventSourceMetadata;
+}
 
+/**
+ * Metadata for an SQS event source.
+ */
+/**
+ * Metadata for an SQS event source.
+ */
+export interface SqsEventSourceMetadata {
   /**
    * AWS account ID for the SQS queue.
+   * @default - none
    */
-  queueAccountId: z.string().optional(),
+  readonly queueAccountId?: string;
 
   /**
    * ARN of the IAM role.
+   * @default - none
    */
-  roleARN: z.string().optional(),
+  readonly roleARN?: string;
 
   /**
    * Session token for AWS authentication.
+   * @default - none
    */
-  sessionToken: SecretKeySelectorSchema.optional(),
-});
-
-export type SqsEventSourceSpec = z.infer<typeof SqsEventSourceSchema>;
-
-export type SqsEventSourceProps = {
-  metadata: z.infer<typeof MetadataSchema>;
-  spec: SqsEventSourceSpec;
-};
+  readonly sessionToken?: SecretKeySelector;
+}

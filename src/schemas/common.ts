@@ -1,35 +1,42 @@
-import { z } from 'zod';
+import { SqsEventSourceConfig } from './sqs';
+
+export type EventSourceConfigMap<T> = { [eventName: string]: T };
 
 /**
- * SecretKeySelector selects a key of a Secret.
+ * Configuration for selecting a key from a Kubernetes Secret.
  */
-export const SecretKeySelectorSchema = z.object({
+export interface SecretKeySelector {
   /**
    * The key of the secret to select from. Must be a valid secret key.
+   * @default - none
    */
-  key: z.string().nullable(),
+  readonly key: string;
 
   /**
-   * Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the referent.
+   * @see https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * @default - none
    */
-  name: z.string().nullable().optional(),
+  readonly name?: string;
 
   /**
    * Specify whether the Secret or its key must be defined.
+   * @default - false
    */
-  optional: z.boolean().nullable().optional(),
-});
-
-export type SecretKeySelector = z.infer<typeof SecretKeySelectorSchema>;
+  readonly optional?: boolean;
+}
 
 /**
- * EventSourceFilter defines a filter for an EventSource.
+ * Filter configuration for an EventSource.
  */
-export const EventSourceFilterSchema = z.object({
+export interface EventSourceFilter {
   /**
    * Expression is a string to filter events.
+   * @default - none
    */
-  expression: z.string(),
-});
+  readonly expression: string;
+}
 
-export type EventSourceFilter = z.infer<typeof EventSourceFilterSchema>;
+export interface EventSourceSpec {
+  readonly sqs?: EventSourceConfigMap<SqsEventSourceConfig>;
+}

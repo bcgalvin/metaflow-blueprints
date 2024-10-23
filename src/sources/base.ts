@@ -1,7 +1,7 @@
 import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
+import { SqsEventSourceConfig } from './sqs';
 import { EventSource } from '../imports/argoproj.io';
-import { SqsEventSourceConfig } from '../schemas';
 import { validateEventName, validateEventNameUniqueness } from '../validators';
 
 export type EventSourceConfigMap<T> = { [eventName: string]: T };

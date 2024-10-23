@@ -1,5 +1,5 @@
-import { SqsEventSourceConfig } from '../schemas';
 import { AwsValidator } from '../validators';
+import { SqsEventSourceConfig } from './sqs';
 
 /**
  * Constants for SQS validation

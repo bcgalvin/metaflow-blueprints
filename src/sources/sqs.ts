@@ -1,8 +1,8 @@
 import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
 import { SqsEventSourceConfig } from '../schemas';
-import { EventSourceSpec } from '../schemas/common';
 import { BaseEventSource } from './base';
+import { EventSourceSpec } from '../schemas/common';
 
 export interface SqsEventSourceProps {
   readonly metadata: ApiObjectMetadata;

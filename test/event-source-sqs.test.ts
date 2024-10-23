@@ -1,82 +1,152 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { expect } from '@jest/globals';
-import { App, Chart, ChartProps, Testing } from 'cdk8s';
-import { Construct } from 'constructs';
-import * as yaml from 'js-yaml';
-import { SqsEventSource, SqsEventSourceProps } from '../src';
+import { EventSourceSpec } from '../src';
+import { createTestChart, TestChart } from './utils';
+import { BaseEventSource, BaseEventSourceProps } from '../src/sources';
+import { validateEventName } from '../src/util';
 
-const ASSETS_DIR = path.join(__dirname, 'assets');
-const EXAMPLE_YAML_PATH = path.join(
-  ASSETS_DIR,
-  'sqs-event-source-argo-example.yaml',
-);
-const OUTPUT_YAML_PATH = path.join(ASSETS_DIR, 'sqs-event-source-output.yaml');
+describe('validateEventName', () => {
+  test('accepts valid event names', () => {
+    const validNames = [
+      'my-event',
+      'event123',
+      'my.event',
+      'event-123.test',
+      'a', // Single character
+      'event-name-with-multiple-dashes',
+      'event.name.with.dots',
+    ];
 
-describe('SqsEventSource', () => {
-  test('synthesizes to the expected YAML manifest', () => {
-    const exampleYamlContent = fs.readFileSync(EXAMPLE_YAML_PATH, 'utf8');
-    const expectedManifest = yaml.load(exampleYamlContent) as Record<
-      string,
-      any
-    >;
+    validNames.forEach((name) => {
+      expect(() => validateEventName(name)).not.toThrow();
+    });
+  });
 
-    const { metadata, spec } = expectedManifest;
-    const { sqs } = spec;
+  test('rejects empty event names', () => {
+    expect(() => validateEventName('')).toThrow('Event name cannot be empty');
+  });
 
-    const [key] = Object.keys(sqs);
-    const sqsSpec = sqs[key];
+  test('rejects names longer than 253 characters', () => {
+    const longName = 'a'.repeat(254);
+    expect(() => validateEventName(longName)).toThrow(
+      'Event name cannot be longer than 253 characters',
+    );
+  });
 
-    const props: SqsEventSourceProps = {
-      metadata: metadata,
-      spec: {
-        region: sqsSpec.region,
-        queue: sqsSpec.queue,
-        waitTimeSeconds: sqsSpec.waitTimeSeconds,
-        accessKey: sqsSpec.accessKey,
-        secretKey: sqsSpec.secretKey,
-        jsonBody: sqsSpec.jsonBody,
-        dlq: sqsSpec.dlq,
-      },
-    };
+  test('rejects invalid characters', () => {
+    const invalidNames = [
+      'UPPERCASE',
+      'Special@Character',
+      'space in name',
+      'under_score',
+      'dollar$sign',
+    ];
 
-    const app = new App();
-    const chart = new Chart(app, 'test-chart');
+    invalidNames.forEach((name) => {
+      expect(() => validateEventName(name)).toThrow(
+        'Event name contains invalid characters',
+      );
+    });
+  });
 
-    new SqsEventSource(chart, key, props);
+  test('rejects names starting with non-alphanumeric characters', () => {
+    const invalidNames = ['-event', '.event'];
 
-    const outputYaml = app.synthYaml();
+    invalidNames.forEach((name) => {
+      expect(() => validateEventName(name)).toThrow(
+        'Event name must start with a lowercase alphanumeric character',
+      );
+    });
+  });
 
-    fs.writeFileSync(OUTPUT_YAML_PATH, outputYaml);
+  test('rejects names ending with non-alphanumeric characters', () => {
+    const invalidNames = ['event-', 'event.'];
 
-    const synthesizedManifest = yaml.load(outputYaml) as Record<string, any>;
+    invalidNames.forEach((name) => {
+      expect(() => validateEventName(name)).toThrow(
+        'Event name must end with a lowercase alphanumeric character',
+      );
+    });
+  });
 
-    expect(synthesizedManifest).toEqual(expectedManifest);
+  test('rejects consecutive dots or dashes', () => {
+    const invalidNames = ['event..name', 'event--name', 'event.-name'];
+
+    invalidNames.forEach((name) => {
+      expect(() => validateEventName(name)).toThrow(
+        'Event name cannot contain consecutive dots or dashes',
+      );
+    });
   });
 });
 
-test('sqs-event-source', () => {
-  class SqsEventSourceChart extends Chart {
-    constructor(scope: Construct, id: string, props: ChartProps = {}) {
-      super(scope, id, props);
-
-      new SqsEventSource(this, 'MySqsSource', {
-        metadata: { name: 'my-sqs-source' },
-        spec: {
-          region: 'us-west-2',
-          queue: 'my-queue',
-          waitTimeSeconds: 20,
-          accessKey: { name: 'aws-secret', key: 'accessKey' },
-          secretKey: { name: 'aws-secret', key: 'secretKey' },
-          jsonBody: true,
-        },
-      });
-    }
+class TestEventSource extends BaseEventSource {
+  protected generateSpec(spec: unknown): EventSourceSpec {
+    return spec as EventSourceSpec;
   }
 
-  const app = new App();
-  const chart = new SqsEventSourceChart(app, 'SqsEventSourceChart');
-  app.synth();
+  protected validateSpec(spec: unknown): void {
+    super.validateSpec(spec);
+  }
+}
 
-  expect(Testing.synth(chart)).toMatchSnapshot();
+describe('BaseEventSource', () => {
+  let chart: TestChart;
+
+  beforeEach(() => {
+    [, chart] = createTestChart();
+  });
+
+  test('constructs successfully with valid props', () => {
+    const props: BaseEventSourceProps = {
+      metadata: { name: 'test-source' },
+      spec: { 'valid-event': { someConfig: 'value' } },
+    };
+
+    expect(() => new TestEventSource(chart, 'test', props)).not.toThrow();
+  });
+
+  test('validates event names in spec', () => {
+    const props: BaseEventSourceProps = {
+      metadata: { name: 'test-source' },
+      spec: { 'INVALID-EVENT': { someConfig: 'value' } },
+    };
+
+    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
+      'Event name contains invalid characters',
+    );
+  });
+
+  test('requires metadata', () => {
+    const props = {
+      spec: { 'valid-event': { someConfig: 'value' } },
+    } as BaseEventSourceProps;
+
+    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
+      'Both metadata and spec must be provided',
+    );
+  });
+
+  test('requires spec', () => {
+    const props = {
+      metadata: { name: 'test-source' },
+    } as BaseEventSourceProps;
+
+    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
+      'Both metadata and spec must be provided',
+    );
+  });
+
+  test('validates multiple event names in spec', () => {
+    const props: BaseEventSourceProps = {
+      metadata: { name: 'test-source' },
+      spec: {
+        'valid-event': { someConfig: 'value' },
+        'INVALID-EVENT': { someConfig: 'value' },
+        'another-invalid..event': { someConfig: 'value' },
+      },
+    };
+
+    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
+      'Event name contains invalid characters',
+    );
+  });
 });

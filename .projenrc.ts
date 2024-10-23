@@ -2,7 +2,6 @@ import { cdk8s, javascript } from 'projen';
 
 const commonIgnore = ['.vscode/', '.idea/'];
 const developmentDeps = [
-  'aws-cdk',
   'constructs',
   'cdk8s-cli',
   'fs-extra',
@@ -25,7 +24,7 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   cdk8sVersion: '2.69.9',
   typescriptVersion: '~5.5.0',
   jsiiVersion: '~5.5.0',
-  minNodeVersion: '18.18.0',
+  minNodeVersion: '20.x',
   maxNodeVersion: '20.x',
   projenrcTs: true,
   peerDeps: peerDeps,
@@ -81,11 +80,7 @@ const project = new cdk8s.ConstructLibraryCdk8s({
 project.tsconfigDev.addInclude('build-tools/**/*.ts');
 project.eslint!.rules!['no-bitwise'] = ['off'];
 // eslint-disable-next-line prettier/prettier
-project.eslint!.rules!.quotes = [
-  'error',
-  'single',
-  { avoidEscape: true, allowTemplateLiterals: true },
-];
+project.eslint!.rules!.quotes = ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }];
 project.addDevDeps('eslint-plugin-unicorn');
 // Add Unicorn rules (https://github.com/sindresorhus/eslint-plugin-unicorn#rules)
 project.eslint?.addPlugins('unicorn');

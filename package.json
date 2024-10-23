@@ -36,10 +36,9 @@
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.14",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^18",
+    "@types/node": "ts5.5",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
-    "aws-cdk": "^2.163.1",
     "cdk8s": "2.69.9",
     "cdk8s-cli": "^2.198.253",
     "constructs": "10.0.0",
@@ -73,7 +72,7 @@
     "cdk"
   ],
   "engines": {
-    "node": ">= 18.18.0 <= 20.x"
+    "node": ">= 20.x <= 20.x"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",

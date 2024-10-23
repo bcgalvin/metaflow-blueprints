@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 import * as yaml from 'js-yaml';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { SqsEventSource, SqsEventSourceProperties } from '../src';
+import { SqsEventSource } from '../src';
 import { createTestChart } from './utils';
 
 const ASSETS_DIR = path.join(__dirname, 'assets');
@@ -18,21 +18,22 @@ const OUTPUT_YAML_PATH = path.join(
 );
 
 describe('SqsEventSource', () => {
-  test('synthesizes to the expected YAML manifest', () => {
+  let exampleManifest: Record<string, any>;
+  
+  beforeAll(() => {
     const exampleYamlContent = fs.readFileSync(EXAMPLE_YAML_PATH, 'utf8');
-    const expectedManifest = yaml.load(exampleYamlContent) as Record<
-      string,
-      any
-    >;
+    exampleManifest = yaml.load(exampleYamlContent) as Record<string, any>;
+  });
 
-    const { metadata, spec } = expectedManifest;
+  test('synthesizes to the expected YAML manifest', () => {
+    const { metadata, spec } = exampleManifest;
     const { sqs } = spec;
-
     const [key] = Object.keys(sqs);
     const sqsSpec = sqs[key];
 
-    const properties: SqsEventSourceProperties = {
-      metadata: metadata,
+    const [app, chart] = createTestChart();
+    new SqsEventSource(chart, key, {
+      metadata,
       spec: {
         [key]: {
           region: sqsSpec.region,
@@ -44,19 +45,11 @@ describe('SqsEventSource', () => {
           dlq: sqsSpec.dlq,
         },
       },
-    };
+    });
 
-    const [app, chart] = createTestChart();
-
-    new SqsEventSource(chart, key, properties);
-
-    const outputYaml = app.synthYaml();
-
-    fs.writeFileSync(OUTPUT_YAML_PATH, outputYaml);
-
-    const synthesizedManifest = yaml.load(outputYaml) as Record<string, any>;
-
-    expect(synthesizedManifest).toEqual(expectedManifest);
+    const synthesizedManifest = yaml.load(app.synthYaml()) as Record<string, any>;
+    fs.writeFileSync(OUTPUT_YAML_PATH, yaml.dump(synthesizedManifest));
+    expect(synthesizedManifest).toEqual(exampleManifest);
   });
 });
 

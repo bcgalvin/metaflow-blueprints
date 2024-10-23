@@ -30,6 +30,36 @@ exports[`sqs-event-source 1`] = `
 ]
 `;
 
+exports[`sqs-event-source with complete config 1`] = `
+[
+  {
+    "apiVersion": "argoproj.io/v1alpha1",
+    "kind": "EventSource",
+    "metadata": {
+      "name": "my-sqs-source",
+    },
+    "spec": {
+      "sqs": {
+        "default-event": {
+          "accessKey": {
+            "key": "accessKey",
+            "name": "aws-secret",
+          },
+          "jsonBody": true,
+          "queue": "my-queue",
+          "region": "us-west-2",
+          "secretKey": {
+            "key": "secretKey",
+            "name": "aws-secret",
+          },
+          "waitTimeSeconds": 20,
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`supports multiple named events 1`] = `
 [
   {
@@ -41,16 +71,32 @@ exports[`supports multiple named events 1`] = `
     "spec": {
       "sqs": {
         "high-priority": {
+          "accessKey": {
+            "key": "accessKey",
+            "name": "aws-secret",
+          },
           "jsonBody": true,
           "queue": "high-priority-queue",
           "region": "us-west-2",
+          "secretKey": {
+            "key": "secretKey",
+            "name": "aws-secret",
+          },
           "waitTimeSeconds": 20,
         },
         "low-priority": {
+          "accessKey": {
+            "key": "accessKey",
+            "name": "aws-secret",
+          },
           "dlq": true,
           "queue": "low-priority-queue",
           "region": "us-west-2",
-          "waitTimeSeconds": 30,
+          "secretKey": {
+            "key": "secretKey",
+            "name": "aws-secret",
+          },
+          "waitTimeSeconds": 10,
         },
       },
     },

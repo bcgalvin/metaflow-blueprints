@@ -1,9 +1,9 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { expect } from '@jest/globals';
 import { App, Chart, ChartProps, Testing } from 'cdk8s';
 import { Construct } from 'constructs';
 import * as yaml from 'js-yaml';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { SqsEventSource, SqsEventSourceProperties } from '../src';
 import { createTestChart } from './utils';
 
@@ -31,7 +31,7 @@ describe('SqsEventSource', () => {
     const [key] = Object.keys(sqs);
     const sqsSpec = sqs[key];
 
-    const props: SqsEventSourceProperties = {
+    const properties: SqsEventSourceProperties = {
       metadata: metadata,
       spec: {
         [key]: {
@@ -48,7 +48,7 @@ describe('SqsEventSource', () => {
 
     const [app, chart] = createTestChart();
 
-    new SqsEventSource(chart, key, props);
+    new SqsEventSource(chart, key, properties);
 
     const outputYaml = app.synthYaml();
 
@@ -62,8 +62,8 @@ describe('SqsEventSource', () => {
 
 test('sqs-event-source', () => {
   class SqsEventSourceChart extends Chart {
-    constructor(scope: Construct, id: string, props: ChartProps = {}) {
-      super(scope, id, props);
+    constructor(scope: Construct, id: string, properties: ChartProps = {}) {
+      super(scope, id, properties);
 
       new SqsEventSource(this, 'MySqsSource', {
         metadata: { name: 'my-sqs-source' },
@@ -98,12 +98,16 @@ test('supports multiple named events', () => {
         queue: 'high-priority-queue',
         waitTimeSeconds: 20,
         jsonBody: true,
+        accessKey: { name: 'aws-secret', key: 'accessKey' },
+        secretKey: { name: 'aws-secret', key: 'secretKey' },
       },
       'low-priority': {
         region: 'us-west-2',
         queue: 'low-priority-queue',
-        waitTimeSeconds: 30,
+        waitTimeSeconds: 10,
         dlq: true,
+        accessKey: { name: 'aws-secret', key: 'accessKey' },
+        secretKey: { name: 'aws-secret', key: 'secretKey' },
       },
     },
   });
@@ -119,19 +123,45 @@ test('supports multiple named events', () => {
 });
 
 test('validates event configurations', () => {
-  const app = new App();
-  const chart = new Chart(app, 'test-chart');
+  const [, chart] = createTestChart();
 
   expect(() => {
     new SqsEventSource(chart, 'InvalidSqsSource', {
       metadata: { name: 'invalid-sqs-source' },
       spec: {
         event1: {
-          region: '', // Invalid empty region
+          region: 'invalid-region', // Should match REGION pattern /^[a-z]{2}-[a-z]+-\d$/
           queue: 'my-queue',
           waitTimeSeconds: 20,
+          accessKey: { name: 'aws-secret', key: 'accessKey' },
+          secretKey: { name: 'aws-secret', key: 'secretKey' },
         },
       },
     });
-  }).toThrow('Region is required and must not be empty');
+  }).toThrow(
+    "Event 'event1' validation failed: Invalid AWS region format: invalid-region",
+  );
+});
+
+test('sqs-event-source with complete config', () => {
+  const [, chart] = createTestChart();
+
+  new SqsEventSource(chart, 'MySqsSource', {
+    metadata: { name: 'my-sqs-source' },
+    spec: {
+      'default-event': {
+        region: 'us-west-2',
+        queue: 'my-queue',
+        waitTimeSeconds: 20,
+        accessKey: { name: 'aws-secret', key: 'accessKey' },
+        secretKey: { name: 'aws-secret', key: 'secretKey' },
+        jsonBody: true,
+        queueAccountId: '123456789012', // Must be 12 digits
+        roleARN: 'arn:aws:iam::123456789012:role/my-role',
+      },
+    },
+  });
+
+  const manifest = Testing.synth(chart);
+  expect(manifest).toMatchSnapshot();
 });

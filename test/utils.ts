@@ -1,6 +1,6 @@
-import { ApiObjectMetadata, App, Chart } from 'cdk8s';
+import { App, Chart } from 'cdk8s';
 import { Construct } from 'constructs';
-import { BaseEventSource, EventSourceSpec } from '../src';
+import { BaseEventSource, EventSourceMetadata, EventSourceSpec } from '../src';
 
 export class TestEventSource extends BaseEventSource {
   protected generateSpec(spec: unknown): EventSourceSpec {
@@ -25,20 +25,32 @@ export function createTestChart(): [App, TestChart] {
 }
 
 export function createTestProps(overrides?: {
-  metadata?: Partial<ApiObjectMetadata>;
-  spec?: Record<string, any>;
+  metadata?: Partial<EventSourceMetadata>;
+  spec?: EventSourceSpec;
 }): {
-  metadata: ApiObjectMetadata;
-  spec: Record<string, any>;
+  metadata: EventSourceMetadata;
+  spec: EventSourceSpec;
 } {
   return {
     metadata: {
       name: 'test-event-source',
       ...overrides?.metadata,
-    } as ApiObjectMetadata,
+    } as EventSourceMetadata,
     spec: {
-      'test-event': {
-        someConfig: 'value',
+      sqs: {
+        'test-event': {
+          region: 'us-west-2',
+          queue: 'test-queue',
+          waitTimeSeconds: 20,
+          accessKey: {
+            key: 'accessKey',
+            name: 'aws-secret',
+          },
+          secretKey: {
+            key: 'secretKey',
+            name: 'aws-secret',
+          },
+        },
       },
       ...overrides?.spec,
     },
@@ -46,24 +58,34 @@ export function createTestProps(overrides?: {
 }
 
 export function createSqsTestProps(overrides?: {
-  metadata?: Partial<ApiObjectMetadata>;
-  spec?: Record<string, any>;
+  metadata?: Partial<EventSourceMetadata>;
+  spec?: EventSourceSpec;
 }) {
   return createTestProps({
     metadata: overrides?.metadata,
     spec: {
-      'test-event': {
-        region: 'us-west-2',
-        queue: 'test-queue',
-        waitTimeSeconds: 20,
+      sqs: {
+        'test-event': {
+          region: 'us-west-2',
+          queue: 'test-queue',
+          waitTimeSeconds: 20,
+          accessKey: {
+            key: 'accessKey',
+            name: 'aws-secret',
+          },
+          secretKey: {
+            key: 'secretKey',
+            name: 'aws-secret',
+          },
+        },
       },
       ...overrides?.spec,
     },
   });
 }
 
-export class ValidationTestHelper {
-  static getValidEventNames(): string[] {
+export const ValidationTestHelper = {
+  getValidEventNames(): string[] {
     return [
       'my-event',
       'event123',
@@ -73,9 +95,9 @@ export class ValidationTestHelper {
       'event-name-with-multiple-dashes',
       'event.name.with.dots',
     ];
-  }
+  },
 
-  static getInvalidEventNames(): Array<[string, string]> {
+  getInvalidEventNames(): Array<[string, string]> {
     return [
       ['', 'Event name cannot be empty'],
       ['UPPERCASE', 'Event name contains invalid characters'],
@@ -88,5 +110,5 @@ export class ValidationTestHelper {
       ['event-', 'Event name must end with a lowercase alphanumeric character'],
       ['event..name', 'Event name cannot contain consecutive dots or dashes'],
     ];
-  }
-}
+  },
+};

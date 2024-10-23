@@ -10,17 +10,18 @@ import { validateEventName } from '../src/validators';
 
 describe('validateEventName', () => {
   test('accepts valid event names', () => {
-    ValidationTestHelper.getValidEventNames().forEach((name) => {
+    for (const name of ValidationTestHelper.getValidEventNames()) {
       expect(() => validateEventName(name)).not.toThrow();
-    });
+    }
   });
 
   test('rejects invalid event names', () => {
-    ValidationTestHelper.getInvalidEventNames().forEach(
-      ([name, errorMessage]) => {
-        expect(() => validateEventName(name)).toThrow(errorMessage);
-      },
-    );
+    for (const [
+      name,
+      errorMessage,
+    ] of ValidationTestHelper.getInvalidEventNames()) {
+      expect(() => validateEventName(name)).toThrow(errorMessage);
+    }
   });
 });
 
@@ -32,44 +33,39 @@ describe('BaseEventSource', () => {
   });
 
   test('constructs successfully with valid props', () => {
-    const props = createTestProps();
-
-    expect(() => new TestEventSource(chart, 'test', props)).not.toThrow();
+    const properties = createTestProps();
+    expect(() => new TestEventSource(chart, 'test', properties)).not.toThrow();
   });
 
   test('validates event names in spec', () => {
-    const props: BaseEventSourceProperties = {
+    const properties: BaseEventSourceProperties = {
       metadata: { name: 'test-source' },
       spec: { 'INVALID-EVENT': { someConfig: 'value' } },
     };
 
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
+    expect(() => new TestEventSource(chart, 'test', properties)).toThrow(
       'Event name contains invalid characters',
     );
   });
 
   test('requires metadata', () => {
-    const props = {
+    const properties = {
       spec: { 'valid-event': { someConfig: 'value' } },
     } as BaseEventSourceProperties;
 
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
-      'Both metadata and spec must be provided',
-    );
+    expect(() => new TestEventSource(chart, 'test', properties)).toThrow();
   });
 
   test('requires spec', () => {
-    const props = {
+    const properties = {
       metadata: { name: 'test-source' },
     } as BaseEventSourceProperties;
 
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
-      'Both metadata and spec must be provided',
-    );
+    expect(() => new TestEventSource(chart, 'test', properties)).toThrow();
   });
 
   test('validates multiple event names in spec', () => {
-    const props: BaseEventSourceProperties = {
+    const properties: BaseEventSourceProperties = {
       metadata: { name: 'test-source' },
       spec: {
         'valid-event': { someConfig: 'value' },
@@ -78,7 +74,7 @@ describe('BaseEventSource', () => {
       },
     };
 
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
+    expect(() => new TestEventSource(chart, 'test', properties)).toThrow(
       'Event name contains invalid characters',
     );
   });

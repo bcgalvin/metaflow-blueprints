@@ -80,7 +80,11 @@ const project = new cdk8s.ConstructLibraryCdk8s({
 project.tsconfigDev.addInclude('build-tools/**/*.ts');
 project.eslint!.rules!['no-bitwise'] = ['off'];
 // eslint-disable-next-line prettier/prettier
-project.eslint!.rules!.quotes = ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }];
+project.eslint!.rules!.quotes = [
+  'error',
+  'single',
+  { avoidEscape: true, allowTemplateLiterals: true },
+];
 project.addDevDeps('eslint-plugin-unicorn');
 // Add Unicorn rules (https://github.com/sindresorhus/eslint-plugin-unicorn#rules)
 project.eslint?.addPlugins('unicorn');

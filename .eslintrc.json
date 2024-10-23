@@ -7,7 +7,8 @@
   "root": true,
   "plugins": [
     "@typescript-eslint",
-    "import"
+    "import",
+    "unicorn"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -17,6 +18,7 @@
   },
   "extends": [
     "plugin:import/typescript",
+    "plugin:unicorn/recommended",
     "plugin:prettier/recommended"
   ],
   "settings": {
@@ -35,10 +37,8 @@
     }
   },
   "ignorePatterns": [
-    "src/imports/**/*",
-    "examples/**/*",
-    "test/*.snapshot/**/*",
-    "*.d.ts",
+    "src/imports/",
+    "test/",
     "!.projenrc.ts",
     "!projenrc/**/*.ts"
   ],
@@ -51,6 +51,7 @@
       {
         "devDependencies": [
           "**/test/**",
+          "**/build-tools/**",
           ".projenrc.ts",
           "projenrc/**/*.ts"
         ],
@@ -122,7 +123,19 @@
           "method"
         ]
       }
-    ]
+    ],
+    "unicorn/prefer-module": "off",
+    "unicorn/better-regex": "error",
+    "unicorn/consistent-empty-array-spread": "error",
+    "unicorn/catch-error-name": "error",
+    "unicorn/error-message": "error",
+    "unicorn/no-lonely-if": "error",
+    "unicorn/no-negation-in-equality-check": "error",
+    "unicorn/no-unnecessary-await": "error",
+    "unicorn/no-useless-undefined": "error",
+    "unicorn/prefer-array-flat-map": "error",
+    "unicorn/prefer-json-parse-buffer": "error",
+    "unicorn/prefer-object-from-entries": "error"
   },
   "overrides": [
     {

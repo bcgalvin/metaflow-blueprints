@@ -1,23 +1,22 @@
-import * as path from 'path';
+import path from 'node:path';
+
 import { cdk8s, javascript } from 'projen';
-import { PythonProject } from 'projen/lib/python';
 
 const commonIgnore = ['.vscode/', '.idea/'];
-const deps = ['zod'];
-const devDeps = [
+const developmentDeps = [
   'aws-cdk',
   'constructs',
   'aws-cdk-lib',
   'cdk8s-cli',
   'fs-extra',
   'js-yaml',
+  'eslint-plugin-unicorn',
   '@jest/globals',
   '@types/js-yaml',
   '@types/jest',
   '@types/fs-extra',
 ];
 const peerDeps = ['aws-cdk-lib', 'cdk8s', 'constructs'];
-const bundledDeps = ['zod'];
 const project = new cdk8s.ConstructLibraryCdk8s({
   author: 'Bryan Galvin',
   authorAddress: 'bcgalvin@gmail.com',
@@ -29,9 +28,7 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   jsiiVersion: '~5.5.0',
   projenrcTs: true,
   peerDeps: peerDeps,
-  bundledDeps: bundledDeps,
-  deps: deps,
-  devDeps: devDeps,
+  devDeps: developmentDeps,
   docgen: true,
   docgenFilePath: path.join(
     __dirname,
@@ -51,56 +48,49 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   },
   eslintOptions: {
     dirs: ['src'],
-    ignorePatterns: [
-      'src/imports/**/*',
-      'examples/**/*',
-      'test/*.snapshot/**/*',
-      '*.d.ts',
-    ],
-    devdirs: ['test'],
+    ignorePatterns: ['src/imports/', 'test/'],
+    prettier: true,
+  },
+  tsconfig: {
+    compilerOptions: {
+      strict: true,
+      allowImportingTsExtensions: true,
+      resolveJsonModule: true,
+    },
+  },
+  jestOptions: {
+    jestConfig: {
+      testPathIgnorePatterns: ['node_modules/', '<rootDir>/src/imports/'],
+      modulePathIgnorePatterns: ['node_modules/', '<rootDir>/src/imports/'],
+      coveragePathIgnorePatterns: ['node_modules/', '<rootDir>/src/imports/'],
+    },
   },
   gitignore: commonIgnore,
   release: false,
   github: false,
 });
+
+project.eslint?.addPlugins('unicorn');
+project.eslint?.addExtends('plugin:unicorn/recommended');
+
+project.eslint?.addRules({
+  'unicorn/prefer-module': 'off',
+  'unicorn/better-regex': 'error',
+  'unicorn/consistent-empty-array-spread': 'error',
+  'unicorn/catch-error-name': 'error',
+  'unicorn/error-message': 'error',
+  'unicorn/no-lonely-if': 'error',
+  'unicorn/no-negation-in-equality-check': 'error',
+  'unicorn/no-unnecessary-await': 'error',
+  'unicorn/no-useless-undefined': 'error',
+  'unicorn/prefer-array-flat-map': 'error',
+  'unicorn/prefer-json-parse-buffer': 'error',
+  'unicorn/prefer-object-from-entries': 'error',
+});
+
 project.addTask('import-argo-events-crds', {
   description: 'import argo events crds',
   exec: 'bash scripts/update-argo-events-crds',
-});
-
-const ghpages = new PythonProject({
-  parent: project,
-  moduleName: 'nil',
-  name: 'metaflow-blueprints-docs',
-  authorName: 'Bryan Galvin',
-  authorEmail: 'bcgalvin@gmail.com',
-  version: '0.0.1',
-  outdir: 'docs',
-  deps: ['mkdocs', 'mkdocs-material', 'mkdocs-redirects'],
-});
-ghpages.gitignore.addPatterns(
-  'tests',
-  'nil',
-  'site',
-  '.projen',
-  'project.json',
-  '.gitignore',
-  '.gitattributes',
-  'requirements.txt',
-  'requirements-dev.txt',
-);
-ghpages.removeTask('build');
-ghpages.addTask('docs:build', {
-  description: 'build the docs',
-  exec: 'mkdocs build',
-});
-ghpages.addTask('docs:serve', {
-  description: 'serve the docs',
-  exec: 'mkdocs serve',
-});
-ghpages.addTask('docs:deploy', {
-  description: 'deploy the docs',
-  exec: 'mkdocs gh-deploy',
 });
 
 project.synth();

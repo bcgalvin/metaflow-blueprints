@@ -4,7 +4,7 @@ import { expect } from '@jest/globals';
 import { App, Chart, ChartProps, Testing } from 'cdk8s';
 import { Construct } from 'constructs';
 import * as yaml from 'js-yaml';
-import { SqsEventSource, SqsEventSourceProps } from '../src';
+import { SqsEventSource, SqsEventSourceProperties } from '../src';
 import { createTestChart } from './utils';
 
 const ASSETS_DIR = path.join(__dirname, 'assets');
@@ -31,7 +31,7 @@ describe('SqsEventSource', () => {
     const [key] = Object.keys(sqs);
     const sqsSpec = sqs[key];
 
-    const props: SqsEventSourceProps = {
+    const props: SqsEventSourceProperties = {
       metadata: metadata,
       spec: {
         [key]: {

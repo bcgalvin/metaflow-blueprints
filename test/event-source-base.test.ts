@@ -5,7 +5,7 @@ import {
   TestEventSource,
   ValidationTestHelper,
 } from './utils';
-import { BaseEventSourceProps } from '../src/sources';
+import { BaseEventSourceProperties } from '../src/sources';
 import { validateEventName } from '../src/validators';
 
 describe('validateEventName', () => {
@@ -38,7 +38,7 @@ describe('BaseEventSource', () => {
   });
 
   test('validates event names in spec', () => {
-    const props: BaseEventSourceProps = {
+    const props: BaseEventSourceProperties = {
       metadata: { name: 'test-source' },
       spec: { 'INVALID-EVENT': { someConfig: 'value' } },
     };
@@ -51,7 +51,7 @@ describe('BaseEventSource', () => {
   test('requires metadata', () => {
     const props = {
       spec: { 'valid-event': { someConfig: 'value' } },
-    } as BaseEventSourceProps;
+    } as BaseEventSourceProperties;
 
     expect(() => new TestEventSource(chart, 'test', props)).toThrow(
       'Both metadata and spec must be provided',
@@ -61,7 +61,7 @@ describe('BaseEventSource', () => {
   test('requires spec', () => {
     const props = {
       metadata: { name: 'test-source' },
-    } as BaseEventSourceProps;
+    } as BaseEventSourceProperties;
 
     expect(() => new TestEventSource(chart, 'test', props)).toThrow(
       'Both metadata and spec must be provided',
@@ -69,7 +69,7 @@ describe('BaseEventSource', () => {
   });
 
   test('validates multiple event names in spec', () => {
-    const props: BaseEventSourceProps = {
+    const props: BaseEventSourceProperties = {
       metadata: { name: 'test-source' },
       spec: {
         'valid-event': { someConfig: 'value' },

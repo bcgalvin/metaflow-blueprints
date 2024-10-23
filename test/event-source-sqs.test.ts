@@ -1,152 +1,137 @@
-import { EventSourceSpec } from '../src';
-import { createTestChart, TestChart } from './utils';
-import { BaseEventSource, BaseEventSourceProps } from '../src/sources';
-import { validateEventName } from '../src/util';
+import * as fs from 'fs';
+import * as path from 'path';
+import { expect } from '@jest/globals';
+import { App, Chart, ChartProps, Testing } from 'cdk8s';
+import { Construct } from 'constructs';
+import * as yaml from 'js-yaml';
+import { SqsEventSource, SqsEventSourceProps } from '../src';
+import { createTestChart } from './utils';
 
-describe('validateEventName', () => {
-  test('accepts valid event names', () => {
-    const validNames = [
-      'my-event',
-      'event123',
-      'my.event',
-      'event-123.test',
-      'a', // Single character
-      'event-name-with-multiple-dashes',
-      'event.name.with.dots',
-    ];
+const ASSETS_DIR = path.join(__dirname, 'assets');
+const EXAMPLE_YAML_PATH = path.join(
+  ASSETS_DIR,
+  'sqs-event-source-argo-example.yaml',
+);
+const OUTPUT_YAML_PATH = path.join(
+  ASSETS_DIR,
+  'sqs-event-source-test-output.yaml',
+);
 
-    validNames.forEach((name) => {
-      expect(() => validateEventName(name)).not.toThrow();
-    });
-  });
+describe('SqsEventSource', () => {
+  test('synthesizes to the expected YAML manifest', () => {
+    const exampleYamlContent = fs.readFileSync(EXAMPLE_YAML_PATH, 'utf8');
+    const expectedManifest = yaml.load(exampleYamlContent) as Record<
+      string,
+      any
+    >;
 
-  test('rejects empty event names', () => {
-    expect(() => validateEventName('')).toThrow('Event name cannot be empty');
-  });
+    const { metadata, spec } = expectedManifest;
+    const { sqs } = spec;
 
-  test('rejects names longer than 253 characters', () => {
-    const longName = 'a'.repeat(254);
-    expect(() => validateEventName(longName)).toThrow(
-      'Event name cannot be longer than 253 characters',
-    );
-  });
+    const [key] = Object.keys(sqs);
+    const sqsSpec = sqs[key];
 
-  test('rejects invalid characters', () => {
-    const invalidNames = [
-      'UPPERCASE',
-      'Special@Character',
-      'space in name',
-      'under_score',
-      'dollar$sign',
-    ];
-
-    invalidNames.forEach((name) => {
-      expect(() => validateEventName(name)).toThrow(
-        'Event name contains invalid characters',
-      );
-    });
-  });
-
-  test('rejects names starting with non-alphanumeric characters', () => {
-    const invalidNames = ['-event', '.event'];
-
-    invalidNames.forEach((name) => {
-      expect(() => validateEventName(name)).toThrow(
-        'Event name must start with a lowercase alphanumeric character',
-      );
-    });
-  });
-
-  test('rejects names ending with non-alphanumeric characters', () => {
-    const invalidNames = ['event-', 'event.'];
-
-    invalidNames.forEach((name) => {
-      expect(() => validateEventName(name)).toThrow(
-        'Event name must end with a lowercase alphanumeric character',
-      );
-    });
-  });
-
-  test('rejects consecutive dots or dashes', () => {
-    const invalidNames = ['event..name', 'event--name', 'event.-name'];
-
-    invalidNames.forEach((name) => {
-      expect(() => validateEventName(name)).toThrow(
-        'Event name cannot contain consecutive dots or dashes',
-      );
-    });
-  });
-});
-
-class TestEventSource extends BaseEventSource {
-  protected generateSpec(spec: unknown): EventSourceSpec {
-    return spec as EventSourceSpec;
-  }
-
-  protected validateSpec(spec: unknown): void {
-    super.validateSpec(spec);
-  }
-}
-
-describe('BaseEventSource', () => {
-  let chart: TestChart;
-
-  beforeEach(() => {
-    [, chart] = createTestChart();
-  });
-
-  test('constructs successfully with valid props', () => {
-    const props: BaseEventSourceProps = {
-      metadata: { name: 'test-source' },
-      spec: { 'valid-event': { someConfig: 'value' } },
-    };
-
-    expect(() => new TestEventSource(chart, 'test', props)).not.toThrow();
-  });
-
-  test('validates event names in spec', () => {
-    const props: BaseEventSourceProps = {
-      metadata: { name: 'test-source' },
-      spec: { 'INVALID-EVENT': { someConfig: 'value' } },
-    };
-
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
-      'Event name contains invalid characters',
-    );
-  });
-
-  test('requires metadata', () => {
-    const props = {
-      spec: { 'valid-event': { someConfig: 'value' } },
-    } as BaseEventSourceProps;
-
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
-      'Both metadata and spec must be provided',
-    );
-  });
-
-  test('requires spec', () => {
-    const props = {
-      metadata: { name: 'test-source' },
-    } as BaseEventSourceProps;
-
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
-      'Both metadata and spec must be provided',
-    );
-  });
-
-  test('validates multiple event names in spec', () => {
-    const props: BaseEventSourceProps = {
-      metadata: { name: 'test-source' },
+    const props: SqsEventSourceProps = {
+      metadata: metadata,
       spec: {
-        'valid-event': { someConfig: 'value' },
-        'INVALID-EVENT': { someConfig: 'value' },
-        'another-invalid..event': { someConfig: 'value' },
+        [key]: {
+          region: sqsSpec.region,
+          queue: sqsSpec.queue,
+          waitTimeSeconds: sqsSpec.waitTimeSeconds,
+          accessKey: sqsSpec.accessKey,
+          secretKey: sqsSpec.secretKey,
+          jsonBody: sqsSpec.jsonBody,
+          dlq: sqsSpec.dlq,
+        },
       },
     };
 
-    expect(() => new TestEventSource(chart, 'test', props)).toThrow(
-      'Event name contains invalid characters',
-    );
+    const [app, chart] = createTestChart();
+
+    new SqsEventSource(chart, key, props);
+
+    const outputYaml = app.synthYaml();
+
+    fs.writeFileSync(OUTPUT_YAML_PATH, outputYaml);
+
+    const synthesizedManifest = yaml.load(outputYaml) as Record<string, any>;
+
+    expect(synthesizedManifest).toEqual(expectedManifest);
   });
+});
+
+test('sqs-event-source', () => {
+  class SqsEventSourceChart extends Chart {
+    constructor(scope: Construct, id: string, props: ChartProps = {}) {
+      super(scope, id, props);
+
+      new SqsEventSource(this, 'MySqsSource', {
+        metadata: { name: 'my-sqs-source' },
+        spec: {
+          'default-event': {
+            region: 'us-west-2',
+            queue: 'my-queue',
+            waitTimeSeconds: 20,
+            accessKey: { name: 'aws-secret', key: 'accessKey' },
+            secretKey: { name: 'aws-secret', key: 'secretKey' },
+            jsonBody: true,
+          },
+        },
+      });
+    }
+  }
+
+  const app = new App();
+  const chart = new SqsEventSourceChart(app, 'SqsEventSourceChart');
+  app.synth();
+
+  expect(Testing.synth(chart)).toMatchSnapshot();
+});
+test('supports multiple named events', () => {
+  const [, chart] = createTestChart();
+
+  new SqsEventSource(chart, 'MultiEventSqsSource', {
+    metadata: { name: 'multi-sqs-source' },
+    spec: {
+      'high-priority': {
+        region: 'us-west-2',
+        queue: 'high-priority-queue',
+        waitTimeSeconds: 20,
+        jsonBody: true,
+      },
+      'low-priority': {
+        region: 'us-west-2',
+        queue: 'low-priority-queue',
+        waitTimeSeconds: 30,
+        dlq: true,
+      },
+    },
+  });
+
+  const manifest = Testing.synth(chart);
+  expect(manifest).toMatchSnapshot();
+
+  const spec = manifest[0].spec;
+  expect(spec.sqs['high-priority']).toBeDefined();
+  expect(spec.sqs['low-priority']).toBeDefined();
+  expect(spec.sqs['high-priority'].queue).toBe('high-priority-queue');
+  expect(spec.sqs['low-priority'].queue).toBe('low-priority-queue');
+});
+
+test('validates event configurations', () => {
+  const app = new App();
+  const chart = new Chart(app, 'test-chart');
+
+  expect(() => {
+    new SqsEventSource(chart, 'InvalidSqsSource', {
+      metadata: { name: 'invalid-sqs-source' },
+      spec: {
+        event1: {
+          region: '', // Invalid empty region
+          queue: 'my-queue',
+          waitTimeSeconds: 20,
+        },
+      },
+    });
+  }).toThrow('Region is required and must not be empty');
 });

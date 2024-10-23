@@ -2,7 +2,7 @@ import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
 import { EventSource } from '../imports/argoproj.io';
 import { EventSourceSpec } from '../schemas';
-import { validateEventName } from '../util';
+import { validateEventName, validateEventNameUniqueness } from '../util';
 
 export interface BaseEventSourceProps {
   readonly metadata: ApiObjectMetadata;
@@ -30,39 +30,6 @@ export abstract class BaseEventSource extends Construct {
 
   protected abstract generateSpec(spec: unknown): EventSourceSpec;
 
-  protected validateEventNameUniqueness(spec: EventSourceSpec): void {
-    const eventNameMap = new Map<string, string[]>();
-
-    const processEventType = (
-      sourceType: string,
-      events?: { [key: string]: unknown },
-    ): void => {
-      if (!events) {
-        return;
-      }
-
-      Object.keys(events).forEach((eventName) => {
-        const sources = eventNameMap.get(eventName) || [];
-        sources.push(sourceType);
-        eventNameMap.set(eventName, sources);
-      });
-    };
-
-    processEventType('sqs', spec.sqs);
-
-    const duplicates = Array.from(eventNameMap.entries())
-      .filter(([, sources]) => sources.length > 1)
-      .map(([name, sources]) => `'${name}' in ${sources.join(',')}`);
-
-    if (duplicates.length > 0) {
-      throw new Error(
-        duplicates.length === 1
-          ? `Duplicate event name ${duplicates[0]} found in multiple event source types: ${eventNameMap.get(duplicates[0].slice(1, -1))?.join(', ')}. Event names must be unique across all types.`
-          : `Duplicate event names found across event source types: ${duplicates.join(', ')}. Event names must be unique across all types.`,
-      );
-    }
-  }
-
   protected validateSpec(spec: unknown): void {
     if (typeof spec === 'object' && spec !== null) {
       Object.keys(spec).forEach((eventName) => {
@@ -70,7 +37,7 @@ export abstract class BaseEventSource extends Construct {
       });
     }
 
-    this.validateEventNameUniqueness(spec as EventSourceSpec);
+    validateEventNameUniqueness(spec as EventSourceSpec);
   }
 
   protected validateMetadata(metadata: ApiObjectMetadata): void {

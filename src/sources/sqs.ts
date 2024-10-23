@@ -1,99 +1,93 @@
+import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
-import { z } from 'zod';
+import { SqsEventSourceConfig } from '../schemas';
+import { EventSourceSpec } from '../schemas/common';
 import { BaseEventSource } from './base';
-import {
-  SqsEventSourceSpec,
-  SqsEventSourceSchema,
-  SqsEventSourceProps,
-} from '../schemas/sqs';
 
-/**
- * Represents an SQS event source.
- *
- * @class SqsEventSource
- * @extends {BaseEventSource<SqsEventSourceSpec>}
- */
-export class SqsEventSource extends BaseEventSource<SqsEventSourceSpec> {
-  /**
-   * The Zod schema for validating the SQS event source specification.
-   *
-   * @protected
-   * @type {z.ZodType<SqsEventSourceSpec>}
-   */
-  protected get schema(): z.ZodType<SqsEventSourceSpec> {
-    return SqsEventSourceSchema;
-  }
+export interface SqsEventSourceProps {
+  readonly metadata: ApiObjectMetadata;
 
-  /**
-   * Creates an instance of SqsEventSource.
-   *
-   * @param {Construct} scope - The scope in which to define this construct.
-   * @param {string} id - The scoped construct ID.
-   * @param {SqsEventSourceProps} props - The properties of the SQS event source.
-   *
-   * @throws {Error} Throws an error if metadata or spec validation fails.
-   */
+  readonly spec: { [eventName: string]: SqsEventSourceConfig };
+}
+
+export class SqsEventSource extends BaseEventSource {
   constructor(scope: Construct, id: string, props: SqsEventSourceProps) {
     super(scope, id, props);
   }
 
-  /**
-   * Generates the specification object for the SQS event source.
-   *
-   * @param {SqsEventSourceSpec} spec - The specification for the SQS event source.
-   * @returns {{ [key: string]: any }} The generated specification object.
-   *
-   * @protected
-   */
-  protected generateSpec(spec: SqsEventSourceSpec): { [key: string]: any } {
-    const parsedSpec = this.schema.parse(spec);
+  private isSqsConfig(config: unknown): config is SqsEventSourceConfig {
+    const s = config as Partial<SqsEventSourceConfig>;
+    return (
+      typeof s === 'object' &&
+      s !== null &&
+      typeof s.queue === 'string' &&
+      typeof s.region === 'string' &&
+      typeof s.waitTimeSeconds === 'number'
+    );
+  }
 
-    const specObj: { [key: string]: any } = {
-      queue: parsedSpec.queue,
-      region: parsedSpec.region,
-      waitTimeSeconds: parsedSpec.waitTimeSeconds,
+  private isEventMap(
+    spec: unknown,
+  ): spec is { [key: string]: SqsEventSourceConfig } {
+    if (typeof spec !== 'object' || spec === null) {
+      return false;
+    }
+    return Object.values(spec).every((config) => this.isSqsConfig(config));
+  }
+
+  protected validateSpec(spec: unknown): void {
+    if (!this.isEventMap(spec)) {
+      throw new Error('Invalid SQS configuration map');
+    }
+
+    Object.values(spec).forEach((config) => {
+      validateSqsConfig(config);
+    });
+  }
+
+  protected generateSpec(spec: unknown): EventSourceSpec {
+    if (!this.isEventMap(spec)) {
+      throw new Error('Invalid SQS configuration map');
+    }
+
+    const sqsSpecMap = spec;
+
+    const eventSourceSpec: EventSourceSpec = {
+      sqs: Object.entries(sqsSpecMap).reduce(
+        (acc, [eventName, config]) => {
+          acc[eventName] = {
+            queue: config.queue,
+            region: config.region,
+            waitTimeSeconds: config.waitTimeSeconds,
+            ...(config.accessKey !== undefined && {
+              accessKey: config.accessKey,
+            }),
+            ...(config.secretKey !== undefined && {
+              secretKey: config.secretKey,
+            }),
+            ...(config.jsonBody !== undefined && { jsonBody: config.jsonBody }),
+            ...(config.dlq !== undefined && { dlq: config.dlq }),
+            ...(config.filter !== undefined && { filter: config.filter }),
+            ...(config.metadata !== undefined && { metadata: config.metadata }),
+          };
+          return acc;
+        },
+        {} as { [key: string]: SqsEventSourceConfig },
+      ),
     };
 
-    if (parsedSpec.accessKey) {
-      specObj.accessKey = parsedSpec.accessKey;
-    }
+    return eventSourceSpec;
+  }
+}
 
-    if (parsedSpec.secretKey) {
-      specObj.secretKey = parsedSpec.secretKey;
-    }
-
-    if (typeof parsedSpec.jsonBody !== 'undefined') {
-      specObj.jsonBody = parsedSpec.jsonBody;
-    }
-
-    if (typeof parsedSpec.dlq !== 'undefined') {
-      specObj.dlq = parsedSpec.dlq;
-    }
-
-    if (parsedSpec.filter) {
-      specObj.filter = parsedSpec.filter;
-    }
-
-    if (parsedSpec.metadata) {
-      specObj.metadata = parsedSpec.metadata;
-    }
-
-    if (parsedSpec.queueAccountId) {
-      specObj.queueAccountId = parsedSpec.queueAccountId;
-    }
-
-    if (parsedSpec.roleARN) {
-      specObj.roleARN = parsedSpec.roleARN;
-    }
-
-    if (parsedSpec.sessionToken) {
-      specObj.sessionToken = parsedSpec.sessionToken;
-    }
-
-    return {
-      sqs: {
-        [this.node.id]: specObj,
-      },
-    };
+function validateSqsConfig(config: SqsEventSourceConfig): void {
+  if (!config.region || config.region.length < 1) {
+    throw new Error('Region is required and must not be empty');
+  }
+  if (!config.queue || config.queue.length < 1) {
+    throw new Error('Queue name is required and must not be empty');
+  }
+  if (!Number.isInteger(config.waitTimeSeconds) || config.waitTimeSeconds < 0) {
+    throw new Error('WaitTimeSeconds must be a non-negative integer');
   }
 }

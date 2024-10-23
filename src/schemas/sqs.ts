@@ -1,3 +1,4 @@
+import { ApiObjectMetadata } from 'cdk8s';
 import { EventSourceFilter, SecretKeySelector } from './types';
 
 /**
@@ -5,40 +6,55 @@ import { EventSourceFilter, SecretKeySelector } from './types';
  */
 export interface SqsEventSourceConfig {
   /**
-   * The AWS region where the SQS queue resides.
+   * AccessKey refers K8s secret containing aws access key
+   */
+  readonly accessKey: SecretKeySelector;
+
+  /**
+   * SecretKey refers K8s secret containing aws secret key
+   */
+  readonly secretKey: SecretKeySelector;
+  /**
+   * Region is AWS region
    */
   readonly region: string;
 
   /**
-   * The name of the SQS queue.
+   * Queue is AWS SQS queue to listen to for messages
    */
   readonly queue: string;
 
   /**
-   * The duration (in seconds) for which the call waits for a message.
+   * WaitTimeSeconds is The duration (in seconds) for which the call waits for a message to arrive in the queue before returning.
    */
   readonly waitTimeSeconds: number;
 
   /**
-   * Access key for authenticating with AWS.
+   * RoleARN is the Amazon Resource Name (ARN) of the role to assume.
    * @default - none
    */
-  readonly accessKey?: SecretKeySelector;
+  readonly roleARN?: string;
 
   /**
-   * Secret key for authenticating with AWS.
-   * @default - none
-   */
-  readonly secretKey?: SecretKeySelector;
-
-  /**
-   * Whether to parse the message as JSON.
+   * JSONBody specifies that all event body payload coming from this source will be JSON
    * @default - false
    */
   readonly jsonBody?: boolean;
 
   /**
-   * Whether to enable Dead Letter Queue (DLQ).
+   * QueueAccountID is the ID of the account that created the queue to monitor
+   * @default - none
+   */
+  readonly queueAccountId?: string;
+
+  /**
+   * Metadata holds the user defined metadata which will passed along the event payload.
+   * @default - none
+   */
+  readonly metadata?: ApiObjectMetadata;
+
+  /**
+   * DLQ specifies if a dead-letter queue is configured for messages that can’t be processed successfully. If set to true, messages with invalid payload won’t be acknowledged to allow to forward them farther to the dead-letter queue. The default value is false.
    * @default - false
    */
   readonly dlq?: boolean;
@@ -50,33 +66,13 @@ export interface SqsEventSourceConfig {
   readonly filter?: EventSourceFilter;
 
   /**
-   * Additional metadata.
+   * Endpoint configures connection to a specific SQS endpoint instead of Amazons servers
    * @default - none
    */
-  readonly metadata?: SqsEventSourceMetadata;
-}
-
-/**
- * Metadata for an SQS event source.
- */
-/**
- * Metadata for an SQS event source.
- */
-export interface SqsEventSourceMetadata {
-  /**
-   * AWS account ID for the SQS queue.
-   * @default - none
-   */
-  readonly queueAccountId?: string;
+  readonly endpoint?: string;
 
   /**
-   * ARN of the IAM role.
-   * @default - none
-   */
-  readonly roleARN?: string;
-
-  /**
-   * Session token for AWS authentication.
+   * SessionToken refers to K8s secret containing AWS temporary credentials(STS) session token
    * @default - none
    */
   readonly sessionToken?: SecretKeySelector;

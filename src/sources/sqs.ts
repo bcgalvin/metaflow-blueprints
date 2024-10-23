@@ -1,96 +1,51 @@
-import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
-import { EventSourceSpec, SqsEventSourceConfig } from '../schemas';
+import { EventSourceMetadata, EventSourceSpec, SqsEventSourceConfig } from '../schemas';
 import { BaseEventSource } from './base';
+import { SqsValidator } from './sqs-validation';
 
 export interface SqsEventSourceProperties {
-  readonly metadata: ApiObjectMetadata;
-
+  readonly metadata: EventSourceMetadata;
   readonly spec: { [eventName: string]: SqsEventSourceConfig };
 }
 
 export class SqsEventSource extends BaseEventSource {
-  constructor(
-    scope: Construct,
-    id: string,
-    properties: SqsEventSourceProperties,
-  ) {
+  constructor(scope: Construct, id: string, properties: SqsEventSourceProperties) {
     super(scope, id, properties);
   }
 
-  private isSqsConfig(config: unknown): config is SqsEventSourceConfig {
-    const s = config as Partial<SqsEventSourceConfig>;
-    return (
-      typeof s === 'object' &&
-      s !== null &&
-      typeof s.queue === 'string' &&
-      typeof s.region === 'string' &&
-      typeof s.waitTimeSeconds === 'number'
-    );
-  }
+  protected validateSpec(spec: { [eventName: string]: SqsEventSourceConfig }): void {
+    super.validateSpec(spec);
 
-  private isEventMap(
-    spec: unknown,
-  ): spec is { [key: string]: SqsEventSourceConfig } {
-    if (typeof spec !== 'object' || spec === null) {
-      return false;
-    }
-    return Object.values(spec).every((config) => this.isSqsConfig(config));
-  }
-
-  protected validateSpec(spec: unknown): void {
-    if (!this.isEventMap(spec)) {
-      throw new Error('Invalid SQS configuration map');
-    }
-
-    for (const config of Object.values(spec)) {
-      validateSqsConfig(config);
+    for (const [eventName, config] of Object.entries(spec)) {
+      try {
+        SqsValidator.validateConfig(config);
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new TypeError(`Event '${eventName}' validation failed: ${error.message}`);
+        }
+        throw error;
+      }
     }
   }
 
-  protected generateSpec(spec: unknown): EventSourceSpec {
-    if (!this.isEventMap(spec)) {
-      throw new Error('Invalid SQS configuration map');
-    }
-
-    const sqsSpecMap = spec;
-
-    const eventSourceSpec: EventSourceSpec = {
-      sqs: Object.entries(sqsSpecMap).reduce(
-        (accumulator, [eventName, config]) => {
-          accumulator[eventName] = {
+  protected generateSpec(spec: { [eventName: string]: SqsEventSourceConfig }): EventSourceSpec {
+    return {
+      sqs: Object.fromEntries(
+        Object.entries(spec).map(([eventName, config]) => [
+          eventName,
+          {
             queue: config.queue,
             region: config.region,
             waitTimeSeconds: config.waitTimeSeconds,
-            ...(config.accessKey !== undefined && {
-              accessKey: config.accessKey,
-            }),
-            ...(config.secretKey !== undefined && {
-              secretKey: config.secretKey,
-            }),
+            ...(config.accessKey && { accessKey: config.accessKey }),
+            ...(config.secretKey && { secretKey: config.secretKey }),
             ...(config.jsonBody !== undefined && { jsonBody: config.jsonBody }),
             ...(config.dlq !== undefined && { dlq: config.dlq }),
-            ...(config.filter !== undefined && { filter: config.filter }),
-            ...(config.metadata !== undefined && { metadata: config.metadata }),
-          };
-          return accumulator;
-        },
-        {} as { [key: string]: SqsEventSourceConfig },
+            ...(config.filter && { filter: config.filter }),
+            ...(config.metadata && { metadata: config.metadata }),
+          },
+        ]),
       ),
     };
-
-    return eventSourceSpec;
-  }
-}
-
-function validateSqsConfig(config: SqsEventSourceConfig): void {
-  if (!config.region || config.region.length === 0) {
-    throw new Error('Region is required and must not be empty');
-  }
-  if (!config.queue || config.queue.length === 0) {
-    throw new Error('Queue name is required and must not be empty');
-  }
-  if (!Number.isInteger(config.waitTimeSeconds) || config.waitTimeSeconds < 0) {
-    throw new Error('WaitTimeSeconds must be a non-negative integer');
   }
 }

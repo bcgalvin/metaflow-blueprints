@@ -1,34 +1,79 @@
-import { EventSourceSpec } from './schemas';
+import { EventSourceSpec, SecretKeySelector } from './schemas';
+
+export const EVENT_NAME_CONSTRAINTS = {
+  MAX_LENGTH: 253,
+  PATTERNS: {
+    START: /^[\da-z]/,
+    END: /[\da-z]$/,
+    CONSECUTIVE_SEPARATORS: /[.-]{2,}/,
+    INVALID_CHARS: /[^\d.a-z-]/g,
+  },
+} as const;
+
+export const AWS_CONSTRAINTS = {
+  PATTERNS: {
+    REGION: /^[a-z]{2}-[a-z]+-\d$/,
+    ACCOUNT_ID: /^\d{12}$/,
+    ROLE_ARN: /^arn:aws:iam::\d{12}:role\/[\w+,.=@-]+$/,
+  },
+} as const;
+
+export interface AwsCommonConfig {
+  readonly accessKey?: SecretKeySelector;
+  readonly secretKey?: SecretKeySelector;
+  readonly region: string;
+  readonly roleARN?: string;
+  readonly endpoint?: string;
+}
+
+export class AwsValidator {
+  public static validateCommonFields(config: AwsCommonConfig): void {
+    this.validateRegion(config.region);
+
+    if (config.roleARN) {
+      this.validateRoleArn(config.roleARN);
+    }
+  }
+
+  private static validateRegion(region: string): void {
+    if (!region.trim()) {
+      throw new Error('Region cannot be empty');
+    }
+    if (!AWS_CONSTRAINTS.PATTERNS.REGION.test(region)) {
+      throw new Error(`Invalid AWS region format: ${region}`);
+    }
+  }
+
+  private static validateRoleArn(roleArn: string): void {
+    if (!AWS_CONSTRAINTS.PATTERNS.ROLE_ARN.test(roleArn)) {
+      throw new Error(`Invalid IAM role ARN format: ${roleArn}`);
+    }
+  }
+}
 
 export function validateEventName(eventName: string): true {
   if (!eventName) {
     throw new Error('Event name cannot be empty');
   }
 
-  if (eventName.length > 253) {
-    throw new Error('Event name cannot be longer than 253 characters');
+  if (eventName.length > EVENT_NAME_CONSTRAINTS.MAX_LENGTH) {
+    throw new Error(`Event name cannot be longer than ${EVENT_NAME_CONSTRAINTS.MAX_LENGTH} characters`);
   }
 
-  const invalidChars = eventName.match(/[^\d.a-z-]/g);
+  const invalidChars = eventName.match(EVENT_NAME_CONSTRAINTS.PATTERNS.INVALID_CHARS);
   if (invalidChars) {
-    throw new Error(
-      `Event name contains invalid characters: ${[...new Set(invalidChars)].join(', ')}`,
-    );
+    throw new Error(`Event name contains invalid characters: ${[...new Set(invalidChars)].join(', ')}`);
   }
 
-  if (!/^[\da-z]/.test(eventName)) {
-    throw new Error(
-      'Event name must start with a lowercase alphanumeric character',
-    );
+  if (!EVENT_NAME_CONSTRAINTS.PATTERNS.START.test(eventName)) {
+    throw new Error('Event name must start with a lowercase alphanumeric character');
   }
 
-  if (!/[\da-z]$/.test(eventName)) {
-    throw new Error(
-      'Event name must end with a lowercase alphanumeric character',
-    );
+  if (!EVENT_NAME_CONSTRAINTS.PATTERNS.END.test(eventName)) {
+    throw new Error('Event name must end with a lowercase alphanumeric character');
   }
 
-  if (/[.-]{2,}/.test(eventName)) {
+  if (EVENT_NAME_CONSTRAINTS.PATTERNS.CONSECUTIVE_SEPARATORS.test(eventName)) {
     throw new Error('Event name cannot contain consecutive dots or dashes');
   }
 
@@ -38,10 +83,7 @@ export function validateEventName(eventName: string): true {
 export function validateEventNameUniqueness(spec: EventSourceSpec): void {
   const eventNameMap = new Map<string, string[]>();
 
-  const processEventType = (
-    sourceType: string,
-    events?: { [key: string]: unknown },
-  ): void => {
+  const processEventType = (sourceType: string, events?: { [key: string]: unknown }): void => {
     if (!events) {
       return;
     }

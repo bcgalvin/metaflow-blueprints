@@ -1,27 +1,18 @@
-import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
 import { EventSource } from '../imports/argoproj.io';
-import { EventSourceSpec } from '../schemas';
+import { EventSourceMetadata, EventSourceSpec } from '../schemas';
 import { validateEventName, validateEventNameUniqueness } from '../validators';
 
 export interface BaseEventSourceProperties {
-  readonly metadata: ApiObjectMetadata;
+  readonly metadata: EventSourceMetadata;
   readonly spec: unknown;
 }
 
 export abstract class BaseEventSource extends Construct {
   protected readonly eventSourceResource: EventSource;
 
-  constructor(
-    scope: Construct,
-    id: string,
-    properties: BaseEventSourceProperties,
-  ) {
+  constructor(scope: Construct, id: string, properties: BaseEventSourceProperties) {
     super(scope, id);
-
-    if (!properties?.metadata || !properties?.spec) {
-      throw new Error('Both metadata and spec must be provided');
-    }
 
     this.validateMetadata(properties.metadata);
     this.validateSpec(properties.spec);
@@ -40,15 +31,10 @@ export abstract class BaseEventSource extends Construct {
         validateEventName(eventName);
       }
     }
-
     validateEventNameUniqueness(spec as EventSourceSpec);
   }
 
-  protected validateMetadata(metadata: ApiObjectMetadata): void {
-    if (!metadata.name) {
-      throw new Error('Metadata name is required');
-    }
-
+  protected validateMetadata(metadata: EventSourceMetadata): void {
     validateEventName(metadata.name);
   }
 }

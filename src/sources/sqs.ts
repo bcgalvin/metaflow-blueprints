@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
-import { EventSourceMetadata, EventSourceSpec, SqsEventSourceConfig } from '../schemas';
-import { BaseEventSource } from './base';
+import { SqsEventSourceConfig } from '../schemas';
+import { BaseEventSource, EventSourceMetadata, EventSourceSpec } from './base';
 import { SqsValidator } from './sqs-validation';
 
 export interface SqsEventSourceProperties {

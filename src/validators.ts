@@ -1,5 +1,5 @@
-import { EventSourceSpec, SecretKeySelector } from './schemas';
-
+import { SecretKeySelector } from './schemas';
+import { EventSourceSpec } from './sources';
 export const EVENT_NAME_CONSTRAINTS = {
   MAX_LENGTH: 253,
   PATTERNS: {

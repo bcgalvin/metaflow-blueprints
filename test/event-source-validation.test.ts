@@ -20,10 +20,10 @@ describe('EventSource Validation', () => {
             region: 'us-west-2',
             waitTimeSeconds: 20,
             accessKey: { name: 'aws-secret', key: 'accessKey' },
-            secretKey: { name: 'aws-secret', key: 'secretKey' }
-          }
-        }
-      }
+            secretKey: { name: 'aws-secret', key: 'secretKey' },
+          },
+        },
+      },
     };
 
     expect(() => new TestEventSource(chart, 'test', properties)).not.toThrow();
@@ -33,8 +33,8 @@ describe('EventSource Validation', () => {
     const properties = {
       metadata: { name: 'test' } as EventSourceMetadata,
       spec: {
-        sqs: {}
-      }
+        sqs: {},
+      },
     };
 
     expect(() => new TestEventSource(chart, 'test', properties)).not.toThrow();

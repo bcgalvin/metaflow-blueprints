@@ -1,4 +1,4 @@
-import { EventSourceFilter, SecretKeySelector } from './common';
+import { EventSourceFilter, SecretKeySelector } from './types';
 
 /**
  * Configuration for an SQS Event Source.

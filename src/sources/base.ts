@@ -2,7 +2,6 @@ import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
 import { z } from 'zod';
 import { EventSource } from '../imports/argoproj.io';
-import { MetadataSchema } from '../schemas';
 
 /**
  * Properties for creating a base event source.
@@ -14,7 +13,7 @@ import { MetadataSchema } from '../schemas';
  * @template SpecType - The type of the specification object.
  */
 export const BaseEventSourcePropsSchema = z.object({
-  metadata: MetadataSchema,
+  metadata: ApiObjectMetadata,
   spec: z.unknown(),
 });
 

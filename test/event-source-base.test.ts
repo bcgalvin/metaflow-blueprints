@@ -6,7 +6,7 @@ import {
   ValidationTestHelper,
 } from './utils';
 import { BaseEventSourceProps } from '../src/sources';
-import { validateEventName } from '../src/util';
+import { validateEventName } from '../src/validators';
 
 describe('validateEventName', () => {
   test('accepts valid event names', () => {

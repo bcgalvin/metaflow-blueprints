@@ -2,7 +2,7 @@ import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
 import { EventSource } from '../imports/argoproj.io';
 import { EventSourceSpec } from '../schemas';
-import { validateEventName, validateEventNameUniqueness } from '../util';
+import { validateEventName, validateEventNameUniqueness } from '../validators';
 
 export interface BaseEventSourceProps {
   readonly metadata: ApiObjectMetadata;

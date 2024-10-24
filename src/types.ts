@@ -30,5 +30,5 @@ export interface EventSourceFilter {
    * Expression is a string to filter events.
    * @default - none
    */
-  readonly expression: string;
+  readonly expression?: string;
 }

@@ -1,4 +1,4 @@
-import { EventSourceSpec, SqsEventSourceConfig } from './sources';
+import { EventSourceSpec, SqsEventSourceSpec } from './sources';
 import { SecretKeySelector } from './types';
 export const EVENT_NAME_CONSTRAINTS = {
   MAX_LENGTH: 253,
@@ -18,7 +18,7 @@ export const AWS_CONSTRAINTS = {
   },
 } as const;
 
-export interface AwsCommonConfig {
+export interface AwsCommonSpec {
   readonly accessKey?: SecretKeySelector;
   readonly secretKey?: SecretKeySelector;
   readonly region: string;
@@ -27,7 +27,7 @@ export interface AwsCommonConfig {
 }
 
 export class AwsValidator {
-  public static validateCommonFields(config: AwsCommonConfig): void {
+  public static validateCommonFields(config: AwsCommonSpec): void {
     this.validateRegion(config.region);
 
     if (config.roleARN) {
@@ -142,7 +142,7 @@ export class SqsValidationError extends Error {
 }
 
 export class SqsValidator {
-  public static validateConfig(config: SqsEventSourceConfig): void {
+  public static validateSpec(config: SqsEventSourceSpec): void {
     AwsValidator.validateCommonFields(config);
 
     this.validateQueue(config.queue);

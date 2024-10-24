@@ -1,13 +1,13 @@
 import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
-import { BaseEventSource, EventSourceMetadata, EventSourceSpec } from './base';
 import { EventSourceFilter, SecretKeySelector } from '../types';
 import { SqsValidator } from '../validators';
+import { BaseEventSource, EventSourceMetadata, EventSourceSpec } from './base';
 
 /**
  * Configuration for an SQS Event Source.
  */
-export interface SqsEventSourceConfig {
+export interface SqsEventSourceSpec {
   /**
    * AccessKey refers K8s secret containing aws access key
    */
@@ -83,7 +83,7 @@ export interface SqsEventSourceConfig {
 
 export interface SqsEventSourceProperties {
   readonly metadata: EventSourceMetadata;
-  readonly spec: { [eventName: string]: SqsEventSourceConfig };
+  readonly spec: { [eventName: string]: SqsEventSourceSpec };
 }
 
 export class SqsEventSource extends BaseEventSource {
@@ -91,12 +91,12 @@ export class SqsEventSource extends BaseEventSource {
     super(scope, id, properties);
   }
 
-  protected validateSpec(spec: { [eventName: string]: SqsEventSourceConfig }): void {
+  protected validateSpec(spec: { [eventName: string]: SqsEventSourceSpec }): void {
     super.validateSpec(spec);
 
     for (const [eventName, config] of Object.entries(spec)) {
       try {
-        SqsValidator.validateConfig(config);
+        SqsValidator.validateSpec(config);
       } catch (error) {
         if (error instanceof Error) {
           throw new TypeError(`Event '${eventName}' validation failed: ${error.message}`);
@@ -106,7 +106,7 @@ export class SqsEventSource extends BaseEventSource {
     }
   }
 
-  protected generateSpec(spec: { [eventName: string]: SqsEventSourceConfig }): EventSourceSpec {
+  protected generateSpec(spec: { [eventName: string]: SqsEventSourceSpec }): EventSourceSpec {
     return {
       sqs: Object.fromEntries(
         Object.entries(spec).map(([eventName, config]) => [

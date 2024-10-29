@@ -168,7 +168,7 @@ deployWorkflow?.addJob('build', {
       run: 'pnpm install',
     },
     {
-      run: 'npx projen && npx docs:build',
+      run: 'npx projen && npx projen docs:build',
     },
     {
       uses: 'actions/configure-pages@v4',

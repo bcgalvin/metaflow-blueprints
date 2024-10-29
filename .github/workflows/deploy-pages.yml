@@ -26,7 +26,7 @@ jobs:
         with:
           version: latest
       - run: pnpm install
-      - run: npx projen && npx docs:build
+      - run: npx projen && npx projen docs:build
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:

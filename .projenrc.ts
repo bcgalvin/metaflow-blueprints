@@ -165,10 +165,10 @@ deployWorkflow?.addJob('build', {
       },
     },
     {
-      run: 'cd docs && pnpm install',
+      run: 'pnpm install',
     },
     {
-      run: 'cd docs && vitepress build',
+      run: 'npx projen && npx docs:build',
     },
     {
       uses: 'actions/configure-pages@v4',

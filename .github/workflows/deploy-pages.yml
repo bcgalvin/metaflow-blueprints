@@ -25,8 +25,8 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: latest
-      - run: cd docs && pnpm install
-      - run: cd docs && vitepress build
+      - run: pnpm install
+      - run: npx projen && npx docs:build
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:

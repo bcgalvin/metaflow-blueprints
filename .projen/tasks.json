@@ -88,7 +88,7 @@
       "description": "Generate API.md from .jsii manifest",
       "steps": [
         {
-          "exec": "jsii-docgen .jsii -o docs/src/reference.md --split-by-submodule"
+          "exec": "jsii-docgen .jsii -o docs/src/reference.md --split-by-submodule && rm docs/src/k8s.md docs/src/argoEvents.md"
         }
       ]
     },

@@ -1,9 +1,21 @@
-import { cdk8s, javascript } from 'projen';
+import { cdk8s, javascript, TextFile } from 'projen';
+import { workflows } from 'projen/lib/github';
+import { NodePackageManager, TrailingComma, TypeScriptModuleResolution } from 'projen/lib/javascript';
+import { TypeScriptProject } from 'projen/lib/typescript';
+const nodeVersion = '20';
 
-const commonIgnore = ['.vscode/', '.idea/'];
+const commonIgnore = [
+  '.vscode/',
+  '.idea/',
+  'docs/src/k8s.md',
+  'docs/src/argoEvents.md',
+  'docs/.vitepress/dist',
+  'docs/.vitepress/cache',
+  'docs/.vitepress/.temp',
+];
 const developmentDeps = [
   'constructs',
-  'cdk8s-cli',
+  'cdk8s-cli@2.198.254',
   'fs-extra',
   'js-yaml',
   'eslint-plugin-unicorn',
@@ -30,9 +42,17 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   peerDeps: peerDeps,
   devDeps: developmentDeps,
   docgen: true,
-  docgenFilePath: 'docs/source/metaflow-blueprints-api.md',
   prettier: true,
   eslint: true,
+  github: true,
+  buildWorkflow: false,
+  pullRequestTemplate: false,
+  githubOptions: {
+    pullRequestLint: false,
+    mergify: false,
+  },
+  excludeTypescript: ['src/imports/**/*.ts'],
+  depsUpgrade: false,
   prettierOptions: {
     ignoreFile: false,
     settings: {
@@ -73,18 +93,13 @@ const project = new cdk8s.ConstructLibraryCdk8s({
   },
   gitignore: commonIgnore,
   release: false,
-  github: false,
 });
 
 // Customize ESLint rules
 project.tsconfigDev.addInclude('build-tools/**/*.ts');
 project.eslint!.rules!['no-bitwise'] = ['off'];
 // eslint-disable-next-line prettier/prettier
-project.eslint!.rules!.quotes = [
-  'error',
-  'single',
-  { avoidEscape: true, allowTemplateLiterals: true },
-];
+project.eslint!.rules!.quotes = ['error', 'single', { avoidEscape: true, allowTemplateLiterals: true }];
 project.addDevDeps('eslint-plugin-unicorn');
 // Add Unicorn rules (https://github.com/sindresorhus/eslint-plugin-unicorn#rules)
 project.eslint?.addPlugins('unicorn');
@@ -98,5 +113,150 @@ project.addTask('import-argo-events-crds', {
   description: 'import argo events crds',
   exec: 'bash scripts/update-argo-events-crds',
 });
+
+new TextFile(project, '.nvmrc', {
+  lines: [nodeVersion],
+});
+
+const docgenTask = project.tasks.tryFind('docgen');
+if (docgenTask) {
+  docgenTask.reset(
+    'jsii-docgen .jsii -o docs/src/reference.md --split-by-submodule && rm docs/src/k8s.md docs/src/argoEvents.md',
+  );
+}
+
+project.addTask('docs:dev', { exec: 'cd docs && vitepress dev' });
+project.addTask('docs:build', {
+  exec: 'cd docs && vitepress build',
+});
+project.addTask('docs:serve', { exec: 'cd docs && vitepress serve' });
+
+const deployWorkflow = project.github?.addWorkflow('deploy-pages');
+
+deployWorkflow?.on({
+  push: {
+    branches: ['main'],
+  },
+  workflowDispatch: {},
+});
+
+deployWorkflow?.addJob('build', {
+  name: 'Build',
+  runsOn: ['ubuntu-latest'],
+  permissions: {
+    contents: workflows.JobPermission.READ,
+    pages: workflows.JobPermission.WRITE,
+    idToken: workflows.JobPermission.WRITE,
+  },
+  steps: [
+    {
+      uses: 'actions/checkout@v4',
+    },
+    {
+      uses: 'actions/setup-node@v4',
+      with: {
+        'node-version': nodeVersion,
+      },
+    },
+    {
+      uses: 'pnpm/action-setup@v2',
+      with: {
+        version: 'latest',
+      },
+    },
+    {
+      run: 'cd docs && pnpm install',
+    },
+    {
+      run: 'cd docs && vitepress build',
+    },
+    {
+      uses: 'actions/configure-pages@v4',
+    },
+    {
+      uses: 'actions/upload-pages-artifact@v3',
+      with: {
+        path: 'docs/.vitepress/dist',
+      },
+    },
+  ],
+  concurrency: {
+    'group': 'pages',
+    'cancel-in-progress': false,
+  },
+});
+
+// Add deploy job
+deployWorkflow?.addJob('deploy', {
+  name: 'Deploy',
+  needs: ['build'],
+  runsOn: ['ubuntu-latest'],
+  permissions: {
+    contents: workflows.JobPermission.READ,
+    pages: workflows.JobPermission.WRITE,
+    idToken: workflows.JobPermission.WRITE,
+  },
+  environment: {
+    name: 'github-pages',
+    url: '${{ steps.deployment.outputs.page_url }}',
+  },
+  steps: [
+    {
+      uses: 'actions/deploy-pages@v4',
+      id: 'deployment',
+    },
+  ],
+  concurrency: {
+    'group': 'pages',
+    'cancel-in-progress': false,
+  },
+});
+
+// Docsite
+
+const docs = new TypeScriptProject({
+  name: 'metaflow-blueprints-docs',
+  description: 'Documentation for Metaflow Blueprints',
+  parent: project,
+  outdir: 'docs',
+  defaultReleaseBranch: 'main',
+  packageManager: NodePackageManager.PNPM,
+  deps: ['vitepress', 'vue'],
+  devDeps: ['eslint-plugin-unicorn', 'tsx', '@red-asuka/vitepress-plugin-tabs', 'vue3-tabs-component'],
+  release: false,
+  projenrcTs: true,
+  prettier: true,
+  maxNodeVersion: nodeVersion,
+  minNodeVersion: nodeVersion,
+  prettierOptions: {
+    settings: {
+      trailingComma: TrailingComma.ALL,
+    },
+  },
+  jest: false,
+  tsconfig: {
+    compilerOptions: {
+      module: 'ES2020',
+      moduleResolution: TypeScriptModuleResolution.NODE,
+      lib: ['DOM', 'ES2020'],
+      noUncheckedIndexedAccess: true,
+      noUnusedLocals: false,
+      noUnusedParameters: false,
+      target: 'ES2020',
+    },
+  },
+  gitignore: ['.vscode/settings.json', 'docs/.vitepress/dist', 'docs/.vitepress/cache', 'docs/.vitepress/.temp'],
+});
+
+docs.deps.removeDependency('ts-node');
+docs.defaultTask?.reset();
+docs.defaultTask?.exec('tsx .projenrc.ts');
+docs.eslint?.addPlugins('unicorn');
+docs.eslint?.addExtends('plugin:unicorn/recommended');
+docs.setScript('preinstall', 'npx only-allow pnpm');
+docs.compileTask.reset();
+docs.compileTask.exec('vitepress build');
+docs.packageTask.reset();
+docs.package.file.addOverride('type', 'module');
 
 project.synth();

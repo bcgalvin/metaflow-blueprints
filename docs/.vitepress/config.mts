@@ -65,35 +65,12 @@ export default defineConfig({
       pattern: "https://github.com/bcgalvinedit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
-    nav: [
-      { text: "Reference", link: "/reference" },
-      {
-        text: "Guides",
-        items: [
-          {
-            text: "Low Level Constructs",
-            items: [
-              {
-                text: "Event Sources",
-                link: "/guides/low-level-constructs/event-sources",
-              },
-              { text: "Sensors", link: "/guides/low-level-constructs/sensors" },
-              { text: "Filters", link: "/guides/low-level-constructs/filters" },
-              {
-                text: "Triggers",
-                link: "/guides/low-level-constructs/triggers",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-
+    nav: [{ text: "Reference", link: "/reference" }],
     logo: { src: "/logo.svg" },
     sidebar: [
       {
         text: "Overview",
-        collapsed: true,
+        collapsed: false,
         items: [
           { text: "Introduction", link: "/" },
 
@@ -105,11 +82,39 @@ export default defineConfig({
       },
       {
         text: "Design",
-        collapsed: true,
+        collapsed: false,
         items: [
-          { text: "Prerequisites", link: "/design/prerequisites" },
           { text: "Components", link: "/design/components" },
-          { text: "Integration", link: "/design/integrations" },
+          { text: "Integration", link: "/design/integration" },
+        ],
+      },
+      {
+        text: "Patterns",
+        items: [
+          {
+            text: "Constructs",
+            collapsed: true,
+            items: [
+              {
+                text: "Low Level",
+                link: "/patterns/constructs/low-level",
+                items: [
+                  {
+                    text: "Event Sources",
+                    link: "/patterns/constructs/low-level/event-sources",
+                  },
+                  {
+                    text: "Sensors",
+                    link: "/patterns/constructs/low-level/sensors",
+                  },
+                  {
+                    text: "Filters",
+                    link: "/patterns/constructs/low-level/filters",
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],

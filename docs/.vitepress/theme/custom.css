@@ -1,4 +1,3 @@
-/* Hero image styling */
 .hero-image {
   display: flex;
   justify-content: center;
@@ -10,11 +9,24 @@
   height: auto;
 }
 
-/* Custom container styling */
 .custom-block.warning {
   border-color: #e7c000;
   background-color: rgba(255, 229, 100, 0.3);
   padding: 1rem;
   border-left: 4px solid #e7c000;
   margin: 1rem 0;
+}
+
+.VPNav .VPNavBar .content-body .content .nav {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.VPNav .VPNavBar .content-body .content .nav > :first-child {
+  margin-right: auto;
+}
+
+.VPNav .VPNavBar .content-body .content .nav > :last-child {
+  margin-left: auto;
 }

@@ -65,6 +65,29 @@ export default defineConfig({
       pattern: "https://github.com/bcgalvinedit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
+    nav: [
+      { text: "Reference", link: "/reference" },
+      {
+        text: "Guides",
+        items: [
+          {
+            text: "Low Level Constructs",
+            items: [
+              {
+                text: "Event Sources",
+                link: "/guides/low-level-constructs/event-sources",
+              },
+              { text: "Sensors", link: "/guides/low-level-constructs/sensors" },
+              { text: "Filters", link: "/guides/low-level-constructs/filters" },
+              {
+                text: "Triggers",
+                link: "/guides/low-level-constructs/triggers",
+              },
+            ],
+          },
+        ],
+      },
+    ],
 
     logo: { src: "/logo.svg" },
     sidebar: [
@@ -75,19 +98,19 @@ export default defineConfig({
           { text: "Introduction", link: "/" },
 
           {
-            text: "Motivation & Goals",
+            text: "Motivation",
             link: "/motivation",
           },
         ],
       },
-
       {
-        text: "Patterns",
-      },
-
-      {
-        text: "Reference",
-        link: "/reference",
+        text: "Design",
+        collapsed: true,
+        items: [
+          { text: "Prerequisites", link: "/design/prerequisites" },
+          { text: "Components", link: "/design/components" },
+          { text: "Integration", link: "/design/integrations" },
+        ],
       },
     ],
   },

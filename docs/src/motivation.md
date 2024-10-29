@@ -29,7 +29,3 @@ Since we can leverage any existing Terraform provider and Argo Events provides g
 | AWS DynamoDB | SQS | New items in DynamoDB |
 | GCP PubSub | PubSub | New messages in PubSub |
 |...|...|...|
-
-Said another way, the goal of Metaflow Blueprints is to provide the necessary pencils and instructions to make it easier for the Metaflow community to draw the owl.
-
-![How to draw an owl](/how-to-draw-an-owl.jpg)

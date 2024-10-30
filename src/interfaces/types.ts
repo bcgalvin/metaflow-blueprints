@@ -1,4 +1,13 @@
-import { SecretKeySelector } from '../imports/k8s';
+import {
+  Affinity,
+  Container,
+  LocalObjectReference,
+  PodSecurityContext,
+  SecretKeySelector,
+  ServicePort,
+  Toleration,
+  Volume,
+} from '../imports/k8s';
 
 /**
  * Configuration for a REST API webhook HTTP server.
@@ -278,4 +287,115 @@ export interface ResourceFilter {
    * Prefix filter is applied on the resource name.
    */
   readonly prefix?: string;
+}
+
+/**
+ * Metadata sets the pods's metadata, i.e. annotations and labels
+ *
+ * Metadata holds the annotations and labels of an event source pod
+ *
+ * Metadata sets the pods's metadata, i.e. annotations and labels default={annotations: {},
+ * labels: {}}
+ */
+export interface JetstreamMetadata {
+  readonly annotations?: { [key: string]: string };
+  readonly labels?: { [key: string]: string };
+}
+
+/**
+ * Service is the specifications of the service to expose the event source
+ *
+ * Service holds the service information eventsource exposes
+ */
+export interface Service {
+  /**
+   * clusterIP is the IP address of the service and is usually assigned randomly by the
+   * master. If an address is specified manually and is not in use by others, it will be
+   * allocated to the service; otherwise, creation of the service will fail. This field can
+   * not be changed through updates. Valid values are "None", empty string (""), or a valid IP
+   * address. "None" can be specified for headless services when proxying is not required.
+   * More info:
+   * https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
+   */
+  readonly clusterIP?: string;
+  /**
+   * Metadata sets the pods's metadata, i.e. annotations and labels default={annotations: {},
+   * labels: {}}
+   */
+  readonly metadata?: JetstreamMetadata;
+  /**
+   * The list of ports that are exposed by this ClusterIP service.
+   */
+  readonly ports?: ServicePort[];
+}
+
+/**
+ * Template is the pod specification for the event source
+ *
+ * Template holds the information of a deployment template
+ *
+ * Template is the pod specification for the sensor
+ */
+export interface Template {
+  /**
+   * If specified, the pod's scheduling constraints
+   */
+  readonly affinity?: Affinity;
+  /**
+   * Container is the main container image to run in the sensor pod
+   */
+  readonly container?: Container;
+  /**
+   * ImagePullSecrets is an optional list of references to secrets in the same namespace to
+   * use for pulling any of the images used by this PodSpec. If specified, these secrets will
+   * be passed to individual puller implementations for them to use. For example, in the case
+   * of docker, only DockerConfig type secrets are honored. More info:
+   * https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod
+   */
+  readonly imagePullSecrets?: LocalObjectReference[];
+  /**
+   * Metadata sets the pods's metadata, i.e. annotations and labels
+   */
+  readonly metadata?: JetstreamMetadata;
+  /**
+   * NodeSelector is a selector which must be true for the pod to fit on a node. Selector
+   * which must match a node's labels for the pod to be scheduled on that node. More info:
+   * https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+   */
+  readonly nodeSelector?: { [key: string]: string };
+  /**
+   * The priority value. Various system components use this field to find the priority of the
+   * EventSource pod. When Priority Admission Controller is enabled, it prevents users from
+   * setting this field. The admission controller populates this field from PriorityClassName.
+   * The higher the value, the higher the priority. More info:
+   * https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+   */
+  readonly priority?: number;
+  /**
+   * If specified, indicates the EventSource pod's priority. "system-node-critical" and
+   * "system-cluster-critical" are two special keywords which indicate the highest priorities
+   * with the former being the highest priority. Any other name must be defined by creating a
+   * PriorityClass object with that name. If not specified, the pod priority will be default
+   * or zero if there is no default. More info:
+   * https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+   */
+  readonly priorityClassName?: string;
+  /**
+   * SecurityContext holds pod-level security attributes and common container settings.
+   * Optional: Defaults to empty.  See type description for default values of each field.
+   */
+  readonly securityContext?: PodSecurityContext;
+  /**
+   * ServiceAccountName is the name of the ServiceAccount to use to run sensor pod. More info:
+   * https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+   */
+  readonly serviceAccountName?: string;
+  /**
+   * If specified, the pod's tolerations.
+   */
+  readonly tolerations?: Toleration[];
+  /**
+   * Volumes is a list of volumes that can be mounted by containers in a workflow.
+   */
+  readonly volumes?: Volume[];
 }

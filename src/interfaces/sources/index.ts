@@ -12,6 +12,7 @@ export * from './gitlab';
 export * from './hdfs';
 export * from './kafka';
 export * from './mqtt';
+export * from './nats';
 export * from './nsq';
 export * from './pubsub';
 export * from './pulsar';

@@ -1,4 +1,3 @@
-import { S3Artifact } from './s3';
 import {
   AMQPEventSource,
   AzureEventsHubEventSource,
@@ -23,6 +22,7 @@ import {
   RedisEventSource,
   RedisStreamEventSource,
   ResourceEventSource,
+  S3Artifact,
   SFTPEventSource,
   SlackEventSource,
   SNSEventSource,
@@ -179,6 +179,4 @@ export interface EventSourceSpec {
    * Gerrit event source
    */
   readonly gerrit?: { [key: string]: GerritEventSource };
-
-  [property: string]: any;
 }

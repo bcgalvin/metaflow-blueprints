@@ -1,10 +1,9 @@
 import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
 import { SecretKeySelector } from '../imports/k8s';
-import { EventSourceFilter } from '../interfaces';
+import { EventSourceFilter, EventSourceSpec } from '../interfaces';
 import { SqsValidator } from '../validators';
-import { BaseEventSource, EventSourceMetadata, EventSourceSpec } from './base';
-
+import { BaseEventSource, EventSourceMetadata } from './base';
 /**
  * Configuration for an SQS Event Source.
  */

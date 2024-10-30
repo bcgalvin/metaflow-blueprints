@@ -1,5 +1,6 @@
 import { SecretKeySelector } from './imports/k8s';
-import { EventSourceSpec, SqsEventSourceSpec } from './sources';
+import { EventSourceSpec } from './interfaces';
+import { SqsEventSourceSpec } from './sources';
 export const EVENT_NAME_CONSTRAINTS = {
   MAX_LENGTH: 253,
   PATTERNS: {

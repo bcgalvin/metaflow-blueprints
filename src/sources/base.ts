@@ -1,15 +1,12 @@
 import { ApiObjectMetadata } from 'cdk8s';
 import { Construct } from 'constructs';
 import { EventSource } from '../imports/argoproj.io';
+import { EventSourceSpec } from '../interfaces/source-spec';
 import { validateEventName, validateEventNameUniqueness } from '../validators';
-import { SqsEventSourceSpec } from './sqs';
 
 export type EventSourceConfigMap<T> = { [eventName: string]: T };
 
 export interface EventSourceMetadata extends ApiObjectMetadata {}
-export interface EventSourceSpec {
-  readonly sqs?: EventSourceConfigMap<SqsEventSourceSpec>;
-}
 
 export interface BaseEventSourceProperties {
   readonly metadata: EventSourceMetadata;

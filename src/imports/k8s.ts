@@ -27995,13 +27995,13 @@ export function toJson_Probe(obj: Probe | undefined): Record<string, any> | unde
 
 /**
  * ContainerPort represents a network port in a single container.
- *
+ * @jsii ignore
  * @schema io.k8s.api.core.v1.ContainerPort
  */
 export interface ContainerPort {
   /**
    * Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536.
-   *
+   * @jsii ignore
    * @schema io.k8s.api.core.v1.ContainerPort#containerPort
    */
   readonly containerPort: number;

@@ -1,5 +1,12 @@
 # API Reference <a name="API Reference" id="api-reference"></a>
 
+## Submodules <a name="Submodules" id="submodules"></a>
+
+The following submodules are available:
+
+- [argoEvents](./argoEvents.md)
+- [k8s](./k8s.md)
+
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
 ### BaseEventSource <a name="BaseEventSource" id="metaflow-blueprints.BaseEventSource"></a>
@@ -100,6 +107,7 @@ The tree node.
 
 ---
 
+
 ### SqsEventSource <a name="SqsEventSource" id="metaflow-blueprints.SqsEventSource"></a>
 
 #### Initializers <a name="Initializers" id="metaflow-blueprints.SqsEventSource.Initializer"></a>
@@ -198,11 +206,12 @@ The tree node.
 
 ---
 
+
 ## Structs <a name="Structs" id="Structs"></a>
 
 ### AMQPConsumeConfig <a name="AMQPConsumeConfig" id="metaflow-blueprints.AMQPConsumeConfig"></a>
 
-Consume holds the configuration to immediately starts delivering queued messages For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.Consume>.
+Consume holds the configuration to immediately starts delivering queued messages For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.Consume.
 
 AMQPConsumeConfig holds the configuration to immediately starts delivering queued messages
 
@@ -302,17 +311,17 @@ const aMQPEventSource: AMQPEventSource = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#metaflow-blueprints.AMQPEventSource.property.exchangeName">exchangeName</a></code> | <code>string</code> | ExchangeName is the exchange name For more information, visit <https://www.rabbitmq.com/tutorials/amqp-concepts.html>. |
+| <code><a href="#metaflow-blueprints.AMQPEventSource.property.exchangeName">exchangeName</a></code> | <code>string</code> | ExchangeName is the exchange name For more information, visit https://www.rabbitmq.com/tutorials/amqp-concepts.html. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.exchangeType">exchangeType</a></code> | <code>string</code> | ExchangeType is rabbitmq exchange type. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.routingKey">routingKey</a></code> | <code>string</code> | Routing key for bindings. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.auth">auth</a></code> | <code><a href="#metaflow-blueprints.BasicAuth">BasicAuth</a></code> | Auth hosts secret selectors for username and password. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.connectionBackoff">connectionBackoff</a></code> | <code><a href="#metaflow-blueprints.Backoff">Backoff</a></code> | Backoff holds parameters applied to connection. |
-| <code><a href="#metaflow-blueprints.AMQPEventSource.property.consume">consume</a></code> | <code><a href="#metaflow-blueprints.AMQPConsumeConfig">AMQPConsumeConfig</a></code> | Consume holds the configuration to immediately starts delivering queued messages For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.Consume>. |
-| <code><a href="#metaflow-blueprints.AMQPEventSource.property.exchangeDeclare">exchangeDeclare</a></code> | <code><a href="#metaflow-blueprints.AMQPExchangeDeclareConfig">AMQPExchangeDeclareConfig</a></code> | ExchangeDeclare holds the configuration for the exchange on the server For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.ExchangeDeclare>. |
+| <code><a href="#metaflow-blueprints.AMQPEventSource.property.consume">consume</a></code> | <code><a href="#metaflow-blueprints.AMQPConsumeConfig">AMQPConsumeConfig</a></code> | Consume holds the configuration to immediately starts delivering queued messages For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.Consume. |
+| <code><a href="#metaflow-blueprints.AMQPEventSource.property.exchangeDeclare">exchangeDeclare</a></code> | <code><a href="#metaflow-blueprints.AMQPExchangeDeclareConfig">AMQPExchangeDeclareConfig</a></code> | ExchangeDeclare holds the configuration for the exchange on the server For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.ExchangeDeclare. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.filter">filter</a></code> | <code><a href="#metaflow-blueprints.EventSourceFilter">EventSourceFilter</a></code> | Filter. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.jsonBody">jsonBody</a></code> | <code>boolean</code> | JSONBody specifies that all event body payload coming from this source will be JSON. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.metadata">metadata</a></code> | <code>{[ key: string ]: string}</code> | Metadata holds the user defined metadata which will passed along the event payload. |
-| <code><a href="#metaflow-blueprints.AMQPEventSource.property.queueBind">queueBind</a></code> | <code><a href="#metaflow-blueprints.AMQPQueueBindConfig">AMQPQueueBindConfig</a></code> | QueueBind holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueBind>. |
+| <code><a href="#metaflow-blueprints.AMQPEventSource.property.queueBind">queueBind</a></code> | <code><a href="#metaflow-blueprints.AMQPQueueBindConfig">AMQPQueueBindConfig</a></code> | QueueBind holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueBind. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.queueDeclare">queueDeclare</a></code> | <code><a href="#metaflow-blueprints.AMQPQueueDeclareConfig">AMQPQueueDeclareConfig</a></code> | QueueDeclare holds the configuration of a queue to hold messages and deliver to consumers. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.tls">tls</a></code> | <code><a href="#metaflow-blueprints.TLSConfig">TLSConfig</a></code> | TLS configuration for the amqp client. |
 | <code><a href="#metaflow-blueprints.AMQPEventSource.property.url">url</a></code> | <code>string</code> | URL for rabbitmq service. |
@@ -328,7 +337,7 @@ public readonly exchangeName: string;
 
 - *Type:* string
 
-ExchangeName is the exchange name For more information, visit <https://www.rabbitmq.com/tutorials/amqp-concepts.html>.
+ExchangeName is the exchange name For more information, visit https://www.rabbitmq.com/tutorials/amqp-concepts.html.
 
 ---
 
@@ -388,7 +397,7 @@ public readonly consume: AMQPConsumeConfig;
 
 - *Type:* <a href="#metaflow-blueprints.AMQPConsumeConfig">AMQPConsumeConfig</a>
 
-Consume holds the configuration to immediately starts delivering queued messages For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.Consume>.
+Consume holds the configuration to immediately starts delivering queued messages For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.Consume.
 
 ---
 
@@ -400,7 +409,7 @@ public readonly exchangeDeclare: AMQPExchangeDeclareConfig;
 
 - *Type:* <a href="#metaflow-blueprints.AMQPExchangeDeclareConfig">AMQPExchangeDeclareConfig</a>
 
-ExchangeDeclare holds the configuration for the exchange on the server For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.ExchangeDeclare>.
+ExchangeDeclare holds the configuration for the exchange on the server For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.ExchangeDeclare.
 
 ---
 
@@ -448,7 +457,7 @@ public readonly queueBind: AMQPQueueBindConfig;
 
 - *Type:* <a href="#metaflow-blueprints.AMQPQueueBindConfig">AMQPQueueBindConfig</a>
 
-QueueBind holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueBind>.
+QueueBind holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueBind.
 
 ---
 
@@ -464,7 +473,7 @@ QueueDeclare holds the configuration of a queue to hold messages and deliver to 
 
 Declaring creates a queue if it doesn't already exist, or ensures that an
 existing queue matches the same parameters For more information, visit
-<https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueDeclare>
+https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueDeclare
 
 ---
 
@@ -506,7 +515,7 @@ URLSecret is secret reference for rabbitmq service URL.
 
 ### AMQPExchangeDeclareConfig <a name="AMQPExchangeDeclareConfig" id="metaflow-blueprints.AMQPExchangeDeclareConfig"></a>
 
-ExchangeDeclare holds the configuration for the exchange on the server For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.ExchangeDeclare>.
+ExchangeDeclare holds the configuration for the exchange on the server For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.ExchangeDeclare.
 
 AMQPExchangeDeclareConfig holds the configuration for the exchange on the server
 
@@ -579,7 +588,7 @@ NowWait when true does not wait for a confirmation from the server.
 
 ### AMQPQueueBindConfig <a name="AMQPQueueBindConfig" id="metaflow-blueprints.AMQPQueueBindConfig"></a>
 
-QueueBind holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key For more information, visit <https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueBind>.
+QueueBind holds the configuration that binds an exchange to a queue so that publishings to the exchange will be routed to the queue when the publishing routing key matches the binding routing key For more information, visit https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueBind.
 
 AMQPQueueBindConfig holds the configuration that binds an exchange to a queue so that
 publishings to the exchange will be routed to the queue when the publishing routing key
@@ -619,7 +628,7 @@ QueueDeclare holds the configuration of a queue to hold messages and deliver to 
 
 Declaring creates a queue if it doesn't already exist, or ensures that an
 existing queue matches the same parameters For more information, visit
-<https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueDeclare>
+https://pkg.go.dev/github.com/rabbitmq/amqp091-go#Channel.QueueDeclare
 
 AMQPQueueDeclareConfig holds the configuration of a queue to hold messages and deliver to
 consumers. Declaring creates a queue if it doesn't already exist, or ensures that an
@@ -722,7 +731,7 @@ NowWait when true, the queue assumes to be declared on the server.
 
 ### AzureEventsHubEventSource <a name="AzureEventsHubEventSource" id="metaflow-blueprints.AzureEventsHubEventSource"></a>
 
-AzureEventsHubEventSource describes the event source for azure events hub More info at <https://docs.microsoft.com/en-us/azure/event-hubs/>.
+AzureEventsHubEventSource describes the event source for azure events hub More info at https://docs.microsoft.com/en-us/azure/event-hubs/.
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.AzureEventsHubEventSource.Initializer"></a>
 
@@ -736,7 +745,7 @@ const azureEventsHubEventSource: AzureEventsHubEventSource = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#metaflow-blueprints.AzureEventsHubEventSource.property.fqdn">fqdn</a></code> | <code>string</code> | FQDN of the EventHubs namespace you created More info at <https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string>. |
+| <code><a href="#metaflow-blueprints.AzureEventsHubEventSource.property.fqdn">fqdn</a></code> | <code>string</code> | FQDN of the EventHubs namespace you created More info at https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string. |
 | <code><a href="#metaflow-blueprints.AzureEventsHubEventSource.property.hubName">hubName</a></code> | <code>string</code> | Event Hub path/name. |
 | <code><a href="#metaflow-blueprints.AzureEventsHubEventSource.property.filter">filter</a></code> | <code><a href="#metaflow-blueprints.EventSourceFilter">EventSourceFilter</a></code> | Filter. |
 | <code><a href="#metaflow-blueprints.AzureEventsHubEventSource.property.metadata">metadata</a></code> | <code>{[ key: string ]: string}</code> | Metadata holds the user defined metadata which will passed along the event payload. |
@@ -753,7 +762,7 @@ public readonly fqdn: string;
 
 - *Type:* string
 
-FQDN of the EventHubs namespace you created More info at <https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string>.
+FQDN of the EventHubs namespace you created More info at https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string.
 
 ---
 
@@ -819,7 +828,7 @@ SharedAccessKeyName is the name you chose for your application's SAS keys.
 
 ### AzureQueueStorageEventSource <a name="AzureQueueStorageEventSource" id="metaflow-blueprints.AzureQueueStorageEventSource"></a>
 
-AzureQueueStorageEventSource describes the event source for azure queue storage more info at <https://learn.microsoft.com/en-us/azure/storage/queues/>.
+AzureQueueStorageEventSource describes the event source for azure queue storage more info at https://learn.microsoft.com/en-us/azure/storage/queues/.
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.AzureQueueStorageEventSource.Initializer"></a>
 
@@ -970,7 +979,7 @@ The default value is 3 seconds.
 
 ### AzureServiceBusEventSource <a name="AzureServiceBusEventSource" id="metaflow-blueprints.AzureServiceBusEventSource"></a>
 
-AzureServiceBusEventSource describes the event source for azure service bus More info at <https://docs.microsoft.com/en-us/azure/service-bus-messaging/>.
+AzureServiceBusEventSource describes the event source for azure service bus More info at https://docs.microsoft.com/en-us/azure/service-bus-messaging/.
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.AzureServiceBusEventSource.Initializer"></a>
 
@@ -1668,7 +1677,7 @@ public readonly events: string[];
 Events are bitbucket event to listen to.
 
 Refer
-<https://confluence.atlassian.com/bitbucketserver/event-payload-938025882.html>
+https://confluence.atlassian.com/bitbucketserver/event-payload-938025882.html
 
 ---
 
@@ -1962,7 +1971,7 @@ public readonly schedule: string;
 
 Schedule is a cron-like expression.
 
-For reference, see: <https://en.wikipedia.org/wiki/Cron>
+For reference, see: https://en.wikipedia.org/wiki/Cron
 
 ---
 
@@ -2070,7 +2079,7 @@ Name of the configmap.
 
 ### EmitterEventSource <a name="EmitterEventSource" id="metaflow-blueprints.EmitterEventSource"></a>
 
-EmitterEventSource describes the event source for emitter More info at <https://emitter.io/develop/getting-started/>.
+EmitterEventSource describes the event source for emitter More info at https://emitter.io/develop/getting-started/.
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.EmitterEventSource.Initializer"></a>
 
@@ -2417,7 +2426,7 @@ public readonly namespace: string;
 Namespace defines the space within each name must be unique.
 
 An empty namespace is equivalent to the "default" namespace, but "default" is the canonical representation.
-Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. Must be a DNS_LABEL. Cannot be updated. More info: <http://kubernetes.io/docs/user-guide/namespaces>
+Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. Must be a DNS_LABEL. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/namespaces
 
 ---
 
@@ -2451,6 +2460,8 @@ relationships.
 
 ### EventSourceSpec <a name="EventSourceSpec" id="metaflow-blueprints.EventSourceSpec"></a>
 
+EventSourceSpec refers to specification of event-source resource.
+
 #### Initializer <a name="Initializer" id="metaflow-blueprints.EventSourceSpec.Initializer"></a>
 
 ```typescript
@@ -2463,17 +2474,465 @@ const eventSourceSpec: EventSourceSpec = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#metaflow-blueprints.EventSourceSpec.property.sqs">sqs</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.SqsEventSourceSpec">SqsEventSourceSpec</a>}</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.amqp">amqp</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.AMQPEventSource">AMQPEventSource</a>}</code> | AMQP event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.azureEventsHub">azureEventsHub</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.AzureEventsHubEventSource">AzureEventsHubEventSource</a>}</code> | AzureEventsHub event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.azureQueueStorage">azureQueueStorage</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.AzureQueueStorageEventSource">AzureQueueStorageEventSource</a>}</code> | AzureQueueStorage event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.azureServiceBus">azureServiceBus</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.AzureServiceBusEventSource">AzureServiceBusEventSource</a>}</code> | Azure Service Bus event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.bitbucket">bitbucket</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.BitbucketEventSource">BitbucketEventSource</a>}</code> | Bitbucket event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.bitbucketserver">bitbucketserver</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.BitbucketServerEventSource">BitbucketServerEventSource</a>}</code> | Bitbucket Server event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.calendar">calendar</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.CalendarEventSource">CalendarEventSource</a>}</code> | Calendar event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.emitter">emitter</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.EmitterEventSource">EmitterEventSource</a>}</code> | Emitter event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.eventBusName">eventBusName</a></code> | <code>string</code> | EventBusName references to a EventBus name. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.file">file</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.FileEventSource">FileEventSource</a>}</code> | File event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.generic">generic</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.GenericEventSource">GenericEventSource</a>}</code> | Generic event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.gerrit">gerrit</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.GerritEventSource">GerritEventSource</a>}</code> | Gerrit event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.github">github</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.GithubEventSource">GithubEventSource</a>}</code> | Github event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.gitlab">gitlab</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.GitlabEventSource">GitlabEventSource</a>}</code> | Gitlab event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.hdfs">hdfs</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.HDFSEventSource">HDFSEventSource</a>}</code> | HDFS event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.kafka">kafka</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.KafkaEventSource">KafkaEventSource</a>}</code> | Kafka event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.minio">minio</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.S3Artifact">S3Artifact</a>}</code> | Minio event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.mqtt">mqtt</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.MQTTEventSource">MQTTEventSource</a>}</code> | MQTT event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.nats">nats</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.NATSEventsSource">NATSEventsSource</a>}</code> | NATS event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.nsq">nsq</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.NSQEventSource">NSQEventSource</a>}</code> | NSQ event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.pubSub">pubSub</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.PubSubEventSource">PubSubEventSource</a>}</code> | PubSub event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.pulsar">pulsar</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.PulsarEventSource">PulsarEventSource</a>}</code> | Pulsar event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.redis">redis</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.RedisEventSource">RedisEventSource</a>}</code> | Redis event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.redisStream">redisStream</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.RedisStreamEventSource">RedisStreamEventSource</a>}</code> | Redis stream source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.replicas">replicas</a></code> | <code>number</code> | Replicas is the event source deployment replicas. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.resource">resource</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.ResourceEventSource">ResourceEventSource</a>}</code> | Resource event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.service">service</a></code> | <code><a href="#metaflow-blueprints.Service">Service</a></code> | is the specifications of the service to expose the event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.sftp">sftp</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.SFTPEventSource">SFTPEventSource</a>}</code> | SFTP event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.slack">slack</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.SlackEventSource">SlackEventSource</a>}</code> | Slack event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.sns">sns</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.SNSEventSource">SNSEventSource</a>}</code> | SNS event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.sqs">sqs</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.SQSEventSource">SQSEventSource</a>}</code> | SQS event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.storageGrid">storageGrid</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.StorageGridEventSource">StorageGridEventSource</a>}</code> | StorageGrid event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.stripe">stripe</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.StripeEventSource">StripeEventSource</a>}</code> | Stripe event sources. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.template">template</a></code> | <code><a href="#metaflow-blueprints.Template">Template</a></code> | Template is the pod specification for the event source. |
+| <code><a href="#metaflow-blueprints.EventSourceSpec.property.webhook">webhook</a></code> | <code>{[ key: string ]: <a href="#metaflow-blueprints.WebhookEventSource">WebhookEventSource</a>}</code> | Webhook event sources. |
+
+---
+
+##### `amqp`<sup>Optional</sup> <a name="amqp" id="metaflow-blueprints.EventSourceSpec.property.amqp"></a>
+
+```typescript
+public readonly amqp: {[ key: string ]: AMQPEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.AMQPEventSource">AMQPEventSource</a>}
+
+AMQP event sources.
+
+---
+
+##### `azureEventsHub`<sup>Optional</sup> <a name="azureEventsHub" id="metaflow-blueprints.EventSourceSpec.property.azureEventsHub"></a>
+
+```typescript
+public readonly azureEventsHub: {[ key: string ]: AzureEventsHubEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.AzureEventsHubEventSource">AzureEventsHubEventSource</a>}
+
+AzureEventsHub event sources.
+
+---
+
+##### `azureQueueStorage`<sup>Optional</sup> <a name="azureQueueStorage" id="metaflow-blueprints.EventSourceSpec.property.azureQueueStorage"></a>
+
+```typescript
+public readonly azureQueueStorage: {[ key: string ]: AzureQueueStorageEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.AzureQueueStorageEventSource">AzureQueueStorageEventSource</a>}
+
+AzureQueueStorage event source.
+
+---
+
+##### `azureServiceBus`<sup>Optional</sup> <a name="azureServiceBus" id="metaflow-blueprints.EventSourceSpec.property.azureServiceBus"></a>
+
+```typescript
+public readonly azureServiceBus: {[ key: string ]: AzureServiceBusEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.AzureServiceBusEventSource">AzureServiceBusEventSource</a>}
+
+Azure Service Bus event source.
+
+---
+
+##### `bitbucket`<sup>Optional</sup> <a name="bitbucket" id="metaflow-blueprints.EventSourceSpec.property.bitbucket"></a>
+
+```typescript
+public readonly bitbucket: {[ key: string ]: BitbucketEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.BitbucketEventSource">BitbucketEventSource</a>}
+
+Bitbucket event sources.
+
+---
+
+##### `bitbucketserver`<sup>Optional</sup> <a name="bitbucketserver" id="metaflow-blueprints.EventSourceSpec.property.bitbucketserver"></a>
+
+```typescript
+public readonly bitbucketserver: {[ key: string ]: BitbucketServerEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.BitbucketServerEventSource">BitbucketServerEventSource</a>}
+
+Bitbucket Server event sources.
+
+---
+
+##### `calendar`<sup>Optional</sup> <a name="calendar" id="metaflow-blueprints.EventSourceSpec.property.calendar"></a>
+
+```typescript
+public readonly calendar: {[ key: string ]: CalendarEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.CalendarEventSource">CalendarEventSource</a>}
+
+Calendar event sources.
+
+---
+
+##### `emitter`<sup>Optional</sup> <a name="emitter" id="metaflow-blueprints.EventSourceSpec.property.emitter"></a>
+
+```typescript
+public readonly emitter: {[ key: string ]: EmitterEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.EmitterEventSource">EmitterEventSource</a>}
+
+Emitter event source.
+
+---
+
+##### `eventBusName`<sup>Optional</sup> <a name="eventBusName" id="metaflow-blueprints.EventSourceSpec.property.eventBusName"></a>
+
+```typescript
+public readonly eventBusName: string;
+```
+
+- *Type:* string
+
+EventBusName references to a EventBus name.
+
+By default the value is "default"
+
+---
+
+##### `file`<sup>Optional</sup> <a name="file" id="metaflow-blueprints.EventSourceSpec.property.file"></a>
+
+```typescript
+public readonly file: {[ key: string ]: FileEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.FileEventSource">FileEventSource</a>}
+
+File event sources.
+
+---
+
+##### `generic`<sup>Optional</sup> <a name="generic" id="metaflow-blueprints.EventSourceSpec.property.generic"></a>
+
+```typescript
+public readonly generic: {[ key: string ]: GenericEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.GenericEventSource">GenericEventSource</a>}
+
+Generic event source.
+
+---
+
+##### `gerrit`<sup>Optional</sup> <a name="gerrit" id="metaflow-blueprints.EventSourceSpec.property.gerrit"></a>
+
+```typescript
+public readonly gerrit: {[ key: string ]: GerritEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.GerritEventSource">GerritEventSource</a>}
+
+Gerrit event source.
+
+---
+
+##### `github`<sup>Optional</sup> <a name="github" id="metaflow-blueprints.EventSourceSpec.property.github"></a>
+
+```typescript
+public readonly github: {[ key: string ]: GithubEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.GithubEventSource">GithubEventSource</a>}
+
+Github event sources.
+
+---
+
+##### `gitlab`<sup>Optional</sup> <a name="gitlab" id="metaflow-blueprints.EventSourceSpec.property.gitlab"></a>
+
+```typescript
+public readonly gitlab: {[ key: string ]: GitlabEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.GitlabEventSource">GitlabEventSource</a>}
+
+Gitlab event sources.
+
+---
+
+##### `hdfs`<sup>Optional</sup> <a name="hdfs" id="metaflow-blueprints.EventSourceSpec.property.hdfs"></a>
+
+```typescript
+public readonly hdfs: {[ key: string ]: HDFSEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.HDFSEventSource">HDFSEventSource</a>}
+
+HDFS event sources.
+
+---
+
+##### `kafka`<sup>Optional</sup> <a name="kafka" id="metaflow-blueprints.EventSourceSpec.property.kafka"></a>
+
+```typescript
+public readonly kafka: {[ key: string ]: KafkaEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.KafkaEventSource">KafkaEventSource</a>}
+
+Kafka event sources.
+
+---
+
+##### `minio`<sup>Optional</sup> <a name="minio" id="metaflow-blueprints.EventSourceSpec.property.minio"></a>
+
+```typescript
+public readonly minio: {[ key: string ]: S3Artifact};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.S3Artifact">S3Artifact</a>}
+
+Minio event sources.
+
+---
+
+##### `mqtt`<sup>Optional</sup> <a name="mqtt" id="metaflow-blueprints.EventSourceSpec.property.mqtt"></a>
+
+```typescript
+public readonly mqtt: {[ key: string ]: MQTTEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.MQTTEventSource">MQTTEventSource</a>}
+
+MQTT event sources.
+
+---
+
+##### `nats`<sup>Optional</sup> <a name="nats" id="metaflow-blueprints.EventSourceSpec.property.nats"></a>
+
+```typescript
+public readonly nats: {[ key: string ]: NATSEventsSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.NATSEventsSource">NATSEventsSource</a>}
+
+NATS event sources.
+
+---
+
+##### `nsq`<sup>Optional</sup> <a name="nsq" id="metaflow-blueprints.EventSourceSpec.property.nsq"></a>
+
+```typescript
+public readonly nsq: {[ key: string ]: NSQEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.NSQEventSource">NSQEventSource</a>}
+
+NSQ event source.
+
+---
+
+##### `pubSub`<sup>Optional</sup> <a name="pubSub" id="metaflow-blueprints.EventSourceSpec.property.pubSub"></a>
+
+```typescript
+public readonly pubSub: {[ key: string ]: PubSubEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.PubSubEventSource">PubSubEventSource</a>}
+
+PubSub event sources.
+
+---
+
+##### `pulsar`<sup>Optional</sup> <a name="pulsar" id="metaflow-blueprints.EventSourceSpec.property.pulsar"></a>
+
+```typescript
+public readonly pulsar: {[ key: string ]: PulsarEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.PulsarEventSource">PulsarEventSource</a>}
+
+Pulsar event source.
+
+---
+
+##### `redis`<sup>Optional</sup> <a name="redis" id="metaflow-blueprints.EventSourceSpec.property.redis"></a>
+
+```typescript
+public readonly redis: {[ key: string ]: RedisEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.RedisEventSource">RedisEventSource</a>}
+
+Redis event source.
+
+---
+
+##### `redisStream`<sup>Optional</sup> <a name="redisStream" id="metaflow-blueprints.EventSourceSpec.property.redisStream"></a>
+
+```typescript
+public readonly redisStream: {[ key: string ]: RedisStreamEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.RedisStreamEventSource">RedisStreamEventSource</a>}
+
+Redis stream source.
+
+---
+
+##### `replicas`<sup>Optional</sup> <a name="replicas" id="metaflow-blueprints.EventSourceSpec.property.replicas"></a>
+
+```typescript
+public readonly replicas: number;
+```
+
+- *Type:* number
+
+Replicas is the event source deployment replicas.
+
+---
+
+##### `resource`<sup>Optional</sup> <a name="resource" id="metaflow-blueprints.EventSourceSpec.property.resource"></a>
+
+```typescript
+public readonly resource: {[ key: string ]: ResourceEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.ResourceEventSource">ResourceEventSource</a>}
+
+Resource event sources.
+
+---
+
+##### `service`<sup>Optional</sup> <a name="service" id="metaflow-blueprints.EventSourceSpec.property.service"></a>
+
+```typescript
+public readonly service: Service;
+```
+
+- *Type:* <a href="#metaflow-blueprints.Service">Service</a>
+
+is the specifications of the service to expose the event source.
+
+---
+
+##### `sftp`<sup>Optional</sup> <a name="sftp" id="metaflow-blueprints.EventSourceSpec.property.sftp"></a>
+
+```typescript
+public readonly sftp: {[ key: string ]: SFTPEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.SFTPEventSource">SFTPEventSource</a>}
+
+SFTP event sources.
+
+---
+
+##### `slack`<sup>Optional</sup> <a name="slack" id="metaflow-blueprints.EventSourceSpec.property.slack"></a>
+
+```typescript
+public readonly slack: {[ key: string ]: SlackEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.SlackEventSource">SlackEventSource</a>}
+
+Slack event sources.
+
+---
+
+##### `sns`<sup>Optional</sup> <a name="sns" id="metaflow-blueprints.EventSourceSpec.property.sns"></a>
+
+```typescript
+public readonly sns: {[ key: string ]: SNSEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.SNSEventSource">SNSEventSource</a>}
+
+SNS event sources.
 
 ---
 
 ##### `sqs`<sup>Optional</sup> <a name="sqs" id="metaflow-blueprints.EventSourceSpec.property.sqs"></a>
 
 ```typescript
-public readonly sqs: {[ key: string ]: SqsEventSourceSpec};
+public readonly sqs: {[ key: string ]: SQSEventSource};
 ```
 
-- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.SqsEventSourceSpec">SqsEventSourceSpec</a>}
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.SQSEventSource">SQSEventSource</a>}
+
+SQS event sources.
+
+---
+
+##### `storageGrid`<sup>Optional</sup> <a name="storageGrid" id="metaflow-blueprints.EventSourceSpec.property.storageGrid"></a>
+
+```typescript
+public readonly storageGrid: {[ key: string ]: StorageGridEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.StorageGridEventSource">StorageGridEventSource</a>}
+
+StorageGrid event sources.
+
+---
+
+##### `stripe`<sup>Optional</sup> <a name="stripe" id="metaflow-blueprints.EventSourceSpec.property.stripe"></a>
+
+```typescript
+public readonly stripe: {[ key: string ]: StripeEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.StripeEventSource">StripeEventSource</a>}
+
+Stripe event sources.
+
+---
+
+##### `template`<sup>Optional</sup> <a name="template" id="metaflow-blueprints.EventSourceSpec.property.template"></a>
+
+```typescript
+public readonly template: Template;
+```
+
+- *Type:* <a href="#metaflow-blueprints.Template">Template</a>
+
+Template is the pod specification for the event source.
+
+Template is the pod specification for the sensor
+
+---
+
+##### `webhook`<sup>Optional</sup> <a name="webhook" id="metaflow-blueprints.EventSourceSpec.property.webhook"></a>
+
+```typescript
+public readonly webhook: {[ key: string ]: WebhookEventSource};
+```
+
+- *Type:* {[ key: string ]: <a href="#metaflow-blueprints.WebhookEventSource">WebhookEventSource</a>}
+
+Webhook event sources.
 
 ---
 
@@ -2493,7 +2952,7 @@ const fileEventSource: FileEventSource = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#metaflow-blueprints.FileEventSource.property.eventType">eventType</a></code> | <code>string</code> | Type of file operations to watch Refer <https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go> for more information. |
+| <code><a href="#metaflow-blueprints.FileEventSource.property.eventType">eventType</a></code> | <code>string</code> | Type of file operations to watch Refer https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go for more information. |
 | <code><a href="#metaflow-blueprints.FileEventSource.property.watchPathConfig">watchPathConfig</a></code> | <code><a href="#metaflow-blueprints.WatchPathConfig">WatchPathConfig</a></code> | WatchPathConfig contains configuration about the file path to watch. |
 | <code><a href="#metaflow-blueprints.FileEventSource.property.filter">filter</a></code> | <code><a href="#metaflow-blueprints.EventSourceFilter">EventSourceFilter</a></code> | Filter. |
 | <code><a href="#metaflow-blueprints.FileEventSource.property.metadata">metadata</a></code> | <code>{[ key: string ]: string}</code> | Metadata holds the user defined metadata which will passed along the event payload. |
@@ -2509,7 +2968,7 @@ public readonly eventType: string;
 
 - *Type:* string
 
-Type of file operations to watch Refer <https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go> for more information.
+Type of file operations to watch Refer https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go for more information.
 
 ---
 
@@ -2714,7 +3173,7 @@ public readonly events: string[];
 Events are gerrit event to listen to.
 
 Refer
-<https://gerrit-review.googlesource.com/Documentation/cmd-stream-events.html#events>
+https://gerrit-review.googlesource.com/Documentation/cmd-stream-events.html#events
 
 ---
 
@@ -2917,7 +3376,7 @@ const githubEventSource: GithubEventSource = { ... }
 | <code><a href="#metaflow-blueprints.GithubEventSource.property.repositories">repositories</a></code> | <code><a href="#metaflow-blueprints.OwnedRepositories">OwnedRepositories</a>[]</code> | Repositories holds the information of repositories, which uses repo owner as the key, and list of repo names as the value. |
 | <code><a href="#metaflow-blueprints.GithubEventSource.property.repository">repository</a></code> | <code>string</code> | DeprecatedRepository refers to GitHub repo name i.e. argo-events Deprecated: use Repositories instead. Will be unsupported in v 1.6. |
 | <code><a href="#metaflow-blueprints.GithubEventSource.property.webhook">webhook</a></code> | <code><a href="#metaflow-blueprints.WebhookContext">WebhookContext</a></code> | Webhook refers to the configuration required to run a http server. |
-| <code><a href="#metaflow-blueprints.GithubEventSource.property.webhookSecret">webhookSecret</a></code> | <code>metaflow-blueprints.k8s.SecretKeySelector</code> | WebhookSecret refers to K8s secret containing GitHub webhook secret <https://developer.github.com/webhooks/securing/>. |
+| <code><a href="#metaflow-blueprints.GithubEventSource.property.webhookSecret">webhookSecret</a></code> | <code>metaflow-blueprints.k8s.SecretKeySelector</code> | WebhookSecret refers to K8s secret containing GitHub webhook secret https://developer.github.com/webhooks/securing/. |
 
 ---
 
@@ -2943,7 +3402,7 @@ public readonly active: boolean;
 
 Active refers to status of the webhook for event deliveries.
 
-<https://developer.github.com/webhooks/creating/#active>
+https://developer.github.com/webhooks/creating/#active
 
 ---
 
@@ -3139,7 +3598,7 @@ public readonly webhookSecret: SecretKeySelector;
 
 - *Type:* metaflow-blueprints.k8s.SecretKeySelector
 
-WebhookSecret refers to K8s secret containing GitHub webhook secret <https://developer.github.com/webhooks/securing/>.
+WebhookSecret refers to K8s secret containing GitHub webhook secret https://developer.github.com/webhooks/securing/.
 
 ---
 
@@ -3185,7 +3644,7 @@ public readonly events: string[];
 Events are gitlab event to listen to.
 
 Refer
-<https://github.com/xanzy/go-gitlab/blob/bf34eca5d13a9f4c3f501d8a97b8ac226d55e4d9/projects.go#L794>.
+https://github.com/xanzy/go-gitlab/blob/bf34eca5d13a9f4c3f501d8a97b8ac226d55e4d9/projects.go#L794.
 
 ---
 
@@ -3668,7 +4127,7 @@ const kafkaEventSource: KafkaEventSource = { ... }
 | --- | --- | --- |
 | <code><a href="#metaflow-blueprints.KafkaEventSource.property.topic">topic</a></code> | <code>string</code> | Topic name. |
 | <code><a href="#metaflow-blueprints.KafkaEventSource.property.url">url</a></code> | <code>string</code> | URL to kafka cluster, multiple URLs separated by comma. |
-| <code><a href="#metaflow-blueprints.KafkaEventSource.property.config">config</a></code> | <code>string</code> | Yaml format Sarama config for Kafka connection. It follows the struct of sarama.Config. See <https://github.com/IBM/sarama/blob/main/config.go> e.g. |
+| <code><a href="#metaflow-blueprints.KafkaEventSource.property.config">config</a></code> | <code>string</code> | Yaml format Sarama config for Kafka connection. It follows the struct of sarama.Config. See https://github.com/IBM/sarama/blob/main/config.go e.g. |
 | <code><a href="#metaflow-blueprints.KafkaEventSource.property.connectionBackoff">connectionBackoff</a></code> | <code><a href="#metaflow-blueprints.Backoff">Backoff</a></code> | Backoff holds parameters applied to connection. |
 | <code><a href="#metaflow-blueprints.KafkaEventSource.property.consumerGroup">consumerGroup</a></code> | <code><a href="#metaflow-blueprints.KafkaConsumerGroup">KafkaConsumerGroup</a></code> | Consumer group for kafka client. |
 | <code><a href="#metaflow-blueprints.KafkaEventSource.property.filter">filter</a></code> | <code><a href="#metaflow-blueprints.EventSourceFilter">EventSourceFilter</a></code> | Filter. |
@@ -3714,7 +4173,7 @@ public readonly config: string;
 
 - *Type:* string
 
-Yaml format Sarama config for Kafka connection. It follows the struct of sarama.Config. See <https://github.com/IBM/sarama/blob/main/config.go> e.g.
+Yaml format Sarama config for Kafka connection. It follows the struct of sarama.Config. See https://github.com/IBM/sarama/blob/main/config.go e.g.
 
 consumer:
 fetch:
@@ -4194,7 +4653,7 @@ TLS configuration for the nats client.
 
 ### NSQEventSource <a name="NSQEventSource" id="metaflow-blueprints.NSQEventSource"></a>
 
-NSQEventSource describes the event source for NSQ PubSub More info at <https://godoc.org/github.com/nsqio/go-nsq>.
+NSQEventSource describes the event source for NSQ PubSub More info at https://godoc.org/github.com/nsqio/go-nsq.
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.NSQEventSource.Initializer"></a>
 
@@ -4397,7 +4856,7 @@ public readonly credentialSecret: SecretKeySelector;
 CredentialSecret references to the secret that contains JSON credentials to access GCP.
 
 If it is missing, it implicitly uses Workload Identity to access.
-<https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity>
+https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
 
 ---
 
@@ -4579,7 +5038,7 @@ public readonly authAthenzParams: {[ key: string ]: string};
 Authentication athenz parameters for the pulsar client.
 
 Refer
-<https://github.com/apache/pulsar-client-go/blob/master/pulsar/auth/athenz.go> Either token
+https://github.com/apache/pulsar-client-go/blob/master/pulsar/auth/athenz.go Either token
 or athenz can be set to use auth.
 
 ---
@@ -4729,7 +5188,7 @@ exclusive.
 RedisEventSource describes an event source for the Redis PubSub.
 
 More info at
-<https://godoc.org/github.com/go-redis/redis#example-PubSub>
+https://godoc.org/github.com/go-redis/redis#example-PubSub
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.RedisEventSource.Initializer"></a>
 
@@ -4881,7 +5340,7 @@ Username required for ACL style authentication if any.
 
 ### RedisStreamEventSource <a name="RedisStreamEventSource" id="metaflow-blueprints.RedisStreamEventSource"></a>
 
-RedisStreamEventSource describes an event source for Redis streams (<https://redis.io/topics/streams-intro>).
+RedisStreamEventSource describes an event source for Redis streams (https://redis.io/topics/streams-intro).
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.RedisStreamEventSource.Initializer"></a>
 
@@ -4986,7 +5445,7 @@ public readonly maxMsgCountPerRead: number;
 MaxMsgCountPerRead holds the maximum number of messages per stream that will be read in each XREADGROUP of all streams Example: if there are 2 streams and MaxMsgCountPerRead=10, then each XREADGROUP may read upto a total of 20 messages.
 
 Same as COUNT option in
-XREADGROUP(<https://redis.io/topics/streams-intro>). Defaults to 10
+XREADGROUP(https://redis.io/topics/streams-intro). Defaults to 10
 
 ---
 
@@ -5166,7 +5625,7 @@ const resourceFilter: ResourceFilter = { ... }
 | --- | --- | --- |
 | <code><a href="#metaflow-blueprints.ResourceFilter.property.afterStart">afterStart</a></code> | <code>boolean</code> | If the resource is created after the start time then the event is treated as valid. |
 | <code><a href="#metaflow-blueprints.ResourceFilter.property.createdBy">createdBy</a></code> | <code>string</code> | ISO-8601 formatted timestamp. |
-| <code><a href="#metaflow-blueprints.ResourceFilter.property.fields">fields</a></code> | <code><a href="#metaflow-blueprints.Selector">Selector</a>[]</code> | Fields provide field filters similar to K8s field selector (see <https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/>). Unlike K8s field selector, it supports arbitrary fileds like "spec.serviceAccountName", and the value could be a string or a regex. Same as K8s field selector, operator "=", "==" and "!=" are supported. |
+| <code><a href="#metaflow-blueprints.ResourceFilter.property.fields">fields</a></code> | <code><a href="#metaflow-blueprints.Selector">Selector</a>[]</code> | Fields provide field filters similar to K8s field selector (see https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/). Unlike K8s field selector, it supports arbitrary fileds like "spec.serviceAccountName", and the value could be a string or a regex. Same as K8s field selector, operator "=", "==" and "!=" are supported. |
 | <code><a href="#metaflow-blueprints.ResourceFilter.property.labels">labels</a></code> | <code><a href="#metaflow-blueprints.Selector">Selector</a>[]</code> | Labels provide listing options to K8s API to watch resource/s. |
 | <code><a href="#metaflow-blueprints.ResourceFilter.property.prefix">prefix</a></code> | <code>string</code> | Prefix filter is applied on the resource name. |
 
@@ -5204,6 +5663,7 @@ If resource is created before this time then the event is treated as valid.
 "2020-01-01T00:00:00Z"
 ```
 
+
 ##### `fields`<sup>Optional</sup> <a name="fields" id="metaflow-blueprints.ResourceFilter.property.fields"></a>
 
 ```typescript
@@ -5212,7 +5672,7 @@ public readonly fields: Selector[];
 
 - *Type:* <a href="#metaflow-blueprints.Selector">Selector</a>[]
 
-Fields provide field filters similar to K8s field selector (see <https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/>). Unlike K8s field selector, it supports arbitrary fileds like "spec.serviceAccountName", and the value could be a string or a regex. Same as K8s field selector, operator "=", "==" and "!=" are supported.
+Fields provide field filters similar to K8s field selector (see https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/). Unlike K8s field selector, it supports arbitrary fileds like "spec.serviceAccountName", and the value could be a string or a regex. Same as K8s field selector, operator "=", "==" and "!=" are supported.
 
 ---
 
@@ -5227,7 +5687,7 @@ public readonly labels: Selector[];
 Labels provide listing options to K8s API to watch resource/s.
 
 Refer
-<https://kubernetes.io/docs/concepts/overview/working-with-objects/label-selectors/> for
+https://kubernetes.io/docs/concepts/overview/working-with-objects/label-selectors/ for
 more info. Unlike K8s field selector, multiple values are passed as comma separated
 values instead of list of values. Eg: value: value1,value2. Same as K8s label selector,
 operator "=", "==", "!=", "exists", "!", "notin", "in", "gt" and "lt" are supported
@@ -5243,6 +5703,219 @@ public readonly prefix: string;
 - *Type:* string
 
 Prefix filter is applied on the resource name.
+
+---
+
+### S3Artifact <a name="S3Artifact" id="metaflow-blueprints.S3Artifact"></a>
+
+S3Artifact contains information about an S3 connection and bucket.
+
+S3 compliant artifact
+
+#### Initializer <a name="Initializer" id="metaflow-blueprints.S3Artifact.Initializer"></a>
+
+```typescript
+import { S3Artifact } from 'metaflow-blueprints'
+
+const s3Artifact: S3Artifact = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.accessKey">accessKey</a></code> | <code>metaflow-blueprints.k8s.SecretKeySelector</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.bucket">bucket</a></code> | <code><a href="#metaflow-blueprints.S3Bucket">S3Bucket</a></code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.endpoint">endpoint</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.secretKey">secretKey</a></code> | <code>metaflow-blueprints.k8s.SecretKeySelector</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.caCertificate">caCertificate</a></code> | <code>metaflow-blueprints.k8s.SecretKeySelector</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.events">events</a></code> | <code>string[]</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.filter">filter</a></code> | <code><a href="#metaflow-blueprints.S3Filter">S3Filter</a></code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.insecure">insecure</a></code> | <code>boolean</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.metadata">metadata</a></code> | <code>{[ key: string ]: string}</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Artifact.property.region">region</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `accessKey`<sup>Required</sup> <a name="accessKey" id="metaflow-blueprints.S3Artifact.property.accessKey"></a>
+
+```typescript
+public readonly accessKey: SecretKeySelector;
+```
+
+- *Type:* metaflow-blueprints.k8s.SecretKeySelector
+
+---
+
+##### `bucket`<sup>Required</sup> <a name="bucket" id="metaflow-blueprints.S3Artifact.property.bucket"></a>
+
+```typescript
+public readonly bucket: S3Bucket;
+```
+
+- *Type:* <a href="#metaflow-blueprints.S3Bucket">S3Bucket</a>
+
+---
+
+##### `endpoint`<sup>Required</sup> <a name="endpoint" id="metaflow-blueprints.S3Artifact.property.endpoint"></a>
+
+```typescript
+public readonly endpoint: string;
+```
+
+- *Type:* string
+
+---
+
+##### `secretKey`<sup>Required</sup> <a name="secretKey" id="metaflow-blueprints.S3Artifact.property.secretKey"></a>
+
+```typescript
+public readonly secretKey: SecretKeySelector;
+```
+
+- *Type:* metaflow-blueprints.k8s.SecretKeySelector
+
+---
+
+##### `caCertificate`<sup>Optional</sup> <a name="caCertificate" id="metaflow-blueprints.S3Artifact.property.caCertificate"></a>
+
+```typescript
+public readonly caCertificate: SecretKeySelector;
+```
+
+- *Type:* metaflow-blueprints.k8s.SecretKeySelector
+
+---
+
+##### `events`<sup>Optional</sup> <a name="events" id="metaflow-blueprints.S3Artifact.property.events"></a>
+
+```typescript
+public readonly events: string[];
+```
+
+- *Type:* string[]
+
+---
+
+##### `filter`<sup>Optional</sup> <a name="filter" id="metaflow-blueprints.S3Artifact.property.filter"></a>
+
+```typescript
+public readonly filter: S3Filter;
+```
+
+- *Type:* <a href="#metaflow-blueprints.S3Filter">S3Filter</a>
+
+---
+
+##### `insecure`<sup>Optional</sup> <a name="insecure" id="metaflow-blueprints.S3Artifact.property.insecure"></a>
+
+```typescript
+public readonly insecure: boolean;
+```
+
+- *Type:* boolean
+
+---
+
+##### `metadata`<sup>Optional</sup> <a name="metadata" id="metaflow-blueprints.S3Artifact.property.metadata"></a>
+
+```typescript
+public readonly metadata: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+
+---
+
+##### `region`<sup>Optional</sup> <a name="region" id="metaflow-blueprints.S3Artifact.property.region"></a>
+
+```typescript
+public readonly region: string;
+```
+
+- *Type:* string
+
+---
+
+### S3Bucket <a name="S3Bucket" id="metaflow-blueprints.S3Bucket"></a>
+
+S3Bucket contains information to describe an S3 Bucket.
+
+#### Initializer <a name="Initializer" id="metaflow-blueprints.S3Bucket.Initializer"></a>
+
+```typescript
+import { S3Bucket } from 'metaflow-blueprints'
+
+const s3Bucket: S3Bucket = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#metaflow-blueprints.S3Bucket.property.name">name</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Bucket.property.key">key</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="metaflow-blueprints.S3Bucket.property.name"></a>
+
+```typescript
+public readonly name: string;
+```
+
+- *Type:* string
+
+---
+
+##### `key`<sup>Optional</sup> <a name="key" id="metaflow-blueprints.S3Bucket.property.key"></a>
+
+```typescript
+public readonly key: string;
+```
+
+- *Type:* string
+
+---
+
+### S3Filter <a name="S3Filter" id="metaflow-blueprints.S3Filter"></a>
+
+S3Filter represents filters to apply to bucket notifications for specifying constraints on objects.
+
+#### Initializer <a name="Initializer" id="metaflow-blueprints.S3Filter.Initializer"></a>
+
+```typescript
+import { S3Filter } from 'metaflow-blueprints'
+
+const s3Filter: S3Filter = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#metaflow-blueprints.S3Filter.property.prefix">prefix</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#metaflow-blueprints.S3Filter.property.suffix">suffix</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `prefix`<sup>Required</sup> <a name="prefix" id="metaflow-blueprints.S3Filter.property.prefix"></a>
+
+```typescript
+public readonly prefix: string;
+```
+
+- *Type:* string
+
+---
+
+##### `suffix`<sup>Required</sup> <a name="suffix" id="metaflow-blueprints.S3Filter.property.suffix"></a>
+
+```typescript
+public readonly suffix: string;
+```
+
+- *Type:* string
 
 ---
 
@@ -5327,7 +6000,7 @@ const selector: Selector = { ... }
 | --- | --- | --- |
 | <code><a href="#metaflow-blueprints.Selector.property.key">key</a></code> | <code>string</code> | Key name. |
 | <code><a href="#metaflow-blueprints.Selector.property.value">value</a></code> | <code>string</code> | Value. |
-| <code><a href="#metaflow-blueprints.Selector.property.operation">operation</a></code> | <code>string</code> | Supported operations like ==, != etc. Defaults to ==. Refer <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors> for more info. |
+| <code><a href="#metaflow-blueprints.Selector.property.operation">operation</a></code> | <code>string</code> | Supported operations like ==, != etc. Defaults to ==. Refer https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors for more info. |
 
 ---
 
@@ -5363,7 +6036,7 @@ public readonly operation: string;
 
 - *Type:* string
 
-Supported operations like ==, != etc. Defaults to ==. Refer <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors> for more info.
+Supported operations like ==, != etc. Defaults to ==. Refer https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors for more info.
 
 ---
 
@@ -5406,7 +6079,7 @@ allocated to the service; otherwise, creation of the service will fail. This fie
 not be changed through updates. Valid values are "None", empty string (""), or a valid IP
 address. "None" can be specified for headless services when proxying is not required.
 More info:
-<https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies>
+https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
 
 ---
 
@@ -5450,7 +6123,7 @@ const sFTPEventSource: SFTPEventSource = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#metaflow-blueprints.SFTPEventSource.property.eventType">eventType</a></code> | <code>string</code> | Type of file operations to watch Refer <https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go> for more information. |
+| <code><a href="#metaflow-blueprints.SFTPEventSource.property.eventType">eventType</a></code> | <code>string</code> | Type of file operations to watch Refer https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go for more information. |
 | <code><a href="#metaflow-blueprints.SFTPEventSource.property.watchPathConfig">watchPathConfig</a></code> | <code><a href="#metaflow-blueprints.WatchPathConfig">WatchPathConfig</a></code> | WatchPathConfig contains configuration about the file path to watch. |
 | <code><a href="#metaflow-blueprints.SFTPEventSource.property.address">address</a></code> | <code>metaflow-blueprints.k8s.SecretKeySelector</code> | Address sftp address. |
 | <code><a href="#metaflow-blueprints.SFTPEventSource.property.filter">filter</a></code> | <code><a href="#metaflow-blueprints.EventSourceFilter">EventSourceFilter</a></code> | Filter. |
@@ -5470,7 +6143,7 @@ public readonly eventType: string;
 
 - *Type:* string
 
-Type of file operations to watch Refer <https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go> for more information.
+Type of file operations to watch Refer https://github.com/fsnotify/fsnotify/blob/master/fsnotify.go for more information.
 
 ---
 
@@ -6416,7 +7089,7 @@ public readonly suffix: string;
 
 ### StripeEventSource <a name="StripeEventSource" id="metaflow-blueprints.StripeEventSource"></a>
 
-StripeEventSource describes the event source for stripe webhook notifications More info at <https://stripe.com/docs/webhooks>.
+StripeEventSource describes the event source for stripe webhook notifications More info at https://stripe.com/docs/webhooks.
 
 #### Initializer <a name="Initializer" id="metaflow-blueprints.StripeEventSource.Initializer"></a>
 
@@ -6476,7 +7149,7 @@ public readonly eventFilter: string[];
 EventFilter describes the type of events to listen to.
 
 If not specified, all types of
-events will be processed. More info at <https://stripe.com/docs/api/events/list>
+events will be processed. More info at https://stripe.com/docs/api/events/list
 
 ---
 
@@ -6575,7 +7248,7 @@ ImagePullSecrets is an optional list of references to secrets in the same namesp
 If specified, these secrets will
 be passed to individual puller implementations for them to use. For example, in the case
 of docker, only DockerConfig type secrets are honored. More info:
-<https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod>
+https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod
 
 ---
 
@@ -6603,7 +7276,7 @@ NodeSelector is a selector which must be true for the pod to fit on a node.
 
 Selector
 which must match a node's labels for the pod to be scheduled on that node. More info:
-<https://kubernetes.io/docs/concepts/configuration/assign-pod-node/>
+https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
 
 ---
 
@@ -6621,7 +7294,7 @@ Various system components use this field to find the priority of the
 EventSource pod. When Priority Admission Controller is enabled, it prevents users from
 setting this field. The admission controller populates this field from PriorityClassName.
 The higher the value, the higher the priority. More info:
-<https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/>
+https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
 
 ---
 
@@ -6640,7 +7313,7 @@ If specified, indicates the EventSource pod's priority.
 with the former being the highest priority. Any other name must be defined by creating a
 PriorityClass object with that name. If not specified, the pod priority will be default
 or zero if there is no default. More info:
-<https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/>
+https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
 
 ---
 
@@ -6669,7 +7342,7 @@ public readonly serviceAccountName: string;
 ServiceAccountName is the name of the ServiceAccount to use to run sensor pod.
 
 More info:
-<https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/>
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
 
 ---
 
@@ -7153,3 +7826,6 @@ public readonly serverKeySecret: SecretKeySelector;
 ServerKeyPath refers the file that contains private key.
 
 ---
+
+
+

@@ -1,23 +1,5 @@
 import { SecretKeySelector } from '../../imports/k8s';
-import { EventSourceFilter } from '../types';
-
-/**
- * WatchPathConfig contains configuration about the file path to watch
- */
-export interface WatchPathConfig {
-  /**
-   * Directory to watch for events
-   */
-  readonly directory: string;
-  /**
-   * Path is relative path of object to watch with respect to the directory
-   */
-  readonly path?: string;
-  /**
-   * PathRegexp is regexp of relative path of object to watch with respect to the directory
-   */
-  readonly pathRegexp?: string;
-}
+import { EventSourceFilter, WatchPathConfig } from '../types';
 
 /**
  * SFTPEventSource describes an event-source for sftp related events.

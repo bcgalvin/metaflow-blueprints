@@ -48,5 +48,4 @@ export interface WebhookEventSource {
    * URL is the url of the server.
    */
   readonly url: string;
-  [property: string]: any;
 }

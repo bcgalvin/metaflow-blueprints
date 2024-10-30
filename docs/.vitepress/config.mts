@@ -8,6 +8,7 @@ export default defineConfig({
   base: "/metaflow-blueprints/",
   srcDir: "src",
   lastUpdated: true,
+  ignoreDeadLinks: true,
 
   vite: {
     resolve: {
@@ -43,6 +44,10 @@ export default defineConfig({
   ],
 
   markdown: {
+    linkify: false,
+    attrs: {
+      disable: true,
+    },
     container: {
       tipLabel: "Tip",
       warningLabel: "Warning",

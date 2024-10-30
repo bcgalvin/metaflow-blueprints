@@ -30,3 +30,23 @@
 .VPNav .VPNavBar .content-body .content .nav > :last-child {
   margin-left: auto;
 }
+
+/* Move nav items to the left */
+.VPNavBarMenu {
+  justify-content: flex-start !important;
+  margin-left: 20px; /* Adjust spacing from left as needed */
+}
+
+/* Increase font size of nav links */
+.VPNavBarMenuLink {
+  font-size: 17px !important; /* Adjust size as needed */
+}
+
+.VPNav .VPNavBarMenu .VPNavBarMenuLink {
+  font-size: 17px !important;
+}
+
+.VPNav .VPNavBarMenu {
+  margin-right: auto !important;
+  margin-left: 32px !important;
+}

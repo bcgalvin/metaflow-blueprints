@@ -6,9 +6,7 @@ import { SqsEventSourceSpec } from './sqs';
 
 export type EventSourceConfigMap<T> = { [eventName: string]: T };
 
-export interface EventSourceMetadata extends ApiObjectMetadata {
-  readonly name: string;
-}
+export interface EventSourceMetadata extends ApiObjectMetadata {}
 export interface EventSourceSpec {
   readonly sqs?: EventSourceConfigMap<SqsEventSourceSpec>;
 }
@@ -45,6 +43,6 @@ export abstract class BaseEventSource extends Construct {
   }
 
   protected validateMetadata(metadata: EventSourceMetadata): void {
-    validateEventName(metadata.name);
+    validateEventName(metadata.name!);
   }
 }

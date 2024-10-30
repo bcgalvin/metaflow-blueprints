@@ -17,7 +17,6 @@ export interface WatchPathConfig {
    * PathRegexp is regexp of relative path of object to watch with respect to the directory
    */
   readonly pathRegexp?: string;
-  [property: string]: any;
 }
 
 /**
@@ -62,5 +61,4 @@ export interface SFTPEventSource {
    * WatchPathConfig contains configuration about the file path to watch
    */
   readonly watchPathConfig: WatchPathConfig;
-  [property: string]: any;
 }

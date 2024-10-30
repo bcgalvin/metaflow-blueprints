@@ -55,7 +55,6 @@ export interface WebhookContext {
    * URL is the url of the server.
    */
   readonly url: string;
-  [property: string]: any;
 }
 
 /**
@@ -70,7 +69,6 @@ export interface ConfigMapPersistence {
    * Name of the configmap
    */
   readonly name?: string;
-  [property: string]: any;
 }
 
 /**
@@ -85,7 +83,6 @@ export interface EventPersistence {
    * ConfigMap holds configmap details for persistence
    */
   readonly configMap?: ConfigMapPersistence;
-  [property: string]: any;
 }
 
 /**
@@ -100,7 +97,6 @@ export interface CatchupConfiguration {
    * MaxDuration holds max catchup duration
    */
   readonly maxDuration?: string;
-  [property: string]: any;
 }
 
 /**
@@ -108,5 +104,4 @@ export interface CatchupConfiguration {
  */
 export interface EventSourceFilter {
   readonly expression?: string;
-  [property: string]: any;
 }

@@ -1,5 +1,5 @@
 import { SecretKeySelector } from '../../../imports/k8s';
-import { WebhookContext } from '../../types';
+import { EventSourceFilter, WebhookContext } from '../../types';
 
 /**
  * SNSEventSource refers to event-source for AWS SNS related events
@@ -45,5 +45,4 @@ export interface SNSEventSource {
    * Webhook configuration for http server
    */
   readonly webhook?: WebhookContext;
-  [property: string]: any;
 }

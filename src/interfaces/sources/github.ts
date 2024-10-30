@@ -10,7 +10,6 @@ export interface OwnedRepositories {
    * Organization or user name
    */
   readonly owner?: string;
-  [property: string]: any;
 }
 /**
  * GitHubApp holds the GitHub app credentials
@@ -28,7 +27,6 @@ export interface GithubAppCreds {
    * PrivateKey refers to a K8s secret containing the GitHub app private key
    */
   readonly privateKey: SecretKeySelector;
-  [property: string]: any;
 }
 
 /**
@@ -114,5 +112,4 @@ export interface GithubEventSource {
    * https://developer.github.com/webhooks/securing/
    */
   readonly webhookSecret?: SecretKeySelector;
-  [property: string]: any;
 }

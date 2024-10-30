@@ -92,10 +92,11 @@ export class SqsEventSource extends BaseEventSource {
     super(scope, id, properties);
   }
 
-  protected validateSpec(spec: { [eventName: string]: SqsEventSourceSpec }): void {
+  protected validateSpec(spec: any): void {
     super.validateSpec(spec);
 
-    for (const [eventName, config] of Object.entries(spec)) {
+    const sqsSpec = spec as { [eventName: string]: SqsEventSourceSpec };
+    for (const [eventName, config] of Object.entries(sqsSpec)) {
       try {
         SqsValidator.validateSpec(config);
       } catch (error) {
@@ -107,10 +108,11 @@ export class SqsEventSource extends BaseEventSource {
     }
   }
 
-  protected generateSpec(spec: { [eventName: string]: SqsEventSourceSpec }): EventSourceSpec {
+  protected generateSpec(spec: any): EventSourceSpec {
+    const sqsSpec = spec as { [eventName: string]: SqsEventSourceSpec };
     return {
       sqs: Object.fromEntries(
-        Object.entries(spec).map(([eventName, config]) => [
+        Object.entries(sqsSpec).map(([eventName, config]) => [
           eventName,
           {
             queue: config.queue,

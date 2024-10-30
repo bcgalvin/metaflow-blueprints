@@ -34,5 +34,4 @@ export interface CalendarEventSource {
    * Timezone in which to run the schedule
    */
   readonly timezone?: string;
-  [property: string]: any;
 }

@@ -60,5 +60,4 @@ export interface SQSEventSource {
    * arrive in the queue before returning.
    */
   readonly waitTimeSeconds: number;
-  [property: string]: any;
 }

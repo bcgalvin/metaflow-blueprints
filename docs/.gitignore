@@ -29,7 +29,10 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
-.vscode/settings.json
+.vscode/
+.idea/
+docs/src/k8s.md
+docs/src/argoEvents.md
 docs/.vitepress/dist
 docs/.vitepress/cache
 docs/.vitepress/.temp

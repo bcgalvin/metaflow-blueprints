@@ -1,18 +1,21 @@
-import "@red-asuka/vitepress-plugin-tabs/dist/style.css";
+import "@unocss/reset/tailwind.css";
+import "virtual:uno.css";
+import { Theme } from "vitepress";
+
 import DefaultTheme from "vitepress/theme";
 import { h } from "vue";
 import { Tab, Tabs } from "vue3-tabs-component";
-import "./custom.css";
+import PatternBrowser from "./components/patterns/browser/PatternBrowser.vue";
+import "./styles/style.css";
 
 export default {
-  ...DefaultTheme,
+  extends: DefaultTheme,
   Layout: () => {
-    return h(DefaultTheme.Layout, null, {
-      // You can add custom layout slots here if needed
-    });
+    return h(DefaultTheme.Layout, null, {});
   },
   enhanceApp({ app }) {
-    app.component("Tab", Tab);
-    app.component("Tabs", Tabs);
+    app.component("BaseTab", Tab);
+    app.component("BaseTabs", Tabs);
+    app.component("PatternBrowser", PatternBrowser);
   },
-};
+} satisfies Theme;

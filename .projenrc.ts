@@ -1,6 +1,11 @@
 import { cdk8s, javascript, TextFile } from 'projen';
 import { workflows } from 'projen/lib/github';
-import { NodePackageManager, TrailingComma, TypeScriptModuleResolution } from 'projen/lib/javascript';
+import {
+  NodePackageManager,
+  TrailingComma,
+  TypeScriptJsxMode,
+  TypeScriptModuleResolution,
+} from 'projen/lib/javascript';
 import { TypeScriptProject } from 'projen/lib/typescript';
 const nodeVersion = '20';
 
@@ -214,49 +219,155 @@ deployWorkflow?.addJob('deploy', {
 
 // Docsite
 
+const devDeps = [
+  'autoprefixer',
+  '@iconify-json/logos',
+  '@unocss/eslint-config',
+  '@unocss/vite',
+  '@unocss/preset-uno',
+  '@unocss/preset-attributify',
+  '@unocss/preset-typography',
+  '@vitejs/plugin-vue',
+  'eslint-import-resolver-typescript',
+  'eslint-plugin-import',
+  'eslint-plugin-vue',
+  'postcss@^8.4.31',
+  'tsx',
+  'unplugin-auto-import',
+  'vite-plugin-svg-icons',
+  'vue-eslint-parser',
+];
+
+const deps = [
+  '@red-asuka/vitepress-plugin-tabs',
+  '@unocss/reset',
+  '@vueuse/core',
+  'body-scroll-lock',
+  'normalize.css',
+  'unocss',
+  'vitepress',
+  'vue',
+  'vue3-tabs-component',
+];
+
 const docs = new TypeScriptProject({
   name: 'metaflow-blueprints-docs',
   description: 'Documentation for Metaflow Blueprints',
-  parent: project,
-  outdir: 'docs',
   defaultReleaseBranch: 'main',
   packageManager: NodePackageManager.PNPM,
-  deps: ['vitepress', 'vue'],
-  devDeps: ['eslint-plugin-unicorn', 'tsx', '@red-asuka/vitepress-plugin-tabs', 'vue3-tabs-component'],
+  parent: project,
+  outdir: 'docs',
+  deps: deps,
+  devDeps: devDeps,
   release: false,
+  github: false,
   projenrcTs: true,
   prettier: true,
   maxNodeVersion: nodeVersion,
+  depsUpgrade: true,
   minNodeVersion: nodeVersion,
+  buildWorkflow: false,
+  pullRequestTemplate: false,
   prettierOptions: {
     settings: {
       trailingComma: TrailingComma.ALL,
     },
   },
+  eslint: true,
+  eslintOptions: {
+    aliasMap: { 'uno.css': 'virtual:uno.css' },
+    aliasExtensions: ['.js', '.jsx', '.ts', '.tsx'],
+    prettier: true,
+    dirs: ['src', '.vitepress'],
+    fileExtensions: ['ts', 'tsx', 'vue'],
+    ignorePatterns: ['src/snippets/**/*', 'node_modules', 'dist'],
+  },
   jest: false,
   tsconfig: {
+    include: ['src/**/*.ts', 'src/**/*.d.ts', 'src/**/*.vue', '.vitepress/**/*.ts', '.vitepress/**/*.vue'],
+    exclude: ['src/snippets/**/*', 'node_modules', 'dist'],
     compilerOptions: {
-      module: 'ES2020',
+      target: 'esnext',
+      module: 'esnext',
       moduleResolution: TypeScriptModuleResolution.NODE,
-      lib: ['DOM', 'ES2020'],
-      noUncheckedIndexedAccess: true,
-      noUnusedLocals: false,
-      noUnusedParameters: false,
-      target: 'ES2020',
+      resolveJsonModule: true,
+      esModuleInterop: true,
+      skipLibCheck: true,
+      noEmit: true,
+      strict: true,
+      jsx: TypeScriptJsxMode.PRESERVE,
+      types: ['vite/client'],
     },
   },
-  gitignore: ['.vscode/settings.json', 'docs/.vitepress/dist', 'docs/.vitepress/cache', 'docs/.vitepress/.temp'],
+  gitignore: commonIgnore,
 });
 
 docs.deps.removeDependency('ts-node');
 docs.defaultTask?.reset();
 docs.defaultTask?.exec('tsx .projenrc.ts');
-docs.eslint?.addPlugins('unicorn');
-docs.eslint?.addExtends('plugin:unicorn/recommended');
+docs.eslint?.addPlugins('eslint-plugin-vue', 'prettier', 'vue');
+docs.eslint!.config.parser = 'vue-eslint-parser';
+
+docs.eslint!.config.parserOptions = {
+  project: ['./tsconfig.json', './tsconfig.dev.json'],
+  vueFeatures: {
+    filter: true,
+    interpolationAsNonHTML: false,
+  },
+  parser: {
+    'ts': '@typescript-eslint/parser',
+    '<template>': 'espree',
+  },
+  tsconfigRootDir: '.',
+  ecmaVersion: 'latest',
+  sourceType: 'module',
+  extraFileExtensions: ['.vue'],
+  warnOnUnsupportedTypeScriptVersion: false,
+};
+
+docs.eslint?.addOverride({
+  files: ['./*.ts', './**/*.ts'],
+  rules: {
+    'import/no-unresolved': 'off',
+  },
+});
+
+docs.eslint?.addExtends('plugin:prettier/recommended', 'plugin:vue/vue3-recommended', '@unocss/eslint-config');
+docs.eslint!.config.settings = {
+  ...docs.eslint!.config.settings,
+  'import/resolver': {
+    node: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+    },
+    typescript: {
+      alwaysTryTypes: true,
+    },
+  },
+  'import/ignore': ['virtual:.*', 'vite', '^virtual:', '\\?virtual'],
+};
+
 docs.setScript('preinstall', 'npx only-allow pnpm');
+docs.addTask('lint', {
+  exec: 'eslint --ext ts,tsx,vue --no-error-on-unmatched-pattern $@ ',
+  receiveArgs: true,
+});
 docs.compileTask.reset();
 docs.compileTask.exec('vitepress build');
 docs.packageTask.reset();
 docs.package.file.addOverride('type', 'module');
+docs.addTask('docs:dev', { exec: 'vitepress dev' });
+docs.addTask('docs:build', {
+  exec: 'vitepress build',
+  receiveArgs: true,
+});
+docs.addTask('docs:serve', { exec: 'vitepress serve' });
+
+docs.addFields({
+  pnpm: {
+    peerDependencyRules: {
+      ignoreMissing: ['@algolia/client-search', 'react', 'react-dom', '@types/react', 'vite'],
+    },
+  },
+});
 
 project.synth();

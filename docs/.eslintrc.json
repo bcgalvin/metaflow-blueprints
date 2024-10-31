@@ -8,17 +8,36 @@
   "plugins": [
     "@typescript-eslint",
     "import",
-    "unicorn"
+    "eslint-plugin-vue",
+    "prettier",
+    "vue"
   ],
-  "parser": "@typescript-eslint/parser",
+  "parser": "vue-eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "project": [
+      "./tsconfig.json",
+      "./tsconfig.dev.json"
+    ],
+    "vueFeatures": {
+      "filter": true,
+      "interpolationAsNonHTML": false
+    },
+    "parser": {
+      "ts": "@typescript-eslint/parser",
+      "<template>": "espree"
+    },
+    "tsconfigRootDir": ".",
+    "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": "./tsconfig.dev.json"
+    "extraFileExtensions": [
+      ".vue"
+    ],
+    "warnOnUnsupportedTypeScriptVersion": false
   },
   "extends": [
     "plugin:import/typescript",
-    "plugin:unicorn/recommended",
+    "plugin:vue/vue3-recommended",
+    "@unocss/eslint-config",
     "plugin:prettier/recommended"
   ],
   "settings": {
@@ -29,19 +48,30 @@
       ]
     },
     "import/resolver": {
-      "node": {},
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx",
+          ".vue"
+        ]
+      },
       "typescript": {
-        "project": "./tsconfig.dev.json",
         "alwaysTryTypes": true
       }
-    }
+    },
+    "import/ignore": [
+      "virtual:.*",
+      "vite",
+      "^virtual:",
+      "\\?virtual"
+    ]
   },
   "ignorePatterns": [
-    "*.js",
-    "*.d.ts",
-    "node_modules/",
-    "*.generated.ts",
-    "coverage"
+    "src/snippets/**/*",
+    "node_modules",
+    "dist"
   ],
   "rules": {
     "@typescript-eslint/no-require-imports": [
@@ -124,5 +154,15 @@
       }
     ]
   },
-  "overrides": []
+  "overrides": [
+    {
+      "files": [
+        "./*.ts",
+        "./**/*.ts"
+      ],
+      "rules": {
+        "import/no-unresolved": "off"
+      }
+    }
+  ]
 }

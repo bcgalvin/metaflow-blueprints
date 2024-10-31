@@ -1,5 +1,7 @@
 import tabsPlugin from "@red-asuka/vitepress-plugin-tabs";
 import { fileURLToPath, URL } from "node:url";
+import Unocss from "unocss/vite";
+import AutoImport from "unplugin-auto-import/vite";
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
@@ -11,6 +13,13 @@ export default defineConfig({
   ignoreDeadLinks: true,
 
   vite: {
+    plugins: [
+      Unocss(),
+      AutoImport({
+        imports: ["vue", "@vueuse/core"],
+        dts: "../auto-imports.d.ts",
+      }),
+    ],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -70,7 +79,10 @@ export default defineConfig({
       pattern: "https://github.com/bcgalvinedit/main/docs/:path",
       text: "Edit this page on GitHub",
     },
-    nav: [{ text: "Reference", link: "/reference" }],
+    nav: [
+      { text: "Patterns", link: "/patterns" },
+      { text: "Reference", link: "/reference" },
+    ],
     logo: { src: "/logo.svg" },
     sidebar: [
       {
@@ -91,35 +103,6 @@ export default defineConfig({
         items: [
           { text: "Components", link: "/design/components" },
           { text: "Integration", link: "/design/integration" },
-        ],
-      },
-      {
-        text: "Patterns",
-        items: [
-          {
-            text: "Constructs",
-            collapsed: true,
-            items: [
-              {
-                text: "Low Level",
-                link: "/patterns/constructs/low-level",
-                items: [
-                  {
-                    text: "Event Sources",
-                    link: "/patterns/constructs/low-level/event-sources",
-                  },
-                  {
-                    text: "Sensors",
-                    link: "/patterns/constructs/low-level/sensors",
-                  },
-                  {
-                    text: "Filters",
-                    link: "/patterns/constructs/low-level/filters",
-                  },
-                ],
-              },
-            ],
-          },
         ],
       },
     ],

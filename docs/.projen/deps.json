@@ -1,7 +1,7 @@
 {
   "dependencies": [
     {
-      "name": "@red-asuka/vitepress-plugin-tabs",
+      "name": "@iconify-json/logos",
       "type": "build"
     },
     {
@@ -19,7 +19,39 @@
       "type": "build"
     },
     {
+      "name": "@unocss/eslint-config",
+      "type": "build"
+    },
+    {
+      "name": "@unocss/preset-attributify",
+      "type": "build"
+    },
+    {
+      "name": "@unocss/preset-typography",
+      "type": "build"
+    },
+    {
+      "name": "@unocss/preset-uno",
+      "type": "build"
+    },
+    {
+      "name": "@unocss/vite",
+      "type": "build"
+    },
+    {
+      "name": "@vitejs/plugin-vue",
+      "type": "build"
+    },
+    {
+      "name": "autoprefixer",
+      "type": "build"
+    },
+    {
       "name": "eslint-config-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint-import-resolver-alias",
       "type": "build"
     },
     {
@@ -35,12 +67,17 @@
       "type": "build"
     },
     {
-      "name": "eslint-plugin-unicorn",
+      "name": "eslint-plugin-vue",
       "type": "build"
     },
     {
       "name": "eslint",
       "version": "^8",
+      "type": "build"
+    },
+    {
+      "name": "postcss",
+      "version": "^8.4.31",
       "type": "build"
     },
     {
@@ -56,8 +93,40 @@
       "type": "build"
     },
     {
-      "name": "vue3-tabs-component",
+      "name": "unplugin-auto-import",
       "type": "build"
+    },
+    {
+      "name": "vite-plugin-svg-icons",
+      "type": "build"
+    },
+    {
+      "name": "vue-eslint-parser",
+      "type": "build"
+    },
+    {
+      "name": "@red-asuka/vitepress-plugin-tabs",
+      "type": "runtime"
+    },
+    {
+      "name": "@unocss/reset",
+      "type": "runtime"
+    },
+    {
+      "name": "@vueuse/core",
+      "type": "runtime"
+    },
+    {
+      "name": "body-scroll-lock",
+      "type": "runtime"
+    },
+    {
+      "name": "normalize.css",
+      "type": "runtime"
+    },
+    {
+      "name": "unocss",
+      "type": "runtime"
     },
     {
       "name": "vitepress",
@@ -65,6 +134,10 @@
     },
     {
       "name": "vue",
+      "type": "runtime"
+    },
+    {
+      "name": "vue3-tabs-component",
       "type": "runtime"
     }
   ],

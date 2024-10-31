@@ -1,0 +1,16 @@
+/* Component-specific styles */
+@import "./components/buttons.css";
+@import "./components/tags.css";
+
+/* Custom styles */
+@import "./custom.css";
+
+/* Base styles and variables */
+:root {
+  --button-padding-base: 0.5rem 1rem;
+  --button-padding-small: 0.25rem 0.5rem;
+  --border-radius-base: 4px;
+  --border-radius-large: 8px;
+  --transition-base: all 0.2s ease;
+  --transition-pattern: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

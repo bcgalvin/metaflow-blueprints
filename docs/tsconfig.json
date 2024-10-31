@@ -10,28 +10,40 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "lib": [
-      "DOM",
-      "ES2020"
+      "es2019"
     ],
-    "module": "ES2020",
+    "module": "esnext",
     "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "stripInternal": true,
-    "target": "ES2020",
+    "target": "esnext",
     "moduleResolution": "node",
-    "noUncheckedIndexedAccess": true
+    "skipLibCheck": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "types": [
+      "vite/client"
+    ]
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.vue",
+    ".vitepress/**/*.ts",
+    ".vitepress/**/*.vue"
   ],
-  "exclude": []
+  "exclude": [
+    "src/snippets/**/*",
+    "node_modules",
+    "dist"
+  ]
 }

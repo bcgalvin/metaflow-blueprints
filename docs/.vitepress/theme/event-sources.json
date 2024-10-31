@@ -1,0 +1,218 @@
+[
+  {
+    "id": "1",
+    "title": "SQS",
+    "description": "Process messages from an SQS queue using AWS Lambda",
+    "image": "/images/event-sources/sqs-lambda.svg",
+    "type": "Event Processing",
+    "tags": ["AWS", "Message Queue"],
+    "implementation": "Process messages from an AWS SQS queue using Lambda functions. The Lambda function is triggered automatically when messages arrive in the queue, processes them, and can forward the results to other AWS services."
+  },
+  {
+    "id": "2",
+    "title": "AMQP",
+    "description": "Process messages from AMQP message queues",
+    "image": "/images/event-sources/amqp.svg",
+    "type": "Event Processing",
+    "tags": ["Message Queue"],
+    "implementation": "Listen to messages on AMQP message queues like RabbitMQ and trigger serverless workloads to process them. Supports content-type, routing keys, and other AMQP features."
+  },
+  {
+    "id": "3",
+    "title": "SNS",
+    "description": "Process notifications from AWS SNS topics",
+    "image": "/images/event-sources/sns.svg",
+    "type": "Event Processing",
+    "tags": ["AWS", "Pub/Sub"],
+    "implementation": "Subscribe to AWS SNS topics to receive and process notifications. Supports filtering messages and triggering multiple downstream processors."
+  },
+  {
+    "id": "4",
+    "title": "Azure Queue Storage",
+    "description": "Process messages from Azure Storage Queues",
+    "image": "/images/event-sources/azure-queue.svg",
+    "type": "Event Processing",
+    "tags": ["Azure", "Message Queue"],
+    "implementation": "Consume and process messages from Azure Storage queues. Supports message batching and visibility timeout."
+  },
+  {
+    "id": "5",
+    "title": "Azure Service Bus",
+    "description": "Process messages from Azure Service Bus queues and topics",
+    "image": "/images/event-sources/azure-servicebus.svg",
+    "type": "Event Processing",
+    "tags": ["Azure", "Pub/Sub"],
+    "implementation": "Listen to Azure Service Bus queues and topics to process messages. Supports sessions, dead-lettering, and other enterprise messaging features."
+  },
+  {
+    "id": "6",
+    "title": "Bitbucket",
+    "description": "Process Bitbucket repository events",
+    "image": "/images/event-sources/bitbucket.svg",
+    "type": "Webhook",
+    "tags": ["Webhook", "CI/CD"],
+    "implementation": "Handle Bitbucket Cloud webhook events for repository activities. Supports repository filtering and webhook secret validation."
+  },
+  {
+    "id": "7",
+    "title": "Bitbucket Server",
+    "description": "Process Bitbucket Server repository events",
+    "image": "/images/event-sources/bitbucket-server.svg",
+    "type": "Webhook",
+    "tags": ["Webhook", "CI/CD"],
+    "implementation": "Handle Bitbucket Server webhook events for self-hosted instances. Supports API token authentication and project/repository filtering."
+  },
+  {
+    "id": "8",
+    "title": "Calendar",
+    "description": "Trigger workloads on schedule or intervals",
+    "image": "/images/event-sources/calendar.svg",
+    "type": "Scheduling",
+    "tags": ["Cron"],
+    "implementation": "Schedule workloads using cron expressions or fixed intervals. Supports timezone-aware scheduling and custom payloads."
+  },
+  {
+    "id": "9",
+    "title": "Emitter",
+    "description": "Process messages from Emitter.io channels",
+    "image": "/images/event-sources/emitter.svg",
+    "type": "Event Processing",
+    "tags": ["Pub/Sub"],
+    "implementation": "Subscribe to Emitter.io channels to process real-time messages. Supports secure key-based authentication and channel filtering."
+  },
+  {
+    "id": "10",
+    "title": "File System",
+    "description": "Monitor file system changes",
+    "image": "/images/event-sources/file.svg",
+    "type": "File System",
+    "tags": ["Storage"],
+    "implementation": "Watch for file system events like create, modify, and delete. Supports directory monitoring and file pattern matching."
+  },
+  {
+    "id": "11",
+    "title": "GCP Pub/Sub",
+    "description": "Process messages from Google Cloud Pub/Sub",
+    "image": "/images/event-sources/gcp-pubsub.svg",
+    "type": "Event Processing",
+    "tags": ["GCP", "Pub/Sub"],
+    "implementation": "Subscribe to GCP Pub/Sub topics to receive and process messages. Supports message attributes and ordering keys."
+  },
+  {
+    "id": "12",
+    "title": "GitHub",
+    "description": "Process GitHub repository events",
+    "image": "/images/event-sources/github.svg",
+    "type": "Webhook",
+    "tags": ["Webhook", "CI/CD"],
+    "implementation": "Handle GitHub webhook events like push, pull request, and issue comments. Supports repository filtering and secret validation."
+  },
+  {
+    "id": "13",
+    "title": "GitLab Webhook",
+    "description": "Process GitLab repository events",
+    "image": "/images/event-sources/gitlab.svg",
+    "type": "Webhook",
+    "tags": ["Webhook", "CI/CD"],
+    "implementation": "Handle GitLab webhook events for repository activities. Supports project filtering and token-based authentication."
+  },
+  {
+    "id": "14",
+    "title": "Kafka Event Processing",
+    "description": "Process messages from Apache Kafka topics",
+    "image": "/images/event-sources/kafka.svg",
+    "type": "Event Processing",
+    "tags": ["Streaming"],
+    "implementation": "Consume messages from Kafka topics and process them. Supports consumer groups and message partitioning."
+  },
+  {
+    "id": "15",
+    "title": "MinIO",
+    "description": "Process MinIO object storage events",
+    "image": "/images/event-sources/minio.svg",
+    "type": "Storage",
+    "tags": ["Storage"],
+    "implementation": "Handle MinIO bucket notifications for object operations. Supports bucket filtering and event type selection."
+  },
+  {
+    "id": "16",
+    "title": "MQTT Event Processing",
+    "description": "Process messages from MQTT brokers",
+    "image": "/images/event-sources/mqtt.svg",
+    "type": "Event Processing",
+    "tags": ["Pub/Sub"],
+    "implementation": "Subscribe to MQTT topics and process messages. Supports QoS levels and topic filtering."
+  },
+  {
+    "id": "17",
+    "title": "NATS Event Processing",
+    "description": "Process messages from NATS messaging system",
+    "image": "/images/event-sources/nats.svg",
+    "type": "Event Processing",
+    "tags": ["Message Queue"],
+    "implementation": "Subscribe to NATS subjects and process messages. Supports wildcards and queue groups."
+  },
+  {
+    "id": "18",
+    "title": "NSQ Event Processing",
+    "description": "Process messages from NSQ messaging platform",
+    "image": "/images/event-sources/nsq.svg",
+    "type": "Event Processing",
+    "tags": ["Message Queue"],
+    "implementation": "Consume messages from NSQ topics and channels. Supports distributed message processing and fault tolerance."
+  },
+  {
+    "id": "19",
+    "title": "Apache Pulsar",
+    "description": "Process messages from Apache Pulsar",
+    "image": "/images/event-sources/pulsar.svg",
+    "type": "Event Processing",
+    "tags": ["Streaming"],
+    "implementation": "Subscribe to Pulsar topics and process messages. Supports multi-tenancy and geo-replication."
+  },
+  {
+    "id": "20",
+    "title": "Redis Streams",
+    "description": "Process messages from Redis Streams",
+    "image": "/images/event-sources/redis-streams.svg",
+    "type": "Event Processing",
+    "tags": ["Message Queue"],
+    "implementation": "Consume messages from Redis Streams using consumer groups. Supports message acknowledgment and last-position recovery."
+  },
+  {
+    "id": "21",
+    "title": "Redis",
+    "description": "Process messages from Redis channels",
+    "image": "/images/event-sources/redis.svg",
+    "type": "Event Processing",
+    "tags": ["Storage", "Pub/Sub"],
+    "implementation": "Subscribe to Redis channels to receive and process messages. Supports pattern-based subscriptions."
+  },
+  {
+    "id": "22",
+    "title": "Resource Watch",
+    "description": "Monitor Kubernetes resource changes",
+    "image": "/images/event-sources/resource.svg",
+    "type": "Monitoring",
+    "tags": ["Kubernetes"],
+    "implementation": "Watch Kubernetes resources for changes and trigger workloads. Supports label/field selectors and event filtering."
+  },
+  {
+    "id": "23",
+    "title": "SFTP",
+    "description": "Monitor SFTP server changes",
+    "image": "/images/event-sources/sftp.svg",
+    "type": "File System",
+    "tags": ["Storage"],
+    "implementation": "Poll SFTP servers for file changes and trigger workloads. Supports authentication and file pattern matching."
+  },
+  {
+    "id": "24",
+    "title": "Webhook",
+    "description": "Process generic HTTP webhook events",
+    "image": "/images/event-sources/webhook.svg",
+    "type": "Webhook",
+    "tags": ["Webhook"],
+    "implementation": "Handle incoming HTTP webhook requests and trigger workloads. Supports request validation and custom endpoints."
+  }
+]

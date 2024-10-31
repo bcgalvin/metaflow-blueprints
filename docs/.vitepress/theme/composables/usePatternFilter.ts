@@ -1,11 +1,10 @@
-import { computed, ref } from "vue";
+import { computed, ComputedRef, Ref, ref } from "vue";
 import patterns from "../event-sources.json";
 
 export const ITEMS_PER_PAGE = 12;
 
 const loadPatterns = async () => {
   try {
-    // This will be replaced with API call in future
     patternsReference.value = patterns;
   } catch (error) {
     console.error("Failed to load patterns:", error);

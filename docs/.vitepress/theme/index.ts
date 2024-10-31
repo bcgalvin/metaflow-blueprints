@@ -5,6 +5,7 @@ import { Theme } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import { h } from "vue";
 import { Tab, Tabs } from "vue3-tabs-component";
+import '@red-asuka/vitepress-plugin-tabs/dist/style.css'
 import PatternBrowser from "./components/patterns/browser/PatternBrowser.vue";
 import "./styles/style.css";
 

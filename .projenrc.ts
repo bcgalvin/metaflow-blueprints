@@ -220,31 +220,19 @@ deployWorkflow?.addJob('deploy', {
 // Docsite
 
 const devDeps = [
-  'autoprefixer',
-  '@iconify-json/logos',
-  '@unocss/eslint-config',
-  '@unocss/vite',
-  '@unocss/preset-uno',
-  '@unocss/preset-attributify',
-  '@unocss/preset-typography',
   '@vitejs/plugin-vue',
   'eslint-import-resolver-typescript',
   'eslint-plugin-import',
   'eslint-plugin-vue',
   'postcss@^8.4.31',
   'tsx',
-  'unplugin-auto-import',
-  'vite-plugin-svg-icons',
   'vue-eslint-parser',
 ];
 
 const deps = [
   '@red-asuka/vitepress-plugin-tabs',
-  '@unocss/reset',
-  '@vueuse/core',
   'body-scroll-lock',
   'normalize.css',
-  'unocss',
   'vitepress',
   'vue',
   'vue3-tabs-component',

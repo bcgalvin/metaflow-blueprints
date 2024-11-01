@@ -1,10 +1,6 @@
 {
   "dependencies": [
     {
-      "name": "@iconify-json/logos",
-      "type": "build"
-    },
-    {
       "name": "@types/node",
       "type": "build"
     },
@@ -19,31 +15,7 @@
       "type": "build"
     },
     {
-      "name": "@unocss/eslint-config",
-      "type": "build"
-    },
-    {
-      "name": "@unocss/preset-attributify",
-      "type": "build"
-    },
-    {
-      "name": "@unocss/preset-typography",
-      "type": "build"
-    },
-    {
-      "name": "@unocss/preset-uno",
-      "type": "build"
-    },
-    {
-      "name": "@unocss/vite",
-      "type": "build"
-    },
-    {
       "name": "@vitejs/plugin-vue",
-      "type": "build"
-    },
-    {
-      "name": "autoprefixer",
       "type": "build"
     },
     {
@@ -93,14 +65,6 @@
       "type": "build"
     },
     {
-      "name": "unplugin-auto-import",
-      "type": "build"
-    },
-    {
-      "name": "vite-plugin-svg-icons",
-      "type": "build"
-    },
-    {
       "name": "vue-eslint-parser",
       "type": "build"
     },
@@ -109,23 +73,11 @@
       "type": "runtime"
     },
     {
-      "name": "@unocss/reset",
-      "type": "runtime"
-    },
-    {
-      "name": "@vueuse/core",
-      "type": "runtime"
-    },
-    {
       "name": "body-scroll-lock",
       "type": "runtime"
     },
     {
       "name": "normalize.css",
-      "type": "runtime"
-    },
-    {
-      "name": "unocss",
       "type": "runtime"
     },
     {

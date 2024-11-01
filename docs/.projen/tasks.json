@@ -134,13 +134,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@iconify-json/logos,@types/node,@unocss/eslint-config,@unocss/preset-attributify,@unocss/preset-typography,@unocss/preset-uno,@unocss/vite,@vitejs/plugin-vue,autoprefixer,eslint-config-prettier,eslint-import-resolver-alias,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint-plugin-vue,prettier,tsx,typescript,unplugin-auto-import,vite-plugin-svg-icons,vue-eslint-parser,@red-asuka/vitepress-plugin-tabs,@unocss/reset,@vueuse/core,body-scroll-lock,normalize.css,unocss,vitepress,vue,vue3-tabs-component"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/node,@vitejs/plugin-vue,eslint-config-prettier,eslint-import-resolver-alias,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-prettier,eslint-plugin-vue,prettier,tsx,typescript,vue-eslint-parser,@red-asuka/vitepress-plugin-tabs,body-scroll-lock,normalize.css,vitepress,vue,vue3-tabs-component"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update @iconify-json/logos @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser @unocss/eslint-config @unocss/preset-attributify @unocss/preset-typography @unocss/preset-uno @unocss/vite @vitejs/plugin-vue autoprefixer eslint-config-prettier eslint-import-resolver-alias eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint-plugin-vue eslint postcss prettier tsx typescript unplugin-auto-import vite-plugin-svg-icons vue-eslint-parser @red-asuka/vitepress-plugin-tabs @unocss/reset @vueuse/core body-scroll-lock normalize.css unocss vitepress vue vue3-tabs-component"
+          "exec": "pnpm update @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser @vitejs/plugin-vue eslint-config-prettier eslint-import-resolver-alias eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-prettier eslint-plugin-vue eslint postcss prettier tsx typescript vue-eslint-parser @red-asuka/vitepress-plugin-tabs body-scroll-lock normalize.css vitepress vue vue3-tabs-component"
         },
         {
           "exec": "npx projen"

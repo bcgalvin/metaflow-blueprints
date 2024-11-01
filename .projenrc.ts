@@ -164,7 +164,7 @@ deployWorkflow?.addJob('build', {
       },
     },
     {
-      uses: 'pnpm/action-setup@v2',
+      uses: 'pnpm/action-setup@v4',
       with: {
         version: 'latest',
       },

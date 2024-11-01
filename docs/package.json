@@ -21,10 +21,17 @@
     "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
+    "@iconify-json/logos": "^1.2.3",
     "@types/node": "^22.8.5",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
+    "@unocss/eslint-config": "^0.63.6",
+    "@unocss/preset-attributify": "^0.63.6",
+    "@unocss/preset-typography": "^0.63.6",
+    "@unocss/preset-uno": "^0.63.6",
+    "@unocss/vite": "^0.63.6",
     "@vitejs/plugin-vue": "^5.1.4",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -36,12 +43,17 @@
     "prettier": "^3.3.3",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
+    "unplugin-auto-import": "^0.18.3",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue-eslint-parser": "^9.4.3"
   },
   "dependencies": {
     "@red-asuka/vitepress-plugin-tabs": "^0.0.4",
+    "@unocss/reset": "^0.63.6",
+    "@vueuse/core": "^11.2.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "normalize.css": "^8.0.1",
+    "unocss": "^0.63.6",
     "vitepress": "^1.4.2",
     "vue": "^3.5.12",
     "vue3-tabs-component": "^1.3.7"

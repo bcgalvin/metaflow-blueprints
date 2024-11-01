@@ -7,10 +7,7 @@
     "experimentalDecorators": true,
     "inlineSourceMap": false,
     "inlineSources": true,
-    "lib": [
-      "es2020",
-      "es2021.WeakRef"
-    ],
+    "lib": ["es2020", "es2021.WeakRef"],
     "module": "nodenext",
     "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
@@ -34,9 +31,8 @@
     "test/**/*.ts",
     "build-tools/**/*.ts",
     ".projenrc.ts",
+    ".vitepress/**/*",
     "projenrc/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

@@ -1,7 +1,5 @@
 import tabsPlugin from "@red-asuka/vitepress-plugin-tabs";
 import { fileURLToPath, URL } from "node:url";
-import Unocss from "unocss/vite";
-import AutoImport from "unplugin-auto-import/vite";
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
@@ -13,13 +11,9 @@ export default defineConfig({
   ignoreDeadLinks: true,
 
   vite: {
-    plugins: [
-      Unocss(),
-      AutoImport({
-        imports: ["vue", "@vueuse/core"],
-        dts: "../auto-imports.d.ts",
-      }),
-    ],
+    build: {
+      chunkSizeWarningLimit: Infinity
+    },
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -80,7 +74,7 @@ export default defineConfig({
       text: "Edit this page on GitHub",
     },
     nav: [
-      { text: "Patterns", link: "/patterns" },
+      { text: "Docs", items: [{ text: "Guide", link: "/guide/motivation" }] },
       { text: "Reference", link: "/reference" },
     ],
     logo: { src: "/logo.svg" },
@@ -89,8 +83,6 @@ export default defineConfig({
         text: "Overview",
         collapsed: false,
         items: [
-          { text: "Introduction", link: "/" },
-
           {
             text: "Motivation",
             link: "/motivation",
@@ -102,8 +94,18 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: "Components", link: "/design/components" },
-          { text: "Integration", link: "/design/integration" },
+          {
+            text: "Integrations",
+            items: [
+              { text: "dbt", link: "/design/integration/dbt" },
+            ],
+          },
         ],
+      },
+      {
+        text: "Patterns",
+        collapsed: false,
+        items: [{ text: "Event Sources", link: "/patterns/event-sources" }],
       },
     ],
   },

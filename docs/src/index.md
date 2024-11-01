@@ -1,3 +1,7 @@
+---
+layout: home
+---
+
 <div class="hero-image">
    <img src="/blueprints.png" height="250">
 </div>
@@ -6,9 +10,9 @@ Metaflow Blueprints provides a collection of production-ready infrastructure con
 
 :::: tabs
 
-::: tab Infrastructure as (Real) Code, not DSLs or YAML
+::: tab Infrastructure as (Real) Code
 
-Through the use of [jsii](https://github.com/aws/jsii), Metaflow Blueprints allows you to define your event-driven infrastructure as code using TypeScript, Python, Java, Go, or .NET. The library is written in TypeScript and compiled to other languages via jsii, ensuring consistent behavior and type safety across all supported languages.
+Through the use of [jsii](https://github.com/aws/jsii), Metaflow Blueprints allows you to define your event-driven infrastructure as code using TypeScript, Python, Java, Go, or C#
 
 ::: code-group
 <<< @/snippets/multi-lang/index.ts [TypeScript]
@@ -17,19 +21,19 @@ Through the use of [jsii](https://github.com/aws/jsii), Metaflow Blueprints allo
 
 :::
 
+::: tab Fully Supports Existing Tooling
+
+- Import **any** Terraform Module / Provider or Helm Chart / CRD
+- Export as HCL or [Terraform Modules](https://developer.hashicorp.com/terraform/cdktf/concepts/modules) to integrate with existing Terraform workflows
+- CDK8s compiles to json/yaml Kubernetes manifests to work with any Kubernetes tooling
+
+:::
+
 ::: tab IDE support
 
 Argo Events types are imported from the openapi spec, providing rich documentation and autocompletion in addition to the typed Kubernetes objects:
 
 ![IDE Support](/ide-support.png)
-
-:::
-
-::: tab Fully Support Existing Tooling
-
-- Import **any** Terraform Module / Provider or Helm Chart / CRD
-- Export as HCL or [Terraform Modules](https://developer.hashicorp.com/terraform/cdktf/concepts/modules) to integrate with existing Terraform workflows
-- CDK8s compiles to json/yaml Kubernetes manifests to work with any Kubernetes tooling
 
 :::
 
